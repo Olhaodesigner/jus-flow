@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>LegalFlow • Smart Legal Intake</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Fonte minimalista, levemente arredondada -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind via CDN (não precisa build nem Node) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                light: "#A7F3D0",
+                DEFAULT: "#22C55E",
+                dark: "#15803D",
+              },
+            },
+            borderRadius: {
+              xl: "1rem",
+              "2xl": "1.4rem",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", system-ui, -apple-system,
+          BlinkMacSystemFont, sans-serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-slate-50 text-slate-900">
+    <!-- NAVBAR -->
+    <header class="border-b border-slate-200 bg-white/80 backdrop-blur">
+      <div
+        class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3"
+      >
+        <div class="flex items-center gap-2">
+          <div
+            class="flex h-9 w-9 items-center justify-center rounded-2xl bg-brand-light"
+          >
+            <span class="text-xs font-bold text-brand-dark">LF</span>
+          </div>
+          <span class="text-lg font-semibold tracking-tight">LegalFlow</span>
+        </div>
+
+        <nav class="hidden items-center gap-4 text-sm text-slate-600 md:flex">
+          <a href="#how-it-works" class="hover:text-brand-dark">How it works</a>
+          <a href="#benefits" class="hover:text-brand-dark">For law firms</a>
+          <a href="#chat" class="hover:text-brand-dark">Live demo</a>
+          <a
+            href="#chat"
+            class="rounded-full bg-brand-dark px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand"
+            >Start now</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 pb-16 pt-10 space-y-16">
+      <!-- HERO -->
+      <section class="grid items-center gap-10 md:grid-cols-[3fr,2fr]">
+        <div>
+          <span
+            class="inline-flex rounded-full bg-brand-light/70 px-3 py-1 text-xs font-semibold text-brand-dark"
+          >
+            Smart legal intake • SaaS for law firms
+          </span>
+
+          <h1
+            class="mt-4 text-3xl font-semibold tracking-tight md:text-4xl lg:text-[2.5rem]"
+          >
+            Turn chaotic client messages into organized, ready-to-act legal
+            cases.
+          </h1>
+
+          <p class="mt-4 text-sm text-slate-600 md:text-base">
+            LegalFlow is your AI-assisted front door: clients describe their
+            situation in natural language, and we transform it into a clear,
+            structured case with area of law, risk, urgency and next steps —
+            ready for the right lawyer to take action.
+          </p>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3">
+            <a
+              href="#chat"
+              class="inline-flex items-center justify-center rounded-full bg-brand-dark px-6 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-brand"
+            >
+              Start now
+            </a>
+            <span class="text-xs text-slate-500">
+              No commitment. Just type a case and see how it’s organized.
+            </span>
+          </div>
+
+          <div class="mt-5 flex flex-wrap gap-3 text-xs text-slate-500">
+            <div
+              class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 shadow-sm"
+            >
+              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+              Built for social security, labor and civil law.
+            </div>
+            <div
+              class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 shadow-sm"
+            >
+              <span class="h-2 w-2 rounded-full bg-sky-400"></span>
+              Client and lawyer area in the same platform.
+            </div>
+          </div>
+        </div>
+
+        <!-- Painelzinho de preview -->
+        <div
+          class="rounded-2xl border border-slate-200 bg-white p-4 shadow-md space-y-4"
+        >
+          <p
+            class="text-xs font-medium uppercase tracking-wide text-slate-500"
+          >
+            Live intake preview
+          </p>
+
+          <div class="space-y-3 rounded-2xl bg-slate-50 p-4">
+            <div class="text-[11px] text-slate-500">Client</div>
+            <div class="flex justify-end">
+              <div
+                class="max-w-[75%] rounded-2xl bg-brand-light px-3 py-2 text-xs text-slate-900"
+              >
+                I had my INSS benefit blocked and I don’t understand why. I live
+                only from this income.
+              </div>
+            </div>
+
+            <div class="text-[11px] text-slate-500">LegalFlow</div>
+            <div class="flex justify-start">
+              <div
+                class="max-w-[85%] rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800"
+              >
+                Thanks for sharing. We’ll create a case in the Social Security
+                area, mark it as <strong>high urgency</strong> and send it to a
+                specialist lawyer from your firm.
+              </div>
+            </div>
+          </div>
+
+          <p class="text-[11px] text-slate-500">
+            Behind the scenes, LegalFlow classifies the case, creates a record
+            in your dashboard and opens a timeline that both client and lawyer
+            can follow.
+          </p>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section id="how-it-works" class="space-y-6">
+        <div>
+          <h2 class="text-lg font-semibold text-slate-900">How it works</h2>
+          <p class="mt-1 text-xs text-slate-600">
+            From first message to organized case in three simple steps.
+          </p>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-3">
+          <div
+            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
+          >
+            <span
+              class="mb-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-brand-light text-[11px] font-semibold text-brand-dark"
+              >1</span
+            >
+            <h3 class="text-sm font-semibold text-slate-900">
+              Client tells their story
+            </h3>
+            <p class="mt-2 text-xs text-slate-600">
+              The client types what happened in simple language — via chat on
+              your website, landing page or WhatsApp integration.
+            </p>
+          </div>
+
+          <div
+            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
+          >
+            <span
+              class="mb-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-brand-light text-[11px] font-semibold text-brand-dark"
+              >2</span
+            >
+            <h3 class="text-sm font-semibold text-slate-900">
+              LegalFlow organizes and scores
+            </h3>
+            <p class="mt-2 text-xs text-slate-600">
+              The platform transforms the story into a structured case:
+              probable area of law, risk, urgency, value indication and
+              recommended next step.
+            </p>
+          </div>
+
+          <div
+            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
+          >
+            <span
+              class="mb-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-brand-light text-[11px] font-semibold text-brand-dark"
+              >3</span
+            >
+            <h3 class="text-sm font-semibold text-slate-900">
+              Lawyer takes control
+            </h3>
+            <p class="mt-2 text-xs text-slate-600">
+              The responsible lawyer sees the case in a clean dashboard, updates
+              the status and the client follows everything in their own portal.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- BENEFITS -->
+      <section id="benefits" class="space-y-6">
+        <div>
+          <h2 class="text-lg font-semibold text-slate-900">
+            Why law firms use LegalFlow
+          </h2>
+          <p class="mt-1 text-xs text-slate-600">
+            Designed for firms that live from qualified cases, not from inbox
+            chaos.
+          </p>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-3">
+          <div
+            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
+          >
+            <h3 class="text-sm font-semibold text-slate-900">
+              Fewer lost opportunities
+            </h3>
+            <p class="mt-2 text-xs text-slate-600">
+              Every contact becomes a structured case with owner, status and
+              next action. No more “I forgot to reply”.
+            </p>
+          </div>
+          <div
+            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
+          >
+            <h3 class="text-sm font-semibold text-slate-900">
+              Clear priority by risk & urgency
+            </h3>
+            <p class="mt-2 text-xs text-slate-600">
+              Stop guessing what to do first. LegalFlow highlights what is
+              urgent, strategic or high-value so the team focuses where it
+              matters.
+            </p>
+          </div>
+          <div
+            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
+          >
+            <h3 class="text-sm font-semibold text-slate-900">
+              Client area without extra work
+            </h3>
+            <p class="mt-2 text-xs text-slate-600">
+              Clients log in, see the status of their case and latest updates.
+              Your team spends less time answering “how is my case?”.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAT DEMO -->
+      <section id="chat" class="grid gap-8 md:grid-cols-[3fr,2fr]">
+        <div
+          class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm flex flex-col"
+        >
+          <h2 class="text-sm font-semibold text-slate-900">
+            Try the intake experience
+          </h2>
+          <p class="mt-1 text-xs text-slate-600">
+            This is a simple front-end demo. In the real product, every message
+            here becomes a case in the lawyer dashboard.
+          </p>
+
+          <div
+            id="chat-box"
+            class="mt-4 flex-1 space-y-3 overflow-y-auto rounded-2xl bg-slate-50 p-3 text-sm"
+            style="min-height: 220px"
+          >
+            <div class="text-xs text-slate-400">
+              Start by typing your problem below.
+            </div>
+          </div>
+
+          <div class="mt-4 flex gap-2">
+            <input
+              id="chat-input"
+              class="flex-1 rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-brand"
+              placeholder="Describe your legal problem here..."
+            />
+            <button
+              id="chat-send"
+              class="rounded-full bg-brand-dark px-4 py-2 text-sm font-medium text-white hover:bg-brand"
+            >
+              Send
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm space-y-3 text-sm"
+        >
+          <h3 class="text-sm font-semibold text-slate-900">
+            What the lawyer sees
+          </h3>
+          <p class="text-xs text-slate-600">
+            In your full SaaS, every conversation creates a case like this:
+          </p>
+
+          <div class="rounded-2xl bg-slate-50 p-3 text-xs space-y-1">
+            <div class="flex justify-between">
+              <span class="font-medium text-slate-900">New case</span>
+              <span
+                class="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700"
+                >New</span
+              >
+            </div>
+            <p class="text-slate-600 line-clamp-2">
+              Client reports blocked social security benefit and lack of income
+              to cover basic needs.
+            </p>
+            <p class="text-[11px] text-slate-500">
+              Area: Social security • Risk: High • Urgency: High
+            </p>
+          </div>
+
+          <p class="text-[11px] text-slate-500">
+            From here, the responsible lawyer can update status, ask for
+            documents and keep the client informed — all inside LegalFlow.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white">
+      <div
+        class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-4 text-[11px] text-slate-500 md:flex-row"
+      >
+        <span>© <span id="year"></span> LegalFlow. All rights reserved.</span>
+        <span>Built to organize legal intake, not replace lawyers.</span>
+      </div>
+    </footer>
+
+    <script>
+      // Ano automático no footer
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Chat demo bem simples (front-end only)
+      const chatBox = document.getElementById("chat-box");
+      const input = document.getElementById("chat-input");
+      const sendBtn = document.getElementById("chat-send");
+
+      function addBubble(text, from) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "flex w-full " + (from === "client"
+          ? "justify-end"
+          : "justify-start");
+
+        const bubble = document.createElement("div");
+        bubble.className =
+          "max-w-[75%] rounded-2xl px-3 py-2 text-xs shadow-sm " +
+          (from === "client"
+            ? "bg-brand-light text-slate-900"
+            : "bg-white border border-slate-200 text-slate-800");
+        bubble.textContent = text;
+        wrapper.appendChild(bubble);
+        chatBox.appendChild(wrapper);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+
+      function handleSend() {
+        const text = input.value.trim();
+        if (!text) return;
+        addBubble(text, "client");
+        input.value = "";
+
+        setTimeout(() => {
+          addBubble(
+            "Thanks for sharing. In the full version this message would create a case in your dashboard.",
+            "bot"
+          );
+        }, 600);
+      }
+
+      sendBtn.addEventListener("click", handleSend);
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") handleSend();
+      });
+    </script>
+  </body>
+</html>
