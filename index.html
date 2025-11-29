@@ -65,12 +65,6 @@
         background: #000000;
       }
 
-      .logo-wrap img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
       .header-text {
         text-align: center;
       }
@@ -154,16 +148,6 @@
         font-size: 0.9rem;
       }
 
-      .card h4 {
-        font-size: 1rem;
-        margin-bottom: 4px;
-      }
-
-      .card p {
-        color: var(--text-muted);
-        font-size: 0.86rem;
-      }
-
       .chat-box {
         margin-top: 10px;
         flex: 1;
@@ -177,13 +161,6 @@
         flex-direction: column;
         gap: 6px;
         overflow-y: auto;
-      }
-
-      .chat-hint {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        text-align: center;
-        padding-bottom: 6px;
       }
 
       .chat-row {
@@ -232,81 +209,15 @@
         color: var(--text-main);
         padding: 8px 12px;
         font-size: 0.85rem;
-        outline: none;
-      }
-
-      .chat-input-row input::placeholder {
-        color: #9ca3af;
       }
 
       .chat-input-row button {
         border-radius: 999px;
         border: 1px solid #000000;
         padding: 8px 16px;
-        font-size: 0.85rem;
-        cursor: pointer;
         background: #000000;
         color: #ffffff;
-      }
-
-      .chat-input-row button:hover {
-        opacity: 0.9;
-      }
-
-      .forward-btn {
-        margin-top: 6px;
-        width: 100%;
-        border-radius: 10px;
-        border: 1px dashed #000000;
-        background: #ffffff;
-        color: #000000;
-        font-size: 0.8rem;
-        padding: 6px 10px;
         cursor: pointer;
-      }
-
-      .forward-btn:hover {
-        background: #f9fafb;
-      }
-
-      .case-box {
-        margin-top: 8px;
-        padding: 10px;
-        border-radius: 12px;
-        border: 1px solid var(--border);
-        background: #ffffff;
-        font-size: 0.83rem;
-      }
-
-      .case-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 0.8rem;
-        margin-bottom: 4px;
-      }
-
-      .tag {
-        font-size: 0.68rem;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        border-radius: 999px;
-        padding: 2px 8px;
-        border: 1px solid #000000;
-      }
-
-      .case-body {
-        color: var(--text-muted);
-        margin-bottom: 4px;
-      }
-
-      .case-meta {
-        font-size: 0.78rem;
-        color: var(--text-muted);
-      }
-
-      .case-meta strong {
-        color: #000000;
       }
 
       footer {
@@ -315,29 +226,18 @@
         font-size: 0.75rem;
         color: var(--text-muted);
       }
-
-      .footer-inner {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        justify-content: space-between;
-      }
-
-      @media (max-width: 640px) {
-        .footer-inner {
-          flex-direction: column;
-        }
-      }
     </style>
   </head>
+
   <body>
     <header>
       <div class="container">
         <div class="header-inner">
           <div class="logo-wrap">
-            <!-- Troque o nome se o arquivo tiver outro nome -->
-            <img src="logo-brito-vilarinho.png" alt="Brito Vilarinho Advocacia" />
+            <!-- LOGO EMBUTIDA AQUI -->
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXcAAAF3CAYAAABewAv+AAAAAXNSR0IArs4c6QA..." />
           </div>
+
           <div class="header-text">
             <h1>Brito Vilarinho Advocacia</h1>
             <h2>Atendimento Inicial Online</h2>
@@ -349,71 +249,34 @@
     <main>
       <div class="container">
         <section class="hero">
-          <div class="hero-tag"></div>
+          <div class="hero-tag">Canal oficial do escritório</div>
           <h3>
-            O primeiro contato do cliente já chega
-            <span>organizado para o advogado</span>.
+            Seu atendimento inicial, <span>organizado e profissional</span>.
           </h3>
           <p>
-            O visitante descreve o problema com as próprias palavras. O sistema
-            registra o relato, cria um resumo e gera um caso inicial para o
-            escritório analisar com calma e segurança.
+            Descreva o que está acontecendo. O sistema gera um pré-atendimento
+            claro e estruturado, para o advogado analisar com precisão.
           </p>
         </section>
 
         <section class="layout">
-          <!-- LADO ESQUERDO: CHAT -->
           <div class="card">
             <h4>Converse com o escritório</h4>
-            <p>
-              Descreva, com suas palavras, o que está acontecendo. Este é um
-              exemplo de como o atendimento inicial pode funcionar no site do
-              Brito Vilarinho.
-            </p>
 
-            <div id="chat-box" class="chat-box">
-              <div class="chat-hint">
-                Comece digitando seu problema abaixo. Exemplo:
-                “Meu benefício do INSS foi bloqueado e estou sem renda”.
-              </div>
-            </div>
+            <div id="chat-box" class="chat-box"></div>
 
             <div class="chat-input-row">
-              <input
-                id="chat-input"
-                type="text"
-                placeholder="Descreva aqui o seu problema jurídico..."
-              />
+              <input id="chat-input" placeholder="Digite seu problema..." />
               <button id="chat-send">Enviar</button>
             </div>
-
-            <button id="forward-btn" class="forward-btn">
-              Registrar este atendimento para análise do escritório
-            </button>
           </div>
 
-          <!-- LADO DIREITO: VISÃO INTERNA DO ESCRITÓRIO -->
           <div class="card">
-            <h4>Como o escritório recebe esse contato</h4>
-            <p>
-              Cada conversa gera um registro com resumo, área provável e nível
-              de prioridade, facilitando o retorno e a tomada de decisão sobre o
-              caso.
-            </p>
+            <h4>Registro interno</h4>
 
             <div class="case-box">
-              <div class="case-header">
-                <span>Atendimento #001 • Novo contato</span>
-                <span class="tag">Novo</span>
-              </div>
-              <div id="case-body" class="case-body">
-                Cliente relata bloqueio de benefício previdenciário e dificuldade
-                para manter as despesas básicas mensais.
-              </div>
-              <div id="case-meta" class="case-meta">
-                Área provável: <strong>Previdenciário</strong> • Prioridade:
-                <strong>Alta</strong> • Situação:
-                <strong>Sem renda atual</strong>
+              <div id="case-body">
+                Aguarde a primeira mensagem do cliente para visualizar o resumo.
               </div>
             </div>
           </div>
@@ -423,16 +286,7 @@
 
     <footer>
       <div class="container">
-        <div class="footer-inner">
-          <span>
-            © <span id="year"></span> Brito Vilarinho Advocacia. Todos os direitos
-            reservados.
-          </span>
-          <span>
-            Canal destinado ao atendimento inicial e organização de casos. A análise
-            jurídica é sempre feita por advogados do escritório.
-          </span>
-        </div>
+        © <span id="year"></span> Brito Vilarinho Advocacia
       </div>
     </footer>
 
@@ -442,9 +296,7 @@
       const chatBox = document.getElementById("chat-box");
       const chatInput = document.getElementById("chat-input");
       const chatSend = document.getElementById("chat-send");
-      const forwardBtn = document.getElementById("forward-btn");
       const caseBody = document.getElementById("case-body");
-      const caseMeta = document.getElementById("case-meta");
 
       function addBubble(text, from) {
         const row = document.createElement("div");
@@ -459,85 +311,18 @@
         chatBox.scrollTop = chatBox.scrollHeight;
       }
 
-      function classifyText(text) {
-        const t = text.toLowerCase();
-        let area = "Cível";
-
-        if (t.includes("inss") || t.includes("benefício") || t.includes("aposentadoria")) {
-          area = "Previdenciário";
-        } else if (t.includes("trabalho") || t.includes("emprego") || t.includes("demitido")) {
-          area = "Trabalhista";
-        } else if (t.includes("pensão") || t.includes("guarda") || t.includes("divórcio")) {
-          area = "Família";
-        }
-
-        let prioridade = "Média";
-        let situacao = "A definir";
-
-        if (t.includes("sem renda") || t.includes("urgente") || t.includes("bloqueio")) {
-          prioridade = "Alta";
-          situacao = "Situação financeira sensível";
-        }
-
-        return { area, prioridade, situacao };
-      }
-
-      function handleSend() {
+      chatSend.onclick = () => {
         const text = chatInput.value.trim();
         if (!text) return;
-
-        const hint = chatBox.querySelector(".chat-hint");
-        if (hint) hint.remove();
 
         addBubble(text, "client");
         chatInput.value = "";
 
         setTimeout(() => {
-          addBubble(
-            "Obrigado por compartilhar. Seu relato foi registrado para que o escritório possa analisar com atenção.",
-            "bot"
-          );
-
-          const data = classifyText(text);
-
-          caseBody.textContent =
-            "Resumo automático do relato: " +
-            (text.length > 220 ? text.slice(0, 220) + "..." : text);
-
-          caseMeta.innerHTML =
-            "Área provável: <strong>" +
-            data.area +
-            "</strong> • Prioridade: <strong>" +
-            data.prioridade +
-            "</strong> • Situação: <strong>" +
-            data.situacao +
-            "</strong>";
-        }, 500);
-      }
-
-      chatSend.addEventListener("click", handleSend);
-
-      chatInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          handleSend();
-        }
-      });
-
-      forwardBtn.addEventListener("click", () => {
-        addBubble(
-          "Este atendimento foi separado para análise do escritório. Em breve, alguém da equipe pode entrar em contato utilizando os dados informados.",
-          "bot"
-        );
-      });
-
-      // mensagem inicial
-      setTimeout(() => {
-        addBubble(
-          "Olá! Este é o canal de atendimento inicial do Brito Vilarinho. Conte, com suas palavras, o que está acontecendo.",
-          "bot"
-        );
-      }, 400);
+          addBubble("Seu atendimento foi registrado.", "bot");
+          caseBody.textContent = "Resumo: " + text;
+        }, 300);
+      };
     </script>
   </body>
 </html>
