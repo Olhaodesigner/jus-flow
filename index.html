@@ -1,406 +1,988 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <title>LegalFlow • Smart Legal Intake</title>
+    <title>LegalFlow • Atendimento Jurídico Inteligente</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Fonte minimalista, levemente arredondada -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
+    <meta
+      name="description"
+      content="LegalFlow é o atendimento jurídico inteligente que transforma conversas em casos organizados para o escritório Brito Vilarinho Advocacia."
     />
-
-    <!-- Tailwind via CDN (não precisa build nem Node) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              brand: {
-                light: "#A7F3D0",
-                DEFAULT: "#22C55E",
-                dark: "#15803D",
-              },
-            },
-            borderRadius: {
-              xl: "1rem",
-              "2xl": "1.4rem",
-            },
-          },
-        },
-      };
-    </script>
-
     <style>
+      :root {
+        --bg-dark: #020617;
+        --bg-card: #0b1220;
+        --bg-soft: #020617;
+        --brand: #0ea5e9;
+        --brand-soft: rgba(14, 165, 233, 0.15);
+        --brand-dark: #0369a1;
+        --border: #1e293b;
+        --text-main: #e5e7eb;
+        --text-muted: #9ca3af;
+        --danger: #f97316;
+        --radius-xl: 1.25rem;
+        --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.7);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
       body {
-        font-family: "Plus Jakarta Sans", system-ui, -apple-system,
-          BlinkMacSystemFont, sans-serif;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: radial-gradient(circle at top, #0f172a, #020617 50%, #000 100%);
+        color: var(--text-main);
+        display: flex;
+        flex-direction: column;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* Layout base */
+
+      header {
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+        backdrop-filter: blur(20px);
+        background: linear-gradient(
+          to bottom,
+          rgba(15, 23, 42, 0.9),
+          rgba(15, 23, 42, 0.4)
+        );
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 1.25rem;
+      }
+
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        gap: 1rem;
+      }
+
+      .brand-block {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+      }
+
+      .brand-logo {
+        width: 46px;
+        height: 46px;
+        border-radius: 999px;
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        background: #020617;
+      }
+
+      .brand-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+      }
+
+      .brand-text span:first-child {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--text-muted);
+      }
+
+      .brand-text strong {
+        font-size: 0.95rem;
+        letter-spacing: 0.06em;
+      }
+
+      .pill {
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        padding: 0.4rem 0.85rem;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--text-muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .pill-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--brand);
+        box-shadow: 0 0 0 6px rgba(14, 165, 233, 0.3);
+      }
+
+      main {
+        flex: 1;
+      }
+
+      .hero {
+        padding: 2.7rem 0 3.2rem;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+        gap: 2.75rem;
+        align-items: center;
+      }
+
+      @media (max-width: 900px) {
+        .hero-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .hero-copy {
+        max-width: 540px;
+        margin: 0 auto;
+        text-align: left;
+      }
+
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        border-radius: 999px;
+        padding: 0.18rem 0.7rem;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        color: var(--text-muted);
+        margin-bottom: 0.7rem;
+      }
+
+      .hero-title {
+        font-size: clamp(2.2rem, 3vw + 1.2rem, 3.1rem);
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        margin-bottom: 0.9rem;
+      }
+
+      .hero-title span {
+        color: var(--brand);
+      }
+
+      .hero-subtitle {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: var(--text-muted);
+        margin-bottom: 1.4rem;
+      }
+
+      .hero-bullets {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 0.7rem;
+        margin-bottom: 1.4rem;
+      }
+
+      .hero-bullet {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        display: flex;
+        gap: 0.45rem;
+        align-items: flex-start;
+      }
+
+      .hero-bullet-icon {
+        margin-top: 0.2rem;
+        font-size: 0.9rem;
+        color: var(--brand);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        align-items: center;
+      }
+
+      .btn-primary,
+      .btn-ghost {
+        border-radius: 999px;
+        font-size: 0.85rem;
+        padding: 0.7rem 1.4rem;
+        border: 1px solid transparent;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.12s ease, box-shadow 0.12s ease,
+          background 0.12s ease, border-color 0.12s ease;
+        white-space: nowrap;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+        color: white;
+        box-shadow: 0 12px 30px rgba(8, 47, 73, 0.7);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 40px rgba(8, 47, 73, 0.8);
+      }
+
+      .btn-ghost {
+        background: rgba(15, 23, 42, 0.9);
+        border-color: rgba(148, 163, 184, 0.4);
+        color: var(--text-muted);
+      }
+
+      .btn-ghost:hover {
+        background: rgba(15, 23, 42, 1);
+        border-color: var(--brand-soft);
+      }
+
+      .hero-badge {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        margin-top: 0.6rem;
+      }
+
+      .hero-badge strong {
+        color: var(--brand);
+      }
+
+      /* Bloco central com chat */
+
+      .demo-shell {
+        max-width: 620px;
+        margin: 0 auto;
+        background: radial-gradient(circle at top, #0f172a, #020617 55%);
+        border-radius: 1.8rem;
+        padding: 1.35rem;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .demo-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.1rem;
+        gap: 0.75rem;
+      }
+
+      .demo-header-left {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .demo-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 0, #e0f2fe, #0369a1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #0f172a;
+      }
+
+      .demo-header-text span {
+        display: block;
+        font-size: 0.76rem;
+        color: var(--text-muted);
+      }
+
+      .demo-header-text strong {
+        font-size: 0.88rem;
+      }
+
+      .demo-chip {
+        font-size: 0.7rem;
+        border-radius: 999px;
+        padding: 0.22rem 0.6rem;
+        border: 1px solid rgba(52, 211, 153, 0.5);
+        color: #6ee7b7;
+        background: rgba(6, 95, 70, 0.22);
+      }
+
+      .demo-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+        gap: 1.1rem;
+      }
+
+      @media (max-width: 900px) {
+        .demo-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .card {
+        background: rgba(15, 23, 42, 0.96);
+        border-radius: var(--radius-xl);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-size: 0.83rem;
+      }
+
+      .card h2,
+      .card h3 {
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .card p {
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      .chat-box {
+        margin-top: 0.6rem;
+        flex: 1;
+        min-height: 210px;
+        max-height: 260px;
+        overflow-y: auto;
+        padding: 0.75rem;
+        border-radius: 1.3rem;
+        background: radial-gradient(circle at top left, #020617, #020617 55%);
+        border: 1px solid rgba(51, 65, 85, 0.9);
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+      }
+
+      .chat-hint {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-align: center;
+        padding-bottom: 0.4rem;
+      }
+
+      .chat-row {
+        display: flex;
+      }
+
+      .chat-row.client {
+        justify-content: flex-end;
+      }
+
+      .chat-row.bot {
+        justify-content: flex-start;
+      }
+
+      .chat-bubble {
+        max-width: 78%;
+        padding: 0.55rem 0.8rem;
+        border-radius: 1rem;
+        font-size: 0.78rem;
+        line-height: 1.5;
+        box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
+      }
+
+      .chat-bubble.client {
+        background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+        color: #e5f2ff;
+      }
+
+      .chat-bubble.bot {
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        color: var(--text-main);
+      }
+
+      .chat-input-row {
+        margin-top: 0.7rem;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .chat-input-row input {
+        flex: 1;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        background: rgba(15, 23, 42, 0.7);
+        color: var(--text-main);
+        font-size: 0.8rem;
+        padding: 0.55rem 0.9rem;
+        outline: none;
+      }
+
+      .chat-input-row input::placeholder {
+        color: rgba(148, 163, 184, 0.7);
+      }
+
+      .chat-send {
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+        color: white;
+        font-size: 0.8rem;
+        padding: 0.55rem 1rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        white-space: nowrap;
+      }
+
+      .chat-send:hover {
+        transform: translateY(-1px);
+      }
+
+      .chat-forward {
+        margin-top: 0.35rem;
+        width: 100%;
+        border-radius: 0.9rem;
+        border: 1px dashed rgba(250, 204, 21, 0.7);
+        background: rgba(15, 23, 42, 0.85);
+        padding: 0.55rem 0.7rem;
+        font-size: 0.78rem;
+        color: #facc15;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        cursor: pointer;
+      }
+
+      .chat-forward-icon {
+        font-size: 0.9rem;
+      }
+
+      .case-box {
+        margin-top: 0.55rem;
+        background: rgba(15, 23, 42, 1);
+        border-radius: 1.1rem;
+        padding: 0.75rem;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+      }
+
+      .case-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.35rem;
+      }
+
+      .case-header span {
+        font-size: 0.78rem;
+      }
+
+      .case-tag {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        border-radius: 999px;
+        padding: 0.18rem 0.55rem;
+        background: rgba(22, 163, 74, 0.18);
+        color: #4ade80;
+        border: 1px solid rgba(34, 197, 94, 0.7);
+      }
+
+      .case-body {
+        font-size: 0.8rem;
+        line-height: 1.6;
+        color: var(--text-muted);
+        margin-bottom: 0.35rem;
+      }
+
+      .case-meta {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+      }
+
+      .case-meta strong {
+        color: #f97316;
+      }
+
+      .case-footnote {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        margin-top: 0.5rem;
+      }
+
+      /* Seção de benefícios */
+
+      .benefits {
+        padding: 0 0 2.5rem;
+      }
+
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 1.2rem;
+        margin-top: 1.4rem;
+      }
+
+      .benefit-card {
+        background: rgba(15, 23, 42, 0.9);
+        border-radius: 1.3rem;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        padding: 0.9rem;
+        font-size: 0.82rem;
+      }
+
+      .benefit-title {
+        font-size: 0.86rem;
+        font-weight: 600;
+        margin-bottom: 0.35rem;
+      }
+
+      .benefit-chip {
+        font-size: 0.7rem;
+        color: var(--brand);
+        margin-bottom: 0.25rem;
+      }
+
+      .benefit-card p {
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      .benefits h2 {
+        font-size: 0.98rem;
+        font-weight: 600;
+      }
+
+      .benefits-lead {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-top: 0.4rem;
+      }
+
+      footer {
+        border-top: 1px solid rgba(148, 163, 184, 0.25);
+        background: rgba(2, 6, 23, 0.96);
+      }
+
+      .footer-inner {
+        padding: 0.9rem 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+      }
+
+      .footer-inner strong {
+        color: var(--text-main);
+      }
+
+      @media (max-width: 640px) {
+        .hero-copy {
+          text-align: center;
+        }
+
+        .hero-actions {
+          justify-content: center;
+        }
+
+        .demo-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .footer-inner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
       }
     </style>
   </head>
-
-  <body class="bg-slate-50 text-slate-900">
-    <!-- NAVBAR -->
-    <header class="border-b border-slate-200 bg-white/80 backdrop-blur">
-      <div
-        class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3"
-      >
-        <div class="flex items-center gap-2">
-          <div
-            class="flex h-9 w-9 items-center justify-center rounded-2xl bg-brand-light"
-          >
-            <span class="text-xs font-bold text-brand-dark">LF</span>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-inner">
+          <div class="brand-block">
+            <div class="brand-logo">
+              <!-- Troque o nome do arquivo se precisar -->
+              <img
+                src="logo-brito-vilarinHo.png"
+                alt="Brito Vilarinho Advocacia"
+              />
+            </div>
+            <div class="brand-text">
+              <span>Brito Vilarinho Advocacia</span>
+              <strong>LegalFlow • Atendimento Jurídico Inteligente</strong>
+            </div>
           </div>
-          <span class="text-lg font-semibold tracking-tight">LegalFlow</span>
-        </div>
 
-        <nav class="hidden items-center gap-4 text-sm text-slate-600 md:flex">
-          <a href="#how-it-works" class="hover:text-brand-dark">How it works</a>
-          <a href="#benefits" class="hover:text-brand-dark">For law firms</a>
-          <a href="#chat" class="hover:text-brand-dark">Live demo</a>
-          <a
-            href="#chat"
-            class="rounded-full bg-brand-dark px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand"
-            >Start now</a
-          >
-        </nav>
+          <div class="pill">
+            <span class="pill-dot"></span>
+            <span>Triagem automática • Casos organizados</span>
+          </div>
+        </div>
       </div>
     </header>
 
-    <main class="mx-auto max-w-6xl px-4 pb-16 pt-10 space-y-16">
-      <!-- HERO -->
-      <section class="grid items-center gap-10 md:grid-cols-[3fr,2fr]">
-        <div>
-          <span
-            class="inline-flex rounded-full bg-brand-light/70 px-3 py-1 text-xs font-semibold text-brand-dark"
-          >
-            Smart legal intake • SaaS for law firms
-          </span>
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="hero-grid">
+            <!-- COPY PRINCIPAL -->
+            <div class="hero-copy">
+              <div class="hero-eyebrow">
+                <span>Onboarding jurídico sem fricção</span>
+              </div>
 
-          <h1
-            class="mt-4 text-3xl font-semibold tracking-tight md:text-4xl lg:text-[2.5rem]"
-          >
-            Turn chaotic client messages into organized, ready-to-act legal
-            cases.
-          </h1>
+              <h1 class="hero-title">
+                Transforme conversas em
+                <span>casos prontos para o advogado</span>.
+              </h1>
 
-          <p class="mt-4 text-sm text-slate-600 md:text-base">
-            LegalFlow is your AI-assisted front door: clients describe their
-            situation in natural language, and we transform it into a clear,
-            structured case with area of law, risk, urgency and next steps —
-            ready for the right lawyer to take action.
-          </p>
+              <p class="hero-subtitle">
+                O LegalFlow organiza o atendimento inicial: o cliente fala com
+                o chat, a IA classifica o caso por área, risco e urgência, e o
+                advogado recebe tudo pronto, dentro do painel do escritório.
+              </p>
 
-          <div class="mt-6 flex flex-wrap items-center gap-3">
-            <a
-              href="#chat"
-              class="inline-flex items-center justify-center rounded-full bg-brand-dark px-6 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-brand"
-            >
-              Start now
-            </a>
-            <span class="text-xs text-slate-500">
-              No commitment. Just type a case and see how it’s organized.
-            </span>
-          </div>
+              <div class="hero-bullets">
+                <div class="hero-bullet">
+                  <span class="hero-bullet-icon">✔</span>
+                  <span>
+                    Classificação em tempo real: área provável, risco, urgência
+                    e valor estimado do caso.
+                  </span>
+                </div>
+                <div class="hero-bullet">
+                  <span class="hero-bullet-icon">✔</span>
+                  <span>
+                    Atendimento 24/7 com linguagem simples, sem substituir o
+                    advogado — apenas organizando o fluxo.
+                  </span>
+                </div>
+                <div class="hero-bullet">
+                  <span class="hero-bullet-icon">✔</span>
+                  <span>
+                    Cada conversa vira um caso estruturado no painel do
+                    Brito&nbsp;Vilarinho, pronto para ação.
+                  </span>
+                </div>
+              </div>
 
-          <div class="mt-5 flex flex-wrap gap-3 text-xs text-slate-500">
-            <div
-              class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 shadow-sm"
-            >
-              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-              Built for social security, labor and civil law.
+              <div class="hero-actions">
+                <a href="#demo" class="btn-primary">
+                  Testar a experiência de triagem
+                  <span>→</span>
+                </a>
+                <a href="#contato" class="btn-ghost">
+                  Ver como funciona para o escritório
+                </a>
+              </div>
+
+              <p class="hero-badge">
+                <strong>+ Tempo para advogar, – tempo em triagem.</strong>
+                Ideal para escritórios que recebem muitos contatos por WhatsApp,
+                site e redes sociais.
+              </p>
             </div>
-            <div
-              class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 shadow-sm"
-            >
-              <span class="h-2 w-2 rounded-full bg-sky-400"></span>
-              Client and lawyer area in the same platform.
-            </div>
-          </div>
-        </div>
 
-        <!-- Painelzinho de preview -->
-        <div
-          class="rounded-2xl border border-slate-200 bg-white p-4 shadow-md space-y-4"
-        >
-          <p
-            class="text-xs font-medium uppercase tracking-wide text-slate-500"
-          >
-            Live intake preview
-          </p>
+            <!-- DEMO CENTRAL DE CHAT -->
+            <div id="demo" class="demo-shell">
+              <div class="demo-header">
+                <div class="demo-header-left">
+                  <div class="demo-avatar">LF</div>
+                  <div class="demo-header-text">
+                    <span>Experiência do cliente</span>
+                    <strong>LegalFlow Chat • Triagem automática</strong>
+                  </div>
+                </div>
+                <div class="demo-chip">Demonstração ao vivo</div>
+              </div>
 
-          <div class="space-y-3 rounded-2xl bg-slate-50 p-4">
-            <div class="text-[11px] text-slate-500">Client</div>
-            <div class="flex justify-end">
-              <div
-                class="max-w-[75%] rounded-2xl bg-brand-light px-3 py-2 text-xs text-slate-900"
-              >
-                I had my INSS benefit blocked and I don’t understand why. I live
-                only from this income.
+              <div class="demo-grid">
+                <!-- LADO ESQUERDO: CHAT -->
+                <div class="card">
+                  <h2>Converse como um cliente real</h2>
+                  <p>
+                    Digite um problema jurídico (previdenciário, cível,
+                    trabalhista, família etc.). A conversa é apenas
+                    demonstrativa, mas simula exatamente a experiência do
+                    cliente.
+                  </p>
+
+                  <div id="chat-box" class="chat-box">
+                    <div class="chat-hint">
+                      Comece digitando seu problema abaixo. Exemplo: “Meu
+                      benefício do INSS foi bloqueado e estou sem renda”.
+                    </div>
+                  </div>
+
+                  <div class="chat-input-row">
+                    <input
+                      id="chat-input"
+                      type="text"
+                      placeholder="Descreva aqui o seu problema jurídico..."
+                      autocomplete="off"
+                    />
+                    <button id="chat-send" class="chat-send">
+                      Enviar
+                      <span>↗</span>
+                    </button>
+                  </div>
+
+                  <button id="forward-button" class="chat-forward">
+                    <span class="chat-forward-icon">⚖</span>
+                    Encaminhar este caso a um advogado competente
+                  </button>
+                </div>
+
+                <!-- LADO DIREITO: VISÃO DO ADVOGADO -->
+                <div class="card">
+                  <h3>O que o advogado recebe no painel</h3>
+                  <p>
+                    Enquanto o cliente conversa com o chat, o LegalFlow organiza
+                    tudo em um caso estruturado — sem perder contexto.
+                  </p>
+
+                  <div class="case-box">
+                    <div class="case-header">
+                      <span>📁 Caso #1289 • Novo lead qualificado</span>
+                      <span class="case-tag">Novo</span>
+                    </div>
+                    <p class="case-body" id="case-summary">
+                      O cliente relata bloqueio recente de benefício
+                      previdenciário, está sem renda e teme não conseguir
+                      arcar com necessidades básicas da família.
+                    </p>
+                    <p class="case-meta" id="case-meta">
+                      Área provável:
+                      <strong>Previdenciário</strong> • Risco:
+                      <strong>Alto</strong> • Urgência:
+                      <strong>Alta</strong> • Valor estimado:
+                      <strong>R$ 15.000 – 60.000</strong>
+                    </p>
+                  </div>
+
+                  <p class="case-footnote">
+                    A partir daqui, o responsável no Brito Vilarinho pode
+                    atualizar status, solicitar documentos, registrar
+                    diligências e manter o cliente informado — tudo dentro do
+                    LegalFlow.
+                  </p>
+                </div>
               </div>
             </div>
-
-            <div class="text-[11px] text-slate-500">LegalFlow</div>
-            <div class="flex justify-start">
-              <div
-                class="max-w-[85%] rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800"
-              >
-                Thanks for sharing. We’ll create a case in the Social Security
-                area, mark it as <strong>high urgency</strong> and send it to a
-                specialist lawyer from your firm.
-              </div>
-            </div>
-          </div>
-
-          <p class="text-[11px] text-slate-500">
-            Behind the scenes, LegalFlow classifies the case, creates a record
-            in your dashboard and opens a timeline that both client and lawyer
-            can follow.
-          </p>
-        </div>
-      </section>
-
-      <!-- HOW IT WORKS -->
-      <section id="how-it-works" class="space-y-6">
-        <div>
-          <h2 class="text-lg font-semibold text-slate-900">How it works</h2>
-          <p class="mt-1 text-xs text-slate-600">
-            From first message to organized case in three simple steps.
-          </p>
-        </div>
-
-        <div class="grid gap-4 md:grid-cols-3">
-          <div
-            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
-          >
-            <span
-              class="mb-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-brand-light text-[11px] font-semibold text-brand-dark"
-              >1</span
-            >
-            <h3 class="text-sm font-semibold text-slate-900">
-              Client tells their story
-            </h3>
-            <p class="mt-2 text-xs text-slate-600">
-              The client types what happened in simple language — via chat on
-              your website, landing page or WhatsApp integration.
-            </p>
-          </div>
-
-          <div
-            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
-          >
-            <span
-              class="mb-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-brand-light text-[11px] font-semibold text-brand-dark"
-              >2</span
-            >
-            <h3 class="text-sm font-semibold text-slate-900">
-              LegalFlow organizes and scores
-            </h3>
-            <p class="mt-2 text-xs text-slate-600">
-              The platform transforms the story into a structured case:
-              probable area of law, risk, urgency, value indication and
-              recommended next step.
-            </p>
-          </div>
-
-          <div
-            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
-          >
-            <span
-              class="mb-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-brand-light text-[11px] font-semibold text-brand-dark"
-              >3</span
-            >
-            <h3 class="text-sm font-semibold text-slate-900">
-              Lawyer takes control
-            </h3>
-            <p class="mt-2 text-xs text-slate-600">
-              The responsible lawyer sees the case in a clean dashboard, updates
-              the status and the client follows everything in their own portal.
-            </p>
           </div>
         </div>
       </section>
 
-      <!-- BENEFITS -->
-      <section id="benefits" class="space-y-6">
-        <div>
-          <h2 class="text-lg font-semibold text-slate-900">
-            Why law firms use LegalFlow
-          </h2>
-          <p class="mt-1 text-xs text-slate-600">
-            Designed for firms that live from qualified cases, not from inbox
-            chaos.
-          </p>
-        </div>
-
-        <div class="grid gap-4 md:grid-cols-3">
-          <div
-            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
-          >
-            <h3 class="text-sm font-semibold text-slate-900">
-              Fewer lost opportunities
-            </h3>
-            <p class="mt-2 text-xs text-slate-600">
-              Every contact becomes a structured case with owner, status and
-              next action. No more “I forgot to reply”.
-            </p>
-          </div>
-          <div
-            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
-          >
-            <h3 class="text-sm font-semibold text-slate-900">
-              Clear priority by risk & urgency
-            </h3>
-            <p class="mt-2 text-xs text-slate-600">
-              Stop guessing what to do first. LegalFlow highlights what is
-              urgent, strategic or high-value so the team focuses where it
-              matters.
-            </p>
-          </div>
-          <div
-            class="rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm"
-          >
-            <h3 class="text-sm font-semibold text-slate-900">
-              Client area without extra work
-            </h3>
-            <p class="mt-2 text-xs text-slate-600">
-              Clients log in, see the status of their case and latest updates.
-              Your team spends less time answering “how is my case?”.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- CHAT DEMO -->
-      <section id="chat" class="grid gap-8 md:grid-cols-[3fr,2fr]">
-        <div
-          class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm flex flex-col"
-        >
-          <h2 class="text-sm font-semibold text-slate-900">
-            Try the intake experience
-          </h2>
-          <p class="mt-1 text-xs text-slate-600">
-            This is a simple front-end demo. In the real product, every message
-            here becomes a case in the lawyer dashboard.
+      <!-- BENEFÍCIOS -->
+      <section class="benefits" id="contato">
+        <div class="container">
+          <h2>Por que trazer o LegalFlow para o seu escritório?</h2>
+          <p class="benefits-lead">
+            Uma triagem inteligente não é apenas “tecnologia bonita” — é
+            <strong>economia real de tempo</strong>, mais
+            <strong>qualidade na seleção dos casos</strong> e
+            <strong>experiência premium para o cliente</strong>.
           </p>
 
-          <div
-            id="chat-box"
-            class="mt-4 flex-1 space-y-3 overflow-y-auto rounded-2xl bg-slate-50 p-3 text-sm"
-            style="min-height: 220px"
-          >
-            <div class="text-xs text-slate-400">
-              Start by typing your problem below.
+          <div class="benefits-grid">
+            <div class="benefit-card">
+              <div class="benefit-chip">01 • Organização total</div>
+              <div class="benefit-title">Cada lead entra pronto para análise</div>
+              <p>
+                Adeus conversas soltas no WhatsApp. Cada atendimento vira um
+                caso com resumo, área, risco, urgência, histórico de mensagens
+                e campos para documentos — tudo em um único painel.
+              </p>
+            </div>
+
+            <div class="benefit-card">
+              <div class="benefit-chip">02 • Escala com responsabilidade</div>
+              <div class="benefit-title">IA que não promete o impossível</div>
+              <p>
+                A IA ajuda a organizar e priorizar os casos, mas a decisão
+                jurídica continua 100% nas mãos do advogado. O fluxo é pensado
+                para respeitar a ética profissional e as normas da OAB.
+              </p>
+            </div>
+
+            <div class="benefit-card">
+              <div class="benefit-chip">03 • Foco no que gera honorários</div>
+              <div class="benefit-title">Menos triagem, mais estratégia</div>
+              <p>
+                Sua equipe deixa de gastar energia filtrando contatos e passa a
+                atuar onde importa: definindo a melhor tese, ajustando a
+                estratégia e acompanhando o cliente com segurança.
+              </p>
             </div>
           </div>
 
-          <div class="mt-4 flex gap-2">
-            <input
-              id="chat-input"
-              class="flex-1 rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-brand"
-              placeholder="Describe your legal problem here..."
-            />
-            <button
-              id="chat-send"
-              class="rounded-full bg-brand-dark px-4 py-2 text-sm font-medium text-white hover:bg-brand"
-            >
-              Send
-            </button>
+          <div style="margin-top: 1.5rem">
+            <a href="#demo" class="btn-primary">Quero ver o fluxo na prática</a>
           </div>
-        </div>
-
-        <div
-          class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm space-y-3 text-sm"
-        >
-          <h3 class="text-sm font-semibold text-slate-900">
-            What the lawyer sees
-          </h3>
-          <p class="text-xs text-slate-600">
-            In your full SaaS, every conversation creates a case like this:
-          </p>
-
-          <div class="rounded-2xl bg-slate-50 p-3 text-xs space-y-1">
-            <div class="flex justify-between">
-              <span class="font-medium text-slate-900">New case</span>
-              <span
-                class="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700"
-                >New</span
-              >
-            </div>
-            <p class="text-slate-600 line-clamp-2">
-              Client reports blocked social security benefit and lack of income
-              to cover basic needs.
-            </p>
-            <p class="text-[11px] text-slate-500">
-              Area: Social security • Risk: High • Urgency: High
-            </p>
-          </div>
-
-          <p class="text-[11px] text-slate-500">
-            From here, the responsible lawyer can update status, ask for
-            documents and keep the client informed — all inside LegalFlow.
-          </p>
         </div>
       </section>
     </main>
 
-    <footer class="border-t border-slate-200 bg-white">
-      <div
-        class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-4 text-[11px] text-slate-500 md:flex-row"
-      >
-        <span>© <span id="year"></span> LegalFlow. All rights reserved.</span>
-        <span>Built to organize legal intake, not replace lawyers.</span>
+    <footer>
+      <div class="container">
+        <div class="footer-inner">
+          <span>
+            © <span id="year"></span>
+            <strong>Brito Vilarinho Advocacia</strong> • LegalFlow.
+            Todos os direitos reservados.
+          </span>
+          <span>
+            Criado para organizar o atendimento jurídico inicial —
+            <strong>não substitui advogados</strong>, apenas entrega casos
+            melhores preparados.
+          </span>
+        </div>
       </div>
     </footer>
 
     <script>
-      // Ano automático no footer
+      // Ano automático no rodapé
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      // Chat demo bem simples (front-end only)
       const chatBox = document.getElementById("chat-box");
-      const input = document.getElementById("chat-input");
-      const sendBtn = document.getElementById("chat-send");
+      const chatInput = document.getElementById("chat-input");
+      const chatSend = document.getElementById("chat-send");
+      const forwardButton = document.getElementById("forward-button");
+      const caseSummary = document.getElementById("case-summary");
+      const caseMeta = document.getElementById("case-meta");
 
       function addBubble(text, from) {
-        const wrapper = document.createElement("div");
-        wrapper.className = "flex w-full " + (from === "client"
-          ? "justify-end"
-          : "justify-start");
+        const row = document.createElement("div");
+        row.className = "chat-row " + (from === "client" ? "client" : "bot");
 
         const bubble = document.createElement("div");
         bubble.className =
-          "max-w-[75%] rounded-2xl px-3 py-2 text-xs shadow-sm " +
-          (from === "client"
-            ? "bg-brand-light text-slate-900"
-            : "bg-white border border-slate-200 text-slate-800");
+          "chat-bubble " + (from === "client" ? "client" : "bot");
         bubble.textContent = text;
-        wrapper.appendChild(bubble);
-        chatBox.appendChild(wrapper);
+
+        row.appendChild(bubble);
+        chatBox.appendChild(row);
         chatBox.scrollTop = chatBox.scrollHeight;
       }
 
+      // Mensagem inicial do "bot"
+      setTimeout(() => {
+        addBubble(
+          "Olá! Sou o LegalFlow, o assistente de triagem do Brito Vilarinho. Conte com suas palavras o que está acontecendo.",
+          "bot"
+        );
+      }, 400);
+
+      function simulateClassification(text) {
+        // Demonstração simples e lúdica de “classificação”
+        const t = text.toLowerCase();
+
+        let area = "Cível";
+        if (t.includes("inss") || t.includes("benefício") || t.includes("aposentadoria")) {
+          area = "Previdenciário";
+        } else if (t.includes("trabalho") || t.includes("emprego") || t.includes("demitido")) {
+          area = "Trabalhista";
+        } else if (t.includes("pensão") || t.includes("guarda") || t.includes("divórcio")) {
+          area = "Família";
+        }
+
+        let risco = "Médio";
+        let urgencia = "Média";
+
+        if (t.includes("sem renda") || t.includes("urgente") || t.includes("bloqueio")) {
+          risco = "Alto";
+          urgencia = "Alta";
+        }
+
+        const valores = {
+          Previdenciário: "R$ 15.000 – 60.000",
+          Trabalhista: "R$ 10.000 – 80.000",
+          Família: "R$ 5.000 – 40.000",
+          Cível: "R$ 5.000 – 50.000",
+        };
+
+        return {
+          area,
+          risco,
+          urgencia,
+          valor: valores[area] || "A definir após análise",
+        };
+      }
+
       function handleSend() {
-        const text = input.value.trim();
+        const text = chatInput.value.trim();
         if (!text) return;
+
+        // remove hint inicial se existir
+        const hints = chatBox.querySelectorAll(".chat-hint");
+        hints.forEach((h) => h.remove());
+
         addBubble(text, "client");
-        input.value = "";
+        chatInput.value = "";
 
         setTimeout(() => {
           addBubble(
-            "Thanks for sharing. In the full version this message would create a case in your dashboard.",
+            "Obrigado por compartilhar. Vou organizar seu relato e encaminhar como caso para o advogado responsável.",
             "bot"
           );
-        }, 600);
+
+          const result = simulateClassification(text);
+
+          // Atualiza “visão do advogado”
+          caseSummary.textContent =
+            "Resumo automático: " +
+            text.slice(0, 200) +
+            (text.length > 200 ? "..." : "");
+          caseMeta.innerHTML =
+            'Área provável: <strong>' +
+            result.area +
+            "</strong> • Risco: <strong>" +
+            result.risco +
+            "</strong> • Urgência: <strong>" +
+            result.urgencia +
+            "</strong> • Valor estimado: <strong>" +
+            result.valor +
+            "</strong>";
+        }, 650);
       }
 
-      sendBtn.addEventListener("click", handleSend);
-      input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") handleSend();
+      chatSend.addEventListener("click", handleSend);
+
+      chatInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          handleSend();
+        }
+      });
+
+      forwardButton.addEventListener("click", () => {
+        addBubble(
+          "Seu caso foi sinalizado para um advogado competente. Em breve alguém da equipe entrará em contato para analisar sua situação com mais detalhes.",
+          "bot"
+        );
       });
     </script>
   </body>
