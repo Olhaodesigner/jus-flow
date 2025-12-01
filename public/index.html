@@ -13,7 +13,7 @@ body{
   background:#eef0f5;
   display:flex;
   justify-content:center;
-  padding:40px 0;
+  padding:40px 12px;
   transition:.3s ease;
 }
 body.dark{
@@ -24,36 +24,41 @@ body.dark{
 /* CARD */
 .container{
   width:100%;
-  max-width:650px;
+  max-width:640px;
   background:white;
-  padding:50px 40px;
-  border-radius:25px;
+  padding:40px 32px 44px;
+  border-radius:24px;
   box-shadow:
-    0 20px 45px rgba(0,0,0,.10),
+    0 18px 40px rgba(0,0,0,.10),
     0 6px 12px rgba(0,0,0,.06);
   position:relative;
 }
 body.dark .container{
   background:#111827;
   box-shadow:
-    0 20px 45px rgba(0,0,0,.40),
+    0 18px 40px rgba(0,0,0,.45),
     0 6px 12px rgba(0,0,0,.25);
 }
 
+/* LOGO + TÍTULO + SUBTÍTULO */
+.logo{
+  display:block;
+  margin:0 auto 12px;
+  max-height:54px;
+}
 .title{
-  font-size:42px;
+  font-size:36px;
   font-weight:800;
   text-align:center;
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
-
 .subtitle{
-  font-size:17px;
+  font-size:16px;
   opacity:.85;
   text-align:center;
-  margin-bottom:32px;
+  margin-bottom:28px;
   line-height:1.45;
-  max-width:500px;
+  max-width:480px;
   margin-left:auto;
   margin-right:auto;
 }
@@ -61,12 +66,12 @@ body.dark .container{
 /* THEME TOGGLE */
 .toggle-wrapper{
   position:absolute;
-  top:22px;
-  right:30px;
+  top:18px;
+  right:24px;
 }
 .toggle-container{
-  width:115px;
-  height:34px;
+  width:110px;
+  height:32px;
   background:#e5e7eb;
   border-radius:40px;
   padding:4px;
@@ -77,49 +82,55 @@ body.dark .container{
   position:relative;
 }
 body.dark .toggle-container{background:#1e293b;}
+
 .toggle-label{
   flex:1;
   text-align:center;
   font-size:11px;
   font-weight:700;
-  opacity:.35;
+  opacity:.4;
+  position:relative;
+  z-index:2; /* garante que o texto fica acima do "thumb" */
 }
 .toggle-label.active{
-  opacity:1!important;
+  opacity:1;
   color:#111827;
 }
-body.dark .toggle-label.active{color:white!important;}
+body.dark .toggle-label.active{color:white;}
+
 .toggle-thumb{
   position:absolute;
   top:4px;
   left:4px;
-  width:50px;
-  height:26px;
+  width:48px;
+  height:24px;
   background:white;
   border-radius:30px;
   transition:.25s ease;
 }
 body.dark .toggle-thumb{
-  background:#1e293b;
+  background:#1f2937;
   border:1px solid #374151;
 }
 
 /* FORM */
-form{text-align:left;margin-top:10px;}
+form{text-align:left;margin-top:6px;}
+
 label{
-  font-size:16px;
+  font-size:15px;
   font-weight:600;
-  margin-bottom:5px;
+  margin-bottom:4px;
   display:block;
 }
+
 input,select,textarea{
   width:100%;
-  margin-bottom:22px;
-  padding:16px;
+  margin-bottom:18px;
+  padding:14px 14px;
   border:none;
   border-radius:10px;
   background:#f5f6fa;
-  font-size:16px;
+  font-size:15px;
 }
 body.dark input,
 body.dark select,
@@ -129,19 +140,19 @@ body.dark textarea{
   border:1px solid #374151;
 }
 textarea{
-  height:120px;
+  height:110px;
   resize:none;
 }
 
 /* BUTTON */
 button{
   width:100%;
-  padding:18px;
+  padding:16px;
   border:none;
   border-radius:14px;
   background:#1a4ce8;
   color:white;
-  font-size:18px;
+  font-size:17px;
   font-weight:700;
   cursor:pointer;
   transition:.25s ease;
@@ -151,8 +162,9 @@ button:disabled{opacity:.7;cursor:default;}
 
 .mensagem{
   text-align:center;
-  margin-top:15px;
+  margin-top:14px;
   font-weight:700;
+  font-size:14px;
 }
 .mensagem.sucesso{color:#22c55e;}
 .mensagem.erro{color:#ef4444;}
@@ -164,8 +176,7 @@ button:disabled{opacity:.7;cursor:default;}
 
 <div class="container">
 
-  <h1 class="title">Easy Lawyer</h1>
-
+  <!-- Toggle -->
   <div class="toggle-wrapper">
     <div class="toggle-container" id="themeToggle">
       <span class="toggle-label active" id="labelLight">LIGHT</span>
@@ -173,6 +184,15 @@ button:disabled{opacity:.7;cursor:default;}
       <div class="toggle-thumb" id="toggleThumb"></div>
     </div>
   </div>
+
+  <!-- LOGO -->
+  <img
+    class="logo"
+    src="https://raw.githubusercontent.com/Olhaodesigner/jus-flow/4706dd4633e8787e82e2e70e88c4f47c2f12effd/1172e71a-602a-4cd9-8db0-866d63055297.png"
+    alt="Easy Lawyer"
+  >
+
+  <h1 class="title">Easy Lawyer</h1>
 
   <p class="subtitle">
     Explique seu problema em poucos minutos e nós conectaremos você ao advogado certo.
@@ -209,11 +229,12 @@ button:disabled{opacity:.7;cursor:default;}
 </div>
 
 <script>
-/* THEME */
+// ===== TEMA LIGHT/DARK =====
 const toggle = document.getElementById("themeToggle");
 const thumb = document.getElementById("toggleThumb");
 const labelLight = document.getElementById("labelLight");
 const labelDark = document.getElementById("labelDark");
+
 function setTheme(mode){
   if(mode==="light"){
     document.body.classList.remove("dark");
@@ -222,15 +243,19 @@ function setTheme(mode){
     labelDark.classList.remove("active");
   }else{
     document.body.classList.add("dark");
-    thumb.style.left="60px";
+    thumb.style.left="58px";
     labelLight.classList.remove("active");
     labelDark.classList.add("active");
   }
 }
 setTheme("light");
-toggle.addEventListener("click",()=>{setTheme(document.body.classList.contains("dark")?"light":"dark");});
 
-/* FORM */
+toggle.addEventListener("click",()=>{
+  const isDark=document.body.classList.contains("dark");
+  setTheme(isDark ? "light" : "dark");
+});
+
+// ===== FORM / ENVIO =====
 const form = document.getElementById("leadForm");
 const msg = document.getElementById("mensagem");
 const submitBtn = form.querySelector("button");
@@ -242,11 +267,11 @@ form.addEventListener("submit", async (e)=>{
   msg.className="mensagem";
 
   const data = Object.fromEntries(new FormData(form));
-  const name=data.name.trim();
-  const phone=data.phone.trim();
-  const email=data.email.trim();
-  const area=data.area.trim();
-  const summary=data.summary.trim();
+  const name   = (data.name   || "").trim();
+  const phone  = (data.phone  || "").trim();
+  const email  = (data.email  || "").trim();
+  const area   = (data.area   || "").trim();
+  const summary= (data.summary|| "").trim();
 
   if(!phone){
     msg.textContent="O telefone é obrigatório.";
@@ -266,6 +291,11 @@ form.addEventListener("submit", async (e)=>{
   }
   if(!summary){
     msg.textContent="Descreva sua situação.";
+    msg.classList.add("erro");
+    return;
+  }
+  if(summary.length>1000){
+    msg.textContent="Resuma em até 1000 caracteres.";
     msg.classList.add("erro");
     return;
   }
