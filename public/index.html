@@ -26,7 +26,7 @@
       width: 100%;
       max-width: 520px;
       background: #fff;
-      padding: 32px 36px;
+      padding: 32px 32px 30px;
       border-radius: 24px;
       box-shadow: 0 22px 60px rgba(0,0,0,0.12);
       position: relative;
@@ -37,95 +37,100 @@
     .header {
       position: relative;
       width: 100%;
-      margin-bottom: 18px;
       text-align: center;
+      margin-bottom: 10px;
     }
 
     .logo {
       font-size: 2.2rem;
       font-weight: 800;
       color: #111827;
+      margin-bottom: 4px;
     }
 
-    /* ---------- TOGGLE (FINAL AJUSTADO) ---------- */
+    .subtitle {
+      font-size: 0.98rem;
+      color: #6b7280;
+      text-align: center;
+      margin: 0 12px 18px;
+      line-height: 1.5;
+    }
+
+    /* ---------- TOGGLE (AJUSTADO) ---------- */
 
     .toggle-wrapper {
       position: absolute;
-      right: -15px;   /* afastado da logo */
-      top: 8px;       /* alinhado horizontalmente */
+      right: -6px;   /* mais afastado lateralmente */
+      top: 4px;      /* alinhado com o topo do título */
     }
 
     .toggle-container {
-      width: 135px;
-      height: 42px;
+      width: 110px;          /* menor */
+      height: 32px;
       background: #e5e7eb;
-      border-radius: 40px;
-      padding: 5px;
+      border-radius: 999px;
+      padding: 3px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: relative;
       cursor: pointer;
-
-      /* Neomorfismo suave */
       box-shadow:
-        inset 2px 2px 4px rgba(255,255,255,0.9),
-        inset -3px -3px 6px rgba(0,0,0,0.10);
+        inset 1px 1px 3px rgba(255,255,255,0.9),
+        inset -2px -2px 4px rgba(0,0,0,0.12);
     }
 
     .toggle-label {
       flex: 1;
       text-align: center;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      transition: opacity .25s ease;
+      letter-spacing: .04em;
+      transition: opacity .25s ease, color .25s ease;
       color: #6b7280;
-      opacity: .35; /* desativado */
+      opacity: .35;             /* inativa */
       pointer-events: none;
       z-index: 2;
     }
 
     .toggle-label.active {
       opacity: 1;
-      color: #374151;
+      color: #111827;
     }
 
     .toggle-thumb {
       position: absolute;
-      top: 6px;
-      left: 6px;
-      width: 62px;
-      height: 30px;
-      border-radius: 40px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: left .23s ease, background .23s ease, color .23s ease;
-
-      /* Sombra bonita somente no botão */
-      background: #fff;
-      color: #374151;
+      top: 3px;
+      left: 3px;
+      width: 52px;
+      height: 26px;
+      border-radius: 999px;
+      transition: left .23s ease, background .23s ease, box-shadow .23s ease;
+      background: #ffffff;
       box-shadow:
-        0 6px 12px rgba(0,0,0,0.18),
+        0 4px 10px rgba(0,0,0,0.18),
         inset 2px 2px 4px rgba(255,255,255,0.95);
+      z-index: 1;
     }
 
     /* ---------- DARK MODE ---------- */
 
     body.dark {
-      background: #0f172a;
+      background: #020617;
       color: #e2e8f0;
     }
 
     body.dark .card {
-      background: #0b1120;
-      box-shadow: 0 22px 60px rgba(0,0,0,0.55);
+      background: #020617;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.75);
     }
 
     body.dark .logo {
-      color: #f8fafc;
+      color: #f9fafb;
+    }
+
+    body.dark .subtitle {
+      color: #9ca3af;
     }
 
     body.dark label {
@@ -133,21 +138,18 @@
     }
 
     body.dark .toggle-container {
-      background: #1e2533;
+      background: #111827;
       box-shadow:
-        inset 0 0 4px rgba(255,255,255,0.12),
-        inset -2px -2px 4px rgba(0,0,0,0.65);
+        inset 0 0 4px rgba(255,255,255,0.08),
+        inset -2px -2px 4px rgba(0,0,0,0.7);
     }
 
-    /* Glow branco: botão visível no dark sem poluir */
+    /* Glow discreto no thumb, só ao redor do botão */
     body.dark .toggle-thumb {
-      background: #0f172a;
-      color: #f1f5f9;
+      background: #020617;
       box-shadow:
-        inset 0 0 6px rgba(255,255,255,0.38),
-        0 6px 14px rgba(0,0,0,0.60),
-        inset 2px 2px 5px rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.22);
+        inset 0 0 4px rgba(255,255,255,0.25),
+        0 4px 10px rgba(0,0,0,0.65);
     }
 
     /* ---------- FORM ---------- */
@@ -155,6 +157,7 @@
     label {
       font-weight: 600;
       font-size: 0.95rem;
+      color: #374151;
     }
 
     input, select, textarea {
@@ -194,6 +197,9 @@
 
     .success { color: #15803d; }
     .error { color: #b91c1c; }
+
+    body.dark .success { color: #4ade80; }
+    body.dark .error { color: #fecaca; }
   </style>
 </head>
 
@@ -204,19 +210,17 @@
     <div class="header">
       <div class="logo">Easy Lawyer</div>
 
-      <!-- TOGGLE -->
       <div class="toggle-wrapper">
         <div id="themeToggle" class="toggle-container">
           <div id="labelLight" class="toggle-label active">LIGHT</div>
           <div id="labelDark" class="toggle-label">DARK</div>
-
-          <div id="thumb" class="toggle-thumb">LIGHT</div>
+          <div id="thumb" class="toggle-thumb"></div>
         </div>
       </div>
     </div>
 
-    <p style="margin-bottom: 18px; color:#6b7280;">
-      Conte rapidamente seu problema e nós encaminharemos para um advogado.
+    <p class="subtitle">
+      Explique seu problema em poucos minutos e nós conectaremos você ao advogado certo, no momento certo.
     </p>
 
     <form id="form">
@@ -252,46 +256,37 @@
   </div>
 
   <script>
-    /* ==============================
-       TOGGLE - LÓGICA FINAL
-    ============================== */
+    /* ========= TOGGLE ========= */
 
     const toggle = document.getElementById("themeToggle");
     const thumb = document.getElementById("thumb");
     const labelLight = document.getElementById("labelLight");
     const labelDark = document.getElementById("labelDark");
 
-    function apply(mode) {
+    // Sempre inicia no modo LIGHT
+    let current = "light";
+    applyTheme(current);
+
+    function applyTheme(mode) {
       if (mode === "dark") {
         document.body.classList.add("dark");
-        thumb.style.left = "67px";
-        thumb.textContent = "DARK";
-
+        thumb.style.left = "55px";          // desliza para a direita
         labelLight.classList.remove("active");
         labelDark.classList.add("active");
-
       } else {
         document.body.classList.remove("dark");
-        thumb.style.left = "6px";
-        thumb.textContent = "LIGHT";
-
+        thumb.style.left = "3px";           // volta para a esquerda
         labelDark.classList.remove("active");
         labelLight.classList.add("active");
       }
     }
 
-    let current = localStorage.getItem("theme") || "light";
-    apply(current);
-
     toggle.onclick = () => {
       current = current === "light" ? "dark" : "light";
-      localStorage.setItem("theme", current);
-      apply(current);
+      applyTheme(current);
     };
 
-    /* ==============================
-       FORM
-    ============================== */
+    /* ========= FORM ========= */
 
     const form = document.getElementById("form");
     const statusDiv = document.getElementById("status");
