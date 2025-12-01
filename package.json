@@ -2,13 +2,7 @@
   "name": "easy-lawyer-vercel",
   "version": "1.0.0",
   "private": true,
-  "description": "Mini app Easy Lawyer para capturar casos e enviar por e-mail (Vercel).",
-  "scripts": {
-    "dev": "vercel dev",
-    "build": "echo \"no build step\"",
-    "start": "vercel dev"
-  },
   "dependencies": {
-    "nodemailer": "^6.9.0"
+    "resend": "^3.0.0"
   }
 }
