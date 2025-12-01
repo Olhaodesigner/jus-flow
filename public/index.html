@@ -226,7 +226,8 @@
         form.reset();
       } catch (err) {
         console.error(err);
-        statusDiv.textContent = err.message || 'Erro ao enviar o caso. Tente novamente.';
+        statusDiv.textContent =
+          err.message || 'Erro ao enviar o caso. Verifique o servidor e tente novamente.';
         statusDiv.classList.add('error');
       } finally {
         submitBtn.disabled = false;
