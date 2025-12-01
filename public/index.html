@@ -8,7 +8,7 @@
   <style>
     * {
       box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI";
     }
 
     body {
@@ -19,7 +19,7 @@
       justify-content: center;
       align-items: center;
       background: #f3f4f6;
-      transition: background .2s, color .2s;
+      transition: background .25s ease, color .25s ease;
     }
 
     .card {
@@ -29,50 +29,48 @@
       padding: 32px 36px;
       border-radius: 24px;
       box-shadow: 0 22px 60px rgba(0,0,0,0.12);
-    }
-
-    /* ---------- CABEÇALHO ---------- */
-
-    .header {
-      width: 100%;
-      display: flex;
-      justify-content: center; /* Centro */
-      align-items: center;
-      margin-bottom: 18px;
       position: relative;
     }
 
-    .logo {
-      font-size: 2rem;
-      font-weight: 800;
+    /* ---------- HEADER ---------- */
+
+    .header {
+      position: relative;
+      width: 100%;
+      margin-bottom: 18px;
       text-align: center;
+    }
+
+    .logo {
+      font-size: 2.2rem;
+      font-weight: 800;
       color: #111827;
     }
 
-    /* Toggle alinhado à direita */
+    /* ---------- TOGGLE (FINAL AJUSTADO) ---------- */
+
     .toggle-wrapper {
       position: absolute;
-      right: 0;
-      top: 0;
+      right: -15px;   /* afastado da logo */
+      top: 8px;       /* alinhado horizontalmente */
     }
 
-    /* ---------- TOGGLE PROFISSIONAL ---------- */
-
     .toggle-container {
-      width: 130px;
-      height: 38px;
+      width: 135px;
+      height: 42px;
       background: #e5e7eb;
       border-radius: 40px;
-      padding: 4px;
+      padding: 5px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: relative;
-      box-shadow:
-        inset 3px 3px 6px rgba(255,255,255,0.9),
-        inset -3px -3px 6px rgba(0,0,0,0.08);
       cursor: pointer;
-      user-select: none;
+
+      /* Neomorfismo suave */
+      box-shadow:
+        inset 2px 2px 4px rgba(255,255,255,0.9),
+        inset -3px -3px 6px rgba(0,0,0,0.10);
     }
 
     .toggle-label {
@@ -80,46 +78,92 @@
       text-align: center;
       font-size: 0.75rem;
       font-weight: 700;
+      transition: opacity .25s ease;
       color: #6b7280;
-      z-index: 2;
+      opacity: .35; /* desativado */
       pointer-events: none;
+      z-index: 2;
+    }
+
+    .toggle-label.active {
+      opacity: 1;
+      color: #374151;
     }
 
     .toggle-thumb {
       position: absolute;
-      top: 4px;
-      left: 4px;
-      width: 60px;
+      top: 6px;
+      left: 6px;
+      width: 62px;
       height: 30px;
-      background: white;
       border-radius: 40px;
-      box-shadow:
-        0 6px 14px rgba(0,0,0,0.25),
-        inset 2px 2px 5px rgba(255,255,255,0.85);
+      font-size: 0.75rem;
+      font-weight: 700;
       display: flex;
-      justify-content: center;
       align-items: center;
-      font-size: 0.9rem;
-      transition: left .25s ease, background .25s ease, color .25s ease;
-      z-index: 1;
-      color: #444;
+      justify-content: center;
+      transition: left .23s ease, background .23s ease, color .23s ease;
+
+      /* Sombra bonita somente no botão */
+      background: #fff;
+      color: #374151;
+      box-shadow:
+        0 6px 12px rgba(0,0,0,0.18),
+        inset 2px 2px 4px rgba(255,255,255,0.95);
     }
 
-    /* ---------------- FORM ---------------- */
+    /* ---------- DARK MODE ---------- */
+
+    body.dark {
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    body.dark .card {
+      background: #0b1120;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.55);
+    }
+
+    body.dark .logo {
+      color: #f8fafc;
+    }
+
+    body.dark label {
+      color: #e2e8f0;
+    }
+
+    body.dark .toggle-container {
+      background: #1e2533;
+      box-shadow:
+        inset 0 0 4px rgba(255,255,255,0.12),
+        inset -2px -2px 4px rgba(0,0,0,0.65);
+    }
+
+    /* Glow branco: botão visível no dark sem poluir */
+    body.dark .toggle-thumb {
+      background: #0f172a;
+      color: #f1f5f9;
+      box-shadow:
+        inset 0 0 6px rgba(255,255,255,0.38),
+        0 6px 14px rgba(0,0,0,0.60),
+        inset 2px 2px 5px rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.22);
+    }
+
+    /* ---------- FORM ---------- */
 
     label {
-      font-size: 0.9rem;
       font-weight: 600;
-      color: #374151;
+      font-size: 0.95rem;
     }
 
     input, select, textarea {
       width: 100%;
-      margin-top: 4px;
       padding: 12px 14px;
       border-radius: 10px;
       border: 1px solid #d1d5db;
       background: #f9fafb;
+      margin-top: 6px;
       font-size: 0.95rem;
     }
 
@@ -130,15 +174,15 @@
 
     .btn {
       width: 100%;
-      margin-top: 14px;
+      margin-top: 16px;
       padding: 14px;
       font-size: 1.05rem;
       font-weight: 700;
-      border: none;
       border-radius: 14px;
+      border: none;
+      cursor: pointer;
       color: white;
       background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      cursor: pointer;
       box-shadow: 0 10px 22px rgba(37,99,235,0.35);
     }
 
@@ -150,66 +194,25 @@
 
     .success { color: #15803d; }
     .error { color: #b91c1c; }
-
-    /* -------- DARK MODE -------- */
-
-    body.dark {
-      background: #0f172a;
-      color: #e2e8f0;
-    }
-
-    body.dark .card {
-      background: #0b1120;
-      box-shadow: 0 22px 60px rgba(0,0,0,0.6);
-    }
-
-    body.dark .logo { color: #f8fafc; }
-    body.dark label { color: #e2e8f0; }
-
-    body.dark input,
-    body.dark select,
-    body.dark textarea {
-      background: #0f172a;
-      border-color: #475569;
-      color: #e2e8f0;
-    }
-
-    body.dark .toggle-container {
-      background: #1e293b;
-      box-shadow:
-        inset 0 0 6px rgba(255,255,255,0.15),
-        inset -3px -3px 6px rgba(0,0,0,0.6);
-    }
-
-    /* ✔ GLOW BRANCO (VISIBILIDADE PERFEITA NO DARK) */
-    body.dark .toggle-thumb {
-      background: #1e293b;
-      color: #f1f5f9;
-      box-shadow:
-        inset 0 0 6px rgba(255,255,255,0.38),
-        inset 2px 2px 5px rgba(255,255,255,0.18),
-        0 6px 14px rgba(0,0,0,0.65);
-      border: 1px solid rgba(255,255,255,0.22);
-    }
   </style>
-
 </head>
+
 <body>
 
   <div class="card">
 
-    <!-- HEADER COM LOGO CENTRALIZADA E TOGGLE À DIREITA -->
     <div class="header">
+      <div class="logo">Easy Lawyer</div>
 
+      <!-- TOGGLE -->
       <div class="toggle-wrapper">
         <div id="themeToggle" class="toggle-container">
-          <div class="toggle-label">LIGHT</div>
-          <div class="toggle-label">DARK</div>
+          <div id="labelLight" class="toggle-label active">LIGHT</div>
+          <div id="labelDark" class="toggle-label">DARK</div>
+
           <div id="thumb" class="toggle-thumb">LIGHT</div>
         </div>
       </div>
-
-      <div class="logo">Easy Lawyer</div>
     </div>
 
     <p style="margin-bottom: 18px; color:#6b7280;">
@@ -217,7 +220,6 @@
     </p>
 
     <form id="form">
-
       <label>Seu nome completo</label>
       <input name="name" required placeholder="Ex: Júlio César Crispim Muniz">
 
@@ -249,46 +251,53 @@
     </form>
   </div>
 
-
   <script>
-    /* =========================
-       TOGGLE (LIGHT / DARK)
-    ========================== */
+    /* ==============================
+       TOGGLE - LÓGICA FINAL
+    ============================== */
 
-    const toggle = document.getElementById('themeToggle');
-    const thumb  = document.getElementById('thumb');
+    const toggle = document.getElementById("themeToggle");
+    const thumb = document.getElementById("thumb");
+    const labelLight = document.getElementById("labelLight");
+    const labelDark = document.getElementById("labelDark");
 
-    function applyMode(mode){
-      if(mode === 'dark'){
-        document.body.classList.add('dark');
-        thumb.style.left = "66px";
+    function apply(mode) {
+      if (mode === "dark") {
+        document.body.classList.add("dark");
+        thumb.style.left = "67px";
         thumb.textContent = "DARK";
+
+        labelLight.classList.remove("active");
+        labelDark.classList.add("active");
+
       } else {
-        document.body.classList.remove('dark');
-        thumb.style.left = "4px";
+        document.body.classList.remove("dark");
+        thumb.style.left = "6px";
         thumb.textContent = "LIGHT";
+
+        labelDark.classList.remove("active");
+        labelLight.classList.add("active");
       }
     }
 
-    let saved = localStorage.getItem("theme") || "light";
-    applyMode(saved);
+    let current = localStorage.getItem("theme") || "light";
+    apply(current);
 
     toggle.onclick = () => {
-      saved = saved === "light" ? "dark" : "light";
-      localStorage.setItem("theme", saved);
-      applyMode(saved);
+      current = current === "light" ? "dark" : "light";
+      localStorage.setItem("theme", current);
+      apply(current);
     };
 
-    /* =========================
-       FORM / ENVIO
-    ========================== */
+    /* ==============================
+       FORM
+    ============================== */
 
-    const form = document.getElementById('form');
-    const statusDiv = document.getElementById('status');
+    const form = document.getElementById("form");
+    const statusDiv = document.getElementById("status");
 
     form.onsubmit = async (e) => {
       e.preventDefault();
-      statusDiv.textContent = "";
 
       const data = Object.fromEntries(new FormData(form));
 
@@ -300,8 +309,8 @@
 
       const res = await r.json();
 
-      if(!r.ok){
-        statusDiv.textContent = "Erro: " + (res.error || "tente novamente");
+      if (!r.ok) {
+        statusDiv.textContent = "Erro: " + (res.error || "Tente novamente");
         statusDiv.className = "status error";
         return;
       }
