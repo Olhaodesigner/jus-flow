@@ -174,18 +174,13 @@ button:hover{
 }
 
 /* MENSAGEM */
-.mensagem-sucesso{
+.mensagem{
   text-align:center;
   margin-top:15px;
   font-weight:700;
-  color:#22c55e;
 }
-.mensagem-erro{
-  text-align:center;
-  margin-top:15px;
-  font-weight:700;
-  color:#ef4444;
-}
+.mensagem.sucesso{color:#22c55e;}
+.mensagem.erro{color:#ef4444;}
 </style>
 
 </head>
@@ -210,12 +205,15 @@ button:hover{
 
     <form id="leadForm">
         <label>Seu nome completo</label>
-        <input type="text" name="nome" required placeholder="Ex: Júlio César Crispim Muniz">
+        <!-- name DEVE SER "name" (como estava antes no backend) -->
+        <input type="text" name="name" required placeholder="Ex: Júlio César Crispim Muniz">
 
         <label>Telefone ou e-mail para contato</label>
-        <input type="text" name="contato" required placeholder="(86) 9 9999-9999 ou email@exemplo.com">
+        <!-- name DEVE SER "contact" -->
+        <input type="text" name="contact" required placeholder="(86) 9 9999-9999 ou email@exemplo.com">
 
         <label>Área do problema</label>
+        <!-- name DEVE SER "area" -->
         <select name="area" required>
             <option value="">Selecione...</option>
             <option value="Criminal">Criminal</option>
@@ -226,11 +224,12 @@ button:hover{
         </select>
 
         <label>Explique rapidamente sua situação</label>
-        <textarea name="descricao" required placeholder="Descreva o que aconteceu..."></textarea>
+        <!-- name DEVE SER "summary" -->
+        <textarea name="summary" required placeholder="Descreva o que aconteceu..."></textarea>
 
         <button type="submit">Enviar para um advogado</button>
 
-        <p id="mensagem"></p>
+        <p id="mensagem" class="mensagem"></p>
     </form>
 
 </div>
@@ -272,18 +271,13 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   msg.textContent = "";
-  msg.className = "";
+  msg.className = "mensagem";
 
-  const formData = new FormData(form);
-  const data = {
-    nome: formData.get("nome"),
-    contato: formData.get("contato"),
-    area: formData.get("area"),
-    descricao: formData.get("descricao")
-  };
+  // Agora os name="..." já batem com o backend.
+  const data = Object.fromEntries(new FormData(form));
 
   try {
-    // IMPORTANTE: usar a mesma rota da sua função na Vercel
+    // MESMA ROTA QUE VOCÊ USAVA QUANDO ESTAVA FUNCIONANDO
     const resp = await fetch("/api/leads", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -294,16 +288,15 @@ form.addEventListener("submit", async (e) => {
       throw new Error("Resposta não OK");
     }
 
-    // Se chegou aqui, consideramos sucesso, mesmo que não venha JSON
     msg.textContent =
       "E-mail enviado com sucesso! Um advogado especialista vai entrar em contato em breve!";
-    msg.className = "mensagem-sucesso";
+    msg.classList.add("sucesso");
     form.reset();
 
   } catch (error) {
     console.error(error);
     msg.textContent = "Erro ao enviar. Tente novamente.";
-    msg.className = "mensagem-erro";
+    msg.classList.add("erro");
   }
 });
 </script>
