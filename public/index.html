@@ -1,322 +1,261 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Easy Lawyer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easy Lawyer</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI";
-    }
+<style>
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family: "Inter", sans-serif;
+  display:flex;
+  justify-content:center;
+  background:#f4f7ff;
+  transition:.3s ease;
+}
+body.dark{
+  background:#0d1220;
+  color:#e5e7eb;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f3f4f6;
-      transition: background .25s ease, color .25s ease;
-    }
+/* CONTAINER */
+.container{
+  width:100%;
+  max-width:620px;
+  padding:40px 20px;
+  text-align:center;
+  margin-top:40px;
+}
 
-    .card {
-      width: 100%;
-      max-width: 520px;
-      background: #fff;
-      padding: 32px 32px 30px;
-      border-radius: 24px;
-      box-shadow: 0 22px 60px rgba(0,0,0,0.12);
-      position: relative;
-    }
+/* TÍTULO */
+.title{
+  font-size:44px;
+  font-weight:800;
+  margin-bottom:24px;
+}
 
-    /* ---------- HEADER ---------- */
+/* SUBTÍTULO */
+.subtitle{
+  font-size:17px;
+  max-width:520px;
+  margin:0 auto 35px auto;
+  opacity:.9;
+}
 
-    .header {
-      position: relative;
-      width: 100%;
-      text-align: center;
-      margin-bottom: 10px;
-    }
+/* TOGGLE */
+.toggle-wrapper{
+  position:absolute;
+  right:40px;
+  top:30px;
+}
+.toggle-container{
+  width:120px;
+  height:38px;
+  background:#e5e7eb;
+  border-radius:40px;
+  padding:4px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  position:relative;
+  box-shadow:
+    inset 3px 3px 6px rgba(255,255,255,.85),
+    inset -3px -3px 6px rgba(0,0,0,.12);
+}
+body.dark .toggle-container{background:#1b2233;}
 
-    .logo {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: #111827;
-      margin-bottom: 4px;
-    }
+.toggle-label{
+  flex:1;
+  text-align:center;
+  font-size:11px;
+  font-weight:700;
+  opacity:.35;
+  pointer-events:none;
+  z-index:2;
+}
+.toggle-label.active{
+  opacity:1 !important;
+  color:#111827;
+}
+body.dark .toggle-label.active{
+  color:#ffffff !important;
+}
 
-    .subtitle {
-      font-size: 0.98rem;
-      color: #6b7280;
-      text-align: center;
-      margin: 0 12px 18px;
-      line-height: 1.5;
-    }
+.toggle-thumb{
+  position:absolute;
+  top:4px;
+  left:4px;
+  width:55px;
+  height:30px;
+  background:white;
+  border-radius:40px;
+  transition:.25s ease;
+  box-shadow:
+    0 4px 8px rgba(0,0,0,.2),
+    inset 0 0 6px rgba(0,0,0,.12);
+}
+body.dark .toggle-thumb{
+  background:#1e293b;
+  box-shadow:
+    inset 0 0 4px rgba(255,255,255,.35),
+    0 6px 14px rgba(0,0,0,.32);
+  border:1px solid rgba(255,255,255,.18);
+}
 
-    /* ---------- TOGGLE (AJUSTADO) ---------- */
+/* FORM */
+form{text-align:left;margin-top:10px;}
 
-    .toggle-wrapper {
-      position: absolute;
-      right: -6px;   /* mais afastado lateralmente */
-      top: 4px;      /* alinhado com o topo do título */
-    }
+label{font-size:16px;font-weight:600;}
 
-    .toggle-container {
-      width: 110px;          /* menor */
-      height: 32px;
-      background: #e5e7eb;
-      border-radius: 999px;
-      padding: 3px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-      cursor: pointer;
-      box-shadow:
-        inset 1px 1px 3px rgba(255,255,255,0.9),
-        inset -2px -2px 4px rgba(0,0,0,0.12);
-    }
+input,select,textarea{
+  width:100%;
+  margin:10px 0 20px 0;
+  padding:16px;
+  border:none;
+  border-radius:10px;
+  background:white;
+  font-size:16px;
+}
+body.dark input,
+body.dark select,
+body.dark textarea{
+  background:#111827;
+  color:white;
+  border:1px solid #374151;
+}
 
-    .toggle-label {
-      flex: 1;
-      text-align: center;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: .04em;
-      transition: opacity .25s ease, color .25s ease;
-      color: #6b7280;
-      opacity: .35;             /* inativa */
-      pointer-events: none;
-      z-index: 2;
-    }
+button{
+  width:100%;
+  padding:18px;
+  margin-top:10px;
+  border:none;
+  border-radius:14px;
+  background:#1d4ed8;
+  color:white;
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
+}
+button:hover{background:#1e40af;}
 
-    .toggle-label.active {
-      opacity: 1;
-      color: #111827;
-    }
+.mensagem-sucesso{
+  text-align:center;
+  margin-top:15px;
+  font-weight:700;
+  color:#22c55e;
+}
+</style>
 
-    .toggle-thumb {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 52px;
-      height: 26px;
-      border-radius: 999px;
-      transition: left .23s ease, background .23s ease, box-shadow .23s ease;
-      background: #ffffff;
-      box-shadow:
-        0 4px 10px rgba(0,0,0,0.18),
-        inset 2px 2px 4px rgba(255,255,255,0.95);
-      z-index: 1;
-    }
-
-    /* ---------- DARK MODE ---------- */
-
-    body.dark {
-      background: #020617;
-      color: #e2e8f0;
-    }
-
-    body.dark .card {
-      background: #020617;
-      box-shadow: 0 22px 60px rgba(0,0,0,0.75);
-    }
-
-    body.dark .logo {
-      color: #f9fafb;
-    }
-
-    body.dark .subtitle {
-      color: #9ca3af;
-    }
-
-    body.dark label {
-      color: #e2e8f0;
-    }
-
-    body.dark .toggle-container {
-      background: #111827;
-      box-shadow:
-        inset 0 0 4px rgba(255,255,255,0.08),
-        inset -2px -2px 4px rgba(0,0,0,0.7);
-    }
-
-    /* Glow discreto no thumb, só ao redor do botão */
-    body.dark .toggle-thumb {
-      background: #020617;
-      box-shadow:
-        inset 0 0 4px rgba(255,255,255,0.25),
-        0 4px 10px rgba(0,0,0,0.65);
-    }
-
-    /* ---------- FORM ---------- */
-
-    label {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: #374151;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      background: #f9fafb;
-      margin-top: 6px;
-      font-size: 0.95rem;
-    }
-
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
-
-    .btn {
-      width: 100%;
-      margin-top: 16px;
-      padding: 14px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      border-radius: 14px;
-      border: none;
-      cursor: pointer;
-      color: white;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      box-shadow: 0 10px 22px rgba(37,99,235,0.35);
-    }
-
-    .status {
-      margin-top: 12px;
-      font-size: 0.9rem;
-      min-height: 1.3rem;
-    }
-
-    .success { color: #15803d; }
-    .error { color: #b91c1c; }
-
-    body.dark .success { color: #4ade80; }
-    body.dark .error { color: #fecaca; }
-  </style>
 </head>
 
-<body>
+<body class="light">
 
-  <div class="card">
+<div class="container">
 
-    <div class="header">
-      <div class="logo">Easy Lawyer</div>
+    <h1 class="title">Easy Lawyer</h1>
 
-      <div class="toggle-wrapper">
-        <div id="themeToggle" class="toggle-container">
-          <div id="labelLight" class="toggle-label active">LIGHT</div>
-          <div id="labelDark" class="toggle-label">DARK</div>
-          <div id="thumb" class="toggle-thumb"></div>
+    <div class="toggle-wrapper">
+        <div class="toggle-container" id="themeToggle">
+            <span class="toggle-label active" id="labelLight">LIGHT</span>
+            <span class="toggle-label" id="labelDark">DARK</span>
+            <div class="toggle-thumb" id="toggleThumb"></div>
         </div>
-      </div>
     </div>
 
     <p class="subtitle">
-      Explique seu problema em poucos minutos e nós conectaremos você ao advogado certo, no momento certo.
+        Explique seu problema em poucos minutos e nós conectaremos você ao advogado certo, no momento certo.
     </p>
 
-    <form id="form">
-      <label>Seu nome completo</label>
-      <input name="name" required placeholder="Ex: Júlio César Crispim Muniz">
+    <form id="leadForm">
+        <label>Seu nome completo</label>
+        <input type="text" name="nome" required placeholder="Ex: Júlio César Crispim Muniz">
 
-      <br><br>
+        <label>Telefone ou e-mail</label>
+        <input type="text" name="contato" required placeholder="(86) 9 9999-9999 ou email@exemplo.com">
 
-      <label>Telefone ou e-mail para contato</label>
-      <input name="contact" required placeholder="(86) 9 9999-9999 ou email@exemplo.com">
+        <label>Área do problema</label>
+        <select name="area" required>
+            <option value="">Selecione...</option>
+            <option value="Criminal">Criminal</option>
+            <option value="Previdenciário">Previdenciário</option>
+            <option value="Família">Família</option>
+            <option value="Trabalhista">Trabalhista</option>
+            <option value="Civil">Civil</option>
+        </select>
 
-      <br><br>
+        <label>Explique rapidamente sua situação</label>
+        <textarea name="descricao" required placeholder="Descreva o que aconteceu..."></textarea>
 
-      <label>Área do problema</label>
-      <select name="area" required>
-        <option value="">Selecione...</option>
-        <option>Previdenciário</option>
-        <option>Trabalhista</option>
-        <option>Cível</option>
-        <option>Criminal</option>
-        <option>Consumidor</option>
-      </select>
+        <button type="submit">Enviar para um advogado</button>
 
-      <br><br>
-
-      <label>Explique rapidamente sua situação</label>
-      <textarea name="summary" required></textarea>
-
-      <button class="btn">Enviar para um advogado</button>
-
-      <div id="status" class="status"></div>
+        <p id="mensagem" class="mensagem-sucesso"></p>
     </form>
-  </div>
 
-  <script>
-    /* ========= TOGGLE ========= */
+</div>
 
-    const toggle = document.getElementById("themeToggle");
-    const thumb = document.getElementById("thumb");
-    const labelLight = document.getElementById("labelLight");
-    const labelDark = document.getElementById("labelDark");
+<script>
+// THEME SYSTEM
+const toggle=document.getElementById("themeToggle");
+const thumb=document.getElementById("toggleThumb");
+const labelLight=document.getElementById("labelLight");
+const labelDark=document.getElementById("labelDark");
 
-    // Sempre inicia no modo LIGHT
-    let current = "light";
-    applyTheme(current);
+function setTheme(mode){
+  if(mode==="light"){
+    document.body.classList.remove("dark");
+    thumb.style.left="4px";
+    labelLight.classList.add("active");
+    labelDark.classList.remove("active");
+  }else{
+    document.body.classList.add("dark");
+    thumb.style.left="60px";
+    labelLight.classList.remove("active");
+    labelDark.classList.add("active");
+  }
+}
 
-    function applyTheme(mode) {
-      if (mode === "dark") {
-        document.body.classList.add("dark");
-        thumb.style.left = "55px";          // desliza para a direita
-        labelLight.classList.remove("active");
-        labelDark.classList.add("active");
-      } else {
-        document.body.classList.remove("dark");
-        thumb.style.left = "3px";           // volta para a esquerda
-        labelDark.classList.remove("active");
-        labelLight.classList.add("active");
-      }
-    }
+toggle.addEventListener("click",()=>{
+  const isDark=document.body.classList.contains("dark");
+  setTheme(isDark?"light":"dark");
+});
 
-    toggle.onclick = () => {
-      current = current === "light" ? "dark" : "light";
-      applyTheme(current);
-    };
+setTheme("light");
 
-    /* ========= FORM ========= */
+// FORM SUBMIT
+document.getElementById("leadForm").addEventListener("submit",async(e)=>{
+  e.preventDefault();
 
-    const form = document.getElementById("form");
-    const statusDiv = document.getElementById("status");
+  const form=new FormData(e.target);
+  const data={
+    nome:form.get("nome"),
+    contato:form.get("contato"),
+    area:form.get("area"),
+    descricao:form.get("descricao")
+  };
 
-    form.onsubmit = async (e) => {
-      e.preventDefault();
+  const msg=document.getElementById("mensagem");
 
-      const data = Object.fromEntries(new FormData(form));
+  try{
+    const resp=await fetch("/api/send",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(data)
+    });
 
-      const r = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+    const r=await resp.json();
 
-      const res = await r.json();
+    msg.textContent=r.ok
+      ?"Email enviado com sucesso! Um advogado vai entrar em contato em breve!"
+      :"Erro ao enviar. Tente novamente.";
 
-      if (!r.ok) {
-        statusDiv.textContent = "Erro: " + (res.error || "Tente novamente");
-        statusDiv.className = "status error";
-        return;
-      }
-
-      statusDiv.textContent =
-        "E-mail enviado com sucesso! Um advogado especialista entrará em contato em breve. Obrigado por escolher a Easy Lawyer!";
-      statusDiv.className = "status success";
-
-      form.reset();
-    };
-  </script>
+  }catch{
+    msg.textContent="Erro ao enviar.";
+  }
+});
+</script>
 
 </body>
 </html>
