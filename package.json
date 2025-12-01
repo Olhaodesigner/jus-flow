@@ -1,28 +1,7 @@
-{
-  "name": "easy-lawyer-leads",
-  "version": "1.0.0",
-  "description": "App simples para capturar casos e enviar por email para advogado.",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
-  },
-  "keywords": [
-    "law",
-    "leads",
-    "easy-lawyer",
-    "express",
-    "nodemailer"
-  ],
-  "author": "Julio Cesar",
-  "license": "MIT",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.0",
-    "express": "^4.18.2",
-    "nodemailer": "^6.9.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.0"
-  }
-}
+/ (raiz)
+  public/
+    index.html
+  api/
+    leads.js     ← AQUI FICA O BACKEND
+  package.json
+  vercel.json
