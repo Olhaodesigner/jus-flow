@@ -18,6 +18,7 @@
       align-items: center;
       justify-content: center;
       background: #f3f4f6;
+      transition: background 0.2s ease, color 0.2s ease;
     }
 
     .card {
@@ -27,6 +28,8 @@
       padding: 28px 28px 22px;
       border-radius: 18px;
       box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+      position: relative;
+      transition: background 0.2s ease, box-shadow 0.2s ease;
     }
 
     .logo {
@@ -64,6 +67,7 @@
       outline: none;
       transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
       background-color: #f9fafb;
+      color: #111827;
     }
 
     input:focus, select:focus, textarea:focus {
@@ -132,10 +136,93 @@
     .status.success {
       color: #166534;
     }
+
+    /* Botão de tema */
+    .theme-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 0.75rem;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      padding: 6px 10px;
+      background: #f9fafb;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #4b5563;
+    }
+
+    .theme-toggle span {
+      font-size: 0.8rem;
+    }
+
+    /* MODO ESCURO */
+    body.dark {
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    body.dark .card {
+      background: #020617;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+      border: 1px solid #1f2937;
+    }
+
+    body.dark .logo {
+      color: #f9fafb;
+    }
+
+    body.dark .subtitle {
+      color: #9ca3af;
+    }
+
+    body.dark label {
+      color: #e5e7eb;
+    }
+
+    body.dark input,
+    body.dark select,
+    body.dark textarea {
+      background-color: #020617;
+      color: #e5e7eb;
+      border-color: #4b5563;
+    }
+
+    body.dark input:focus,
+    body.dark select:focus,
+    body.dark textarea:focus {
+      background-color: #020617;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 1px #4f46e522;
+    }
+
+    body.dark .helper {
+      color: #9ca3af;
+    }
+
+    body.dark .theme-toggle {
+      background: #0b1120;
+      border-color: #1f2937;
+      color: #e5e7eb;
+    }
+
+    body.dark .status.success {
+      color: #4ade80;
+    }
+
+    body.dark .status.error {
+      color: #fca5a5;
+    }
   </style>
 </head>
 <body>
   <div class="card">
+    <button type="button" id="toggle-theme" class="theme-toggle">
+      <span id="theme-label">Modo escuro</span>
+    </button>
+
     <div class="logo">Easy Lawyer</div>
     <div class="subtitle">
       Conte rapidamente seu problema e nós encaminharemos para um advogado.
@@ -165,7 +252,7 @@
           <option value="Criminal">Criminal</option>
           <option value="Outros">Outros</option>
         </select>
-    </div>
+      </div>
 
       <div class="field">
         <label for="summary">Explique rapidamente sua situação</label>
@@ -181,38 +268,75 @@
   </div>
 
   <script>
+    // ====== THEME TOGGLE (DARK / LIGHT) ======
+    const themeToggleBtn = document.getElementById('toggle-theme');
+    const themeLabel = document.getElementById('theme-label');
+
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark');
+        themeLabel.textContent = 'Modo claro';
+      } else {
+        document.body.classList.remove('dark');
+        themeLabel.textContent = 'Modo escuro';
+      }
+    }
+
+    // Carrega tema salvo
+    const savedTheme = localStorage.getItem('easyLawyerTheme') || 'light';
+    applyTheme(savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const current = document.body.classList.contains('dark') ? 'dark' : 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('easyLawyerTheme', next);
+      applyTheme(next);
+    });
+
+    // ====== FORM / ENVIO DO LEAD ======
     const form = document.getElementById('lead-form');
     const statusDiv = document.getElementById('status');
     const submitBtn = document.getElementById('submit-btn');
+    let sending = false;
+
+    function setStatus(message, type) {
+      statusDiv.textContent = message || '';
+      statusDiv.className = 'status';
+      if (type) statusDiv.classList.add(type);
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      statusDiv.textContent = '';
-      statusDiv.className = 'status';
+      if (sending) return;
 
-      const data = {
-        name: form.name.value.trim(),
-        contact: form.contact.value.trim(),
-        area: form.area.value,
-        summary: form.summary.value.trim()
-      };
+      const name = form.name.value.trim();
+      const contact = form.contact.value.trim();
+      const area = form.area.value;
+      const summary = form.summary.value.trim();
 
-      if (!data.name || !data.contact || !data.area || !data.summary) {
-        statusDiv.textContent = 'Por favor, preencha todos os campos.';
-        statusDiv.classList.add('error');
-        return;
+      if (!name) {
+        return setStatus('Informe seu nome completo.', 'error');
+      }
+      if (!contact) {
+        return setStatus('Informe um telefone ou e-mail válido.', 'error');
+      }
+      if (!area) {
+        return setStatus('Selecione a área do problema.', 'error');
+      }
+      if (!summary) {
+        return setStatus('Explique sua situação.', 'error');
       }
 
+      sending = true;
       submitBtn.disabled = true;
       submitBtn.textContent = 'Enviando...';
+      setStatus('', null);
 
       try {
         const response = await fetch('/api/leads', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, contact, area, summary })
         });
 
         const result = await response.json();
@@ -221,17 +345,21 @@
           throw new Error(result.error || 'Erro ao enviar.');
         }
 
-        statusDiv.textContent = result.message || 'Caso enviado com sucesso!';
-        statusDiv.classList.add('success');
+        setStatus(
+          'E-mail enviado com sucesso! Um advogado especialista vai entrar em contato em breve. Obrigado por escolher a Easy Lawyer! 🤝✨',
+          'success'
+        );
+
         form.reset();
+        submitBtn.textContent = 'Enviado ✅';
+
       } catch (err) {
         console.error(err);
-        statusDiv.textContent =
-          err.message || 'Erro ao enviar o caso. Verifique o servidor e tente novamente.';
-        statusDiv.classList.add('error');
+        setStatus(err.message || 'Erro ao enviar o caso. Tente novamente.', 'error');
+        submitBtn.textContent = 'Tentar novamente';
       } finally {
+        sending = false;
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Enviar para um advogado';
       }
     });
   </script>
