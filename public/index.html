@@ -1,327 +1,391 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Easy Lawyer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Easy Lawyer | Conecte-se com um advogado especialista</title>
 
-    <style>
-        /* ======================== 
-           RESET + BASE STYLES
-        ========================= */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Inter", sans-serif;
-        }
+  <style>
+    /* =============== RESET BÁSICO =============== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+    }
 
-        body {
-            background: #f4f6fb;
-            color: #1a1a1a;
-            transition: background 0.3s, color 0.3s;
-        }
+    /* =============== FUNDO DA PÁGINA =============== */
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #e0e7ff 0, #eef2ff 40%, #e5e7eb 100%);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 32px 12px;
+      color: #111827;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
 
-        body.dark {
-            background: #0e1625;
-            color: #ffffff;
-        }
+    body.dark {
+      background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
+      color: #e5e7eb;
+    }
 
-        /* ======================== 
-           CONTAINER CENTRAL
-        ========================= */
-        .card {
-            max-width: 650px;
-            background: white;
-            margin: 40px auto;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-            transition: background 0.3s, color 0.3s;
-        }
+    /* =============== CARD CENTRAL (APP) =============== */
+    .card {
+      width: 100%;
+      max-width: 650px;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 24px;
+      padding: 40px 32px 32px;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
 
-        body.dark .card {
-            background: #111a2b;
-            box-shadow: 0 0 0 rgba(0,0,0,0);
-        }
+    body.dark .card {
+      background: rgba(15, 23, 42, 0.96);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
+    }
 
-        /* ======================== 
-           CABEÇALHO + TÍTULOS
-        ========================= */
-        .brand-block {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 15px;
-        }
+    /* =============== CABEÇALHO CENTRALIZADO =============== */
+    .brand-block {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        .title {
-            font-size: 38px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
+    .title {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+    }
 
-        .subtitle {
-            font-size: 14px;
-            opacity: 0.85;
-            text-align: center;
-            margin-bottom: 25px;
-            line-height: 1.4;
-        }
+    .subtitle {
+      font-size: 14px;
+      opacity: 0.85;
+      line-height: 1.5;
+    }
 
-        /* ======================== 
-           TOGGLE DARK/LIGHT
-        ========================= */
-        .toggle-container {
-            display: flex;
-            justify-content: center;
-            margin-top: -10px;
-            margin-bottom: 25px;
-        }
+    /* =============== TOGGLE LIGHT / DARK =============== */
+    .toggle-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 18px 0 28px;
+    }
 
-        .theme-toggle {
-            width: 130px;
-            height: 40px;
-            background: #e0e4eb;
-            border-radius: 30px;
-            padding: 4px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            position: relative;
-        }
+    .theme-toggle {
+      display: inline-flex;
+      background: #e5e7eb;
+      border-radius: 999px;
+      padding: 4px;
+      position: relative;
+      box-shadow:
+        inset 1px 1px 2px rgba(255, 255, 255, 0.8),
+        inset -2px -2px 3px rgba(148, 163, 184, 0.7);
+      cursor: pointer;
+      gap: 4px;
+    }
 
-        body.dark .theme-toggle {
-            background: #1b2333;
-        }
+    body.dark .theme-toggle {
+      background: #020617;
+      box-shadow:
+        inset 1px 1px 2px rgba(30, 64, 175, 0.7),
+        inset -3px -3px 5px rgba(0, 0, 0, 0.9);
+    }
 
-        .toggle-ball {
-            width: 60px;
-            height: 32px;
-            background: white;
-            border-radius: 30px;
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.25);
-            transition: transform 0.25s ease-in-out, background 0.25s;
-        }
+    .toggle-segment {
+      position: relative;
+      z-index: 1;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4b5563;
+      text-align: center;
+      user-select: none;
+    }
 
-        body.dark .toggle-ball {
-            transform: translateX(66px);
-            background: #0d111a;
-            color: #fff;
-        }
+    body.dark .toggle-segment {
+      color: #9ca3af;
+    }
 
-        .toggle-labels {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            font-size: 10px;
-            padding: 0 12px;
-            font-weight: 600;
-            color: #4a4a4a;
-        }
+    .toggle-segment.active {
+      background: #ffffff;
+      color: #111827;
+      box-shadow: 0 3px 6px rgba(15, 23, 42, 0.25);
+    }
 
-        body.dark .toggle-labels {
-            color: #ffffff88;
-        }
+    body.dark .toggle-segment.active {
+      background: #111827;
+      color: #f9fafb;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+    }
 
-        /* ======================== 
-           FORMULÁRIO
-        ========================= */
-        label {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            display: block;
-        }
+    /* =============== FORMULÁRIO =============== */
+    form {
+      margin-top: 8px;
+    }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            border: 1px solid #d9dce3;
-            background: #f8f9fc;
-            font-size: 15px;
-            transition: 0.25s;
-        }
+    .form-group {
+      margin-bottom: 18px;
+    }
 
-        textarea {
-            height: 150px;
-        }
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
 
-        body.dark input,
-        body.dark select,
-        body.dark textarea {
-            background: #162033;
-            border: 1px solid #22304a;
-            color: white;
-        }
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
 
-        /* ======================== 
-           BOTÃO PRINCIPAL
-        ========================= */
-        .btn-submit {
-            width: 100%;
-            background: linear-gradient(90deg, #0d4bff, #1b32ff);
-            color: white;
-            padding: 18px;
-            text-align: center;
-            border-radius: 14px;
-            font-size: 18px;
-            margin-top: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            transition: 0.2s;
-        }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb33;
+      background: #ffffff;
+    }
 
-        .btn-submit:hover {
-            opacity: 0.85;
-        }
+    body.dark input,
+    body.dark select,
+    body.dark textarea {
+      background: #020617;
+      border-color: #374151;
+      color: #f9fafb;
+    }
 
-        /* ======================== 
-           ALERTAS
-        ========================= */
-        .msg {
-            text-align: center;
-            font-size: 14px;
-            margin-top: 10px;
-            font-weight: 600;
-        }
+    body.dark input:focus,
+    body.dark select:focus,
+    body.dark textarea:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 1px #60a5fa55;
+    }
 
-        .success {
-            color: #009f4a;
-        }
+    textarea {
+      min-height: 120px;
+      resize: none;
+    }
 
-        .error {
-            color: #d10000;
-        }
-    </style>
+    /* =============== BOTÃO =============== */
+    .btn-primary {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 16px;
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      background: linear-gradient(120deg, #2563eb, #4f46e5);
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.5);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 38px rgba(37, 99, 235, 0.6);
+      opacity: 0.97;
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.45);
+    }
+
+    .helper-text {
+      margin-top: 6px;
+      font-size: 12px;
+      opacity: 0.75;
+      text-align: center;
+    }
+
+    /* =============== MENSAGENS =============== */
+    #mensagem {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    #mensagem.sucesso {
+      color: #16a34a;
+    }
+
+    #mensagem.erro {
+      color: #dc2626;
+    }
+
+    /* =============== RESPONSIVO =============== */
+    @media (max-width: 640px) {
+      .card {
+        padding: 28px 20px 24px;
+        border-radius: 20px;
+      }
+
+      .title {
+        font-size: 32px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-    <div class="card">
+  <div class="card">
 
-        <!-- =============== CABEÇALHO CENTRALIZADO =============== -->
-        <div class="brand-block">
-            <h1 class="title">Easy Lawyer</h1>
-            <p class="subtitle">
-                Conectamos você ao advogado certo sem burocracia. Atendimento rápido, direto do seu celular.
-            </p>
-        </div>
-
-        <!-- TOGGLE DE TEMA -->
-        <div class="toggle-container">
-            <div class="theme-toggle" id="themeToggle">
-                <div class="toggle-labels">
-                    <span>LIGHT</span>
-                    <span>DARK</span>
-                </div>
-                <div class="toggle-ball">LIGHT</div>
-            </div>
-        </div>
-
-        <!-- =============== FORMULÁRIO =============== -->
-
-        <form id="leadForm">
-
-            <label>Seu nome completo</label>
-            <input type="text" id="nome" placeholder="Ex: Júlio César Crispim Muniz">
-
-            <label>WhatsApp ou e-mail para contato</label>
-            <input type="text" id="contato" placeholder="Ex: (86) 9 9999-9999 ou email@exemplo.com">
-
-            <label>Área do problema</label>
-            <select id="area">
-                <option value="">Selecione...</option>
-                <option value="Previdenciário">Previdenciário</option>
-                <option value="Trabalhista">Trabalhista</option>
-                <option value="Cível">Cível</option>
-                <option value="Família">Família</option>
-                <option value="Penal">Penal</option>
-            </select>
-
-            <label>Explique rapidamente sua situação</label>
-            <textarea id="descricao" placeholder="Ex: fui demitido sem justa causa e não recebi minhas verbas..."></textarea>
-
-            <button type="submit" class="btn-submit">Enviar para um advogado</button>
-
-            <p id="mensagem" class="msg"></p>
-
-        </form>
-
+    <!-- CABEÇALHO -->
+    <div class="brand-block">
+      <h1 class="title">Easy Lawyer</h1>
+      <p class="subtitle">
+        Conectamos você ao advogado certo sem burocracia. Atendimento rápido, direto do seu celular.
+      </p>
     </div>
 
-    <!-- ======================== 
-         SCRIPT PRINCIPAL
-    ========================= -->
-    <script>
-        /* ========================
-           TOGGLE DARK/LIGHT MODE
-        ========================= */
-        const themeToggle = document.getElementById("themeToggle");
-        const ball = document.querySelector(".toggle-ball");
+    <!-- TOGGLE LIGHT / DARK -->
+    <div class="toggle-wrapper">
+      <div class="theme-toggle" id="themeToggle">
+        <div class="toggle-segment active" data-theme="light" id="toggleLight">LIGHT</div>
+        <div class="toggle-segment" data-theme="dark" id="toggleDark">DARK</div>
+      </div>
+    </div>
 
-        // sempre começar no modo claro
+    <!-- FORMULÁRIO PRINCIPAL -->
+    <!-- IMPORTANTE: os names abaixo PRECISAM ser name, contact, area, summary
+         para bater com a função /api/leads que já está funcionando no backend. -->
+    <form id="leadForm">
+      <div class="form-group">
+        <label for="name">Seu nome completo</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Ex: Saulo Silva Ramos"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="contact">WhatsApp ou e-mail para contato</label>
+        <input
+          type="text"
+          id="contact"
+          name="contact"
+          placeholder="Ex: (86) 9 9999-9999 ou email@exemplo.com"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="area">Área do problema</label>
+        <select id="area" name="area" required>
+          <option value="">Selecione...</option>
+          <option value="Cível">Cível</option>
+          <option value="Trabalhista">Trabalhista</option>
+          <option value="Previdenciário">Previdenciário</option>
+          <option value="Família">Família</option>
+          <option value="Penal">Penal</option>
+          <option value="Consumidor">Consumidor</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="summary">Explique rapidamente sua situação</label>
+        <textarea
+          id="summary"
+          name="summary"
+          placeholder="Ex: roubaram minha Makita..."
+          required
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary">Enviar para um advogado</button>
+
+      <p class="helper-text">
+        Você não está contratando um advogado ainda. Primeiro um especialista vai analisar e retornar.
+      </p>
+
+      <p id="mensagem"></p>
+    </form>
+  </div>
+
+  <script>
+    // ============================
+    // CONTROLE DO TEMA LIGHT/DARK
+    // ============================
+    const toggle = document.getElementById("themeToggle");
+    const segLight = document.getElementById("toggleLight");
+    const segDark  = document.getElementById("toggleDark");
+
+    function setTheme(mode) {
+      if (mode === "dark") {
+        document.body.classList.add("dark");
+        segLight.classList.remove("active");
+        segDark.classList.add("active");
+      } else {
         document.body.classList.remove("dark");
-        ball.textContent = "LIGHT";
+        segDark.classList.remove("active");
+        segLight.classList.add("active");
+      }
+    }
 
-        themeToggle.addEventListener("click", () => {
-            document.body.classList.toggle("dark");
-            ball.textContent = document.body.classList.contains("dark") ? "DARK" : "LIGHT";
+    // começa sempre em LIGHT
+    setTheme("light");
+
+    // alterna ao clicar em qualquer parte do toggle
+    toggle.addEventListener("click", () => {
+      const isDark = document.body.classList.contains("dark");
+      setTheme(isDark ? "light" : "dark");
+    });
+
+    // ============================
+    // ENVIO DO FORMULÁRIO
+    // ============================
+    const form = document.getElementById("leadForm");
+    const mensagemEl = document.getElementById("mensagem");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      mensagemEl.textContent = "";
+      mensagemEl.className = "";
+
+      // transforma o formulário em objeto { name, contact, area, summary }
+      const data = Object.fromEntries(new FormData(form));
+
+      try {
+        const resp = await fetch("/api/leads", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
         });
 
-        /* ========================
-           ENVIO DO FORMULÁRIO
-        ========================= */
-        document.getElementById("leadForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
+        if (!resp.ok) {
+          throw new Error("HTTP não OK");
+        }
 
-            const nome = document.getElementById("nome").value.trim();
-            const contato = document.getElementById("contato").value.trim();
-            const area = document.getElementById("area").value.trim();
-            const descricao = document.getElementById("descricao").value.trim();
-            const mensagem = document.getElementById("mensagem");
-
-            if (!nome || !contato || !area || !descricao) {
-                mensagem.textContent = "Preencha todos os campos.";
-                mensagem.className = "msg error";
-                return;
-            }
-
-            const payload = { nome, contato, area, descricao };
-
-            try {
-                const req = await fetch("/api/send", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload),
-                });
-
-                const res = await req.json();
-
-                if (res.success) {
-                    mensagem.textContent = "E-mail enviado com sucesso! Um advogado especialista entrará em contato em breve.";
-                    mensagem.className = "msg success";
-
-                    document.getElementById("leadForm").reset();
-                } else {
-                    mensagem.textContent = "Erro ao enviar. Tente novamente.";
-                    mensagem.className = "msg error";
-                }
-            } catch (err) {
-                mensagem.textContent = "Erro ao enviar. Tente novamente.";
-                mensagem.className = "msg error";
-            }
-        });
-    </script>
-
+        // se quiser, pode ler resp.json() aqui, mas não é obrigatório
+        mensagemEl.textContent =
+          "E-mail enviado com sucesso! Um advogado especialista vai entrar em contato em breve.";
+        mensagemEl.className = "sucesso";
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        mensagemEl.textContent = "Erro ao enviar. Tente novamente.";
+        mensagemEl.className = "erro";
+      }
+    });
+  </script>
 </body>
 </html>
