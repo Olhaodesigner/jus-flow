@@ -184,7 +184,7 @@
         <div id="themeToggle" class="toggle-container">
           <div class="toggle-label">LIGHT</div>
           <div class="toggle-label">DARK</div>
-          <div id="thumb" class="toggle-thumb">☀️</div>
+          <div id="thumb" class="toggle-thumb"></div>
         </div>
       </div>
 
@@ -239,11 +239,11 @@
       if(mode === 'dark'){
         document.body.classList.add('dark');
         thumb.style.left = "66px";
-        thumb.textContent = "🌙";
+        thumb.textContent = "";
       } else {
         document.body.classList.remove('dark');
         thumb.style.left = "4px";
-        thumb.textContent = "☀️";
+        thumb.textContent = "";
       }
     }
 
