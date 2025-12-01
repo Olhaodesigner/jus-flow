@@ -180,6 +180,12 @@ button:hover{
   font-weight:700;
   color:#22c55e;
 }
+.mensagem-erro{
+  text-align:center;
+  margin-top:15px;
+  font-weight:700;
+  color:#ef4444;
+}
 </style>
 
 </head>
@@ -224,17 +230,17 @@ button:hover{
 
         <button type="submit">Enviar para um advogado</button>
 
-        <p id="mensagem" class="mensagem-sucesso"></p>
+        <p id="mensagem"></p>
     </form>
 
 </div>
 
 <script>
-// THEME SYSTEM
-const toggle=document.getElementById("themeToggle");
-const thumb=document.getElementById("toggleThumb");
-const labelLight=document.getElementById("labelLight");
-const labelDark=document.getElementById("labelDark");
+// ====== TEMA LIGHT/DARK ======
+const toggle = document.getElementById("themeToggle");
+const thumb = document.getElementById("toggleThumb");
+const labelLight = document.getElementById("labelLight");
+const labelDark = document.getElementById("labelDark");
 
 function setTheme(mode){
   if(mode==="light"){
@@ -251,41 +257,53 @@ function setTheme(mode){
 }
 
 toggle.addEventListener("click",()=>{
-  const isDark=document.body.classList.contains("dark");
-  setTheme(isDark?"light":"dark");
+  const isDark = document.body.classList.contains("dark");
+  setTheme(isDark ? "light" : "dark");
 });
 
+// Sempre inicia em LIGHT
 setTheme("light");
 
-// FORM SUBMIT
-document.getElementById("leadForm").addEventListener("submit",async(e)=>{
+// ====== FORM / ENVIO ======
+const form = document.getElementById("leadForm");
+const msg = document.getElementById("mensagem");
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const form=new FormData(e.target);
-  const data={
-    nome:form.get("nome"),
-    contato:form.get("contato"),
-    area:form.get("area"),
-    descricao:form.get("descricao")
+  msg.textContent = "";
+  msg.className = "";
+
+  const formData = new FormData(form);
+  const data = {
+    nome: formData.get("nome"),
+    contato: formData.get("contato"),
+    area: formData.get("area"),
+    descricao: formData.get("descricao")
   };
 
-  const msg=document.getElementById("mensagem");
-
-  try{
-    const resp=await fetch("/api/send",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(data)
+  try {
+    // IMPORTANTE: usar a mesma rota da sua função na Vercel
+    const resp = await fetch("/api/leads", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
     });
 
-    const r=await resp.json();
+    if (!resp.ok) {
+      throw new Error("Resposta não OK");
+    }
 
-    msg.textContent=r.ok
-      ?"Email enviado com sucesso! Um advogado vai entrar em contato em breve!"
-      :"Erro ao enviar. Tente novamente.";
+    // Se chegou aqui, consideramos sucesso, mesmo que não venha JSON
+    msg.textContent =
+      "E-mail enviado com sucesso! Um advogado especialista vai entrar em contato em breve!";
+    msg.className = "mensagem-sucesso";
+    form.reset();
 
-  }catch{
-    msg.textContent="Erro ao enviar.";
+  } catch (error) {
+    console.error(error);
+    msg.textContent = "Erro ao enviar. Tente novamente.";
+    msg.className = "mensagem-erro";
   }
 });
 </script>
