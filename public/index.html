@@ -2,12 +2,13 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Easy Lawyer - Conecte-se a um advogado</title>
+  <title>Easy Lawyer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
     * {
       box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont;
     }
 
     body {
@@ -15,414 +16,278 @@
       padding: 0;
       min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       background: #f3f4f6;
-      transition: background 0.2s ease, color 0.2s ease;
+      transition: background .2s, color .2s;
     }
 
     .card {
-      background: #ffffff;
       width: 100%;
-      max-width: 480px;
-      padding: 24px 24px 20px;
-      border-radius: 18px;
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
-      transition: background 0.2s ease, box-shadow 0.2s ease;
+      max-width: 520px;
+      background: #fff;
+      padding: 32px 36px;
+      border-radius: 24px;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.12);
     }
 
+    /* ---------- CABEÇALHO ---------- */
+
     .header {
+      width: 100%;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 6px;
+      align-items: center;
+      margin-bottom: 10px;
     }
 
     .logo {
+      text-align: center;
+      flex-grow: 1;
+      font-size: 2rem;
       font-weight: 800;
-      font-size: 1.6rem;
       color: #111827;
     }
 
-    .subtitle {
-      text-align: left;
-      font-size: 0.9rem;
-      color: #6b7280;
-      margin-bottom: 20px;
-    }
+    /* ---------- TOGGLE PROFISSIONAL ---------- */
 
-    label {
-      display: block;
-      font-size: 0.85rem;
-      color: #374151;
-      margin-bottom: 4px;
-      font-weight: 500;
-    }
-
-    input, select, textarea, button {
-      width: 100%;
-      font-size: 0.95rem;
-    }
-
-    input, select, textarea {
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
-      background-color: #f9fafb;
-      color: #111827;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 1px #2563eb22;
-      background-color: #ffffff;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 90px;
-    }
-
-    .field {
-      margin-bottom: 14px;
-    }
-
-    .helper {
-      font-size: 0.75rem;
-      color: #9ca3af;
-      margin-top: 2px;
-    }
-
-    .btn {
-      margin-top: 12px;
-      border: none;
-      border-radius: 999px;
-      padding: 11px 16px;
-      font-weight: 600;
-      cursor: pointer;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: #ffffff;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: background 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
-      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
-    }
-
-    .btn:hover {
-      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.4);
-    }
-
-    .btn:active {
-      transform: translateY(1px);
-      box-shadow: 0 5px 14px rgba(37, 99, 235, 0.3);
-    }
-
-    .btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    .status {
-      margin-top: 10px;
-      font-size: 0.85rem;
-      min-height: 1.2em;
-    }
-
-    .status.error {
-      color: #b91c1c;
-    }
-
-    .status.success {
-      color: #166534;
-    }
-
-    /* ===== Toggle deslizante LIGHT / DARK ===== */
-
-    .theme-toggle-btn {
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-    }
-
-    .theme-switch {
-      width: 132px;
-      height: 36px;
-      border-radius: 999px;
+    .toggle-container {
+      width: 130px;
+      height: 38px;
       background: #e5e7eb;
-      box-shadow: inset 0 1px 3px rgba(148, 163, 184, 0.8);
-      position: relative;
+      border-radius: 40px;
+      padding: 4px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 0 10px;
-      overflow: hidden;
+      align-items: center;
+      position: relative;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.12);
+      cursor: pointer;
+      user-select: none;
     }
 
-    .switch-label {
-      font-size: 0.6rem;
+    .toggle-label {
+      flex: 1;
+      text-align: center;
+      font-size: 0.75rem;
       font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
       color: #6b7280;
-      z-index: 1;
-      white-space: nowrap;
+      z-index: 2;
+      pointer-events: none;
     }
 
-    .switch-label span {
-      margin-left: 4px;
-      font-size: 0.8rem;
-    }
-
-    .switch-thumb {
+    .toggle-thumb {
       position: absolute;
       top: 4px;
       left: 4px;
       width: 60px;
-      height: 28px;
-      border-radius: 999px;
-      background: #ffffff;
-      box-shadow: 0 6px 12px rgba(15, 23, 42, 0.24);
+      height: 30px;
+      background: white;
+      border-radius: 40px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.18);
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      font-size: 1rem;
+      transition: left .25s ease;
+      z-index: 1;
+    }
+
+    /* ---------------- FORM ---------------- */
+
+    label {
       font-size: 0.9rem;
-      transition: left 0.22s ease, background 0.22s ease, color 0.22s ease;
-      color: #f59e0b;
+      font-weight: 600;
+      color: #374151;
     }
 
-    /* Modo dark: muda fundo e posição do thumb */
-    body.dark .theme-switch {
-      background: #020617;
-      box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.85);
+    input, select, textarea {
+      width: 100%;
+      margin-top: 4px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+      font-size: 0.95rem;
     }
 
-    body.dark .switch-label {
-      color: #9ca3af;
+    textarea {
+      min-height: 110px;
+      resize: vertical;
     }
 
-    body.dark .switch-thumb {
-      left: 68px;
-      background: #0b1120;
-      color: #e5e7eb;
+    .btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(37,99,235,0.35);
     }
 
-    body.dark .logo {
-      color: #f9fafb;
+    .status {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      min-height: 1.3rem;
     }
 
-    body.dark .subtitle {
-      color: #9ca3af;
+    .success { color: #15803d; }
+    .error { color: #b91c1c; }
+
+    /* -------- DARK MODE -------- */
+
+    body.dark {
+      background: #0f172a;
+      color: #e2e8f0;
     }
 
     body.dark .card {
-      background: #020617;
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
-      border: 1px solid #1f2937;
+      background: #0b1120;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.6);
     }
 
-    body.dark label {
-      color: #e5e7eb;
-    }
+    body.dark .logo { color: #f8fafc; }
+    body.dark label { color: #e2e8f0; }
 
     body.dark input,
     body.dark select,
     body.dark textarea {
-      background-color: #020617;
-      color: #e5e7eb;
-      border-color: #4b5563;
+      background: #0f172a;
+      border-color: #475569;
+      color: #e2e8f0;
     }
 
-    body.dark input:focus,
-    body.dark select:focus,
-    body.dark textarea:focus {
-      background-color: #020617;
-      border-color: #6366f1;
-      box-shadow: 0 0 0 1px #4f46e522;
+    body.dark .toggle-container {
+      background: #1e293b;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.6);
     }
 
-    body.dark .helper {
-      color: #9ca3af;
-    }
-
-    body.dark .status.success {
-      color: #4ade80;
-    }
-
-    body.dark .status.error {
-      color: #fca5a5;
+    body.dark .toggle-thumb {
+      background: #1e293b;
+      color: #f1f5f9;
     }
   </style>
+
 </head>
 <body>
+
   <div class="card">
+
     <div class="header">
-      <div class="logo">Easy Lawyer</div>
-
-      <!-- Toggle deslizante -->
-      <button
-        type="button"
-        id="theme-toggle"
-        class="theme-toggle-btn"
-        aria-label="Alternar tema claro/escuro"
-      >
-        <div class="theme-switch">
-          <div class="switch-label">
-            LIGHT<span>☀</span>
-          </div>
-          <div class="switch-label">
-            DARK<span>🌙</span>
-          </div>
-          <div class="switch-thumb">
-            ☀
-          </div>
+      <!-- BOTÃO À DIREITA -->
+      <div style="width:130px; position:absolute; right:40px;">
+        <div id="themeToggle" class="toggle-container">
+          <div class="toggle-label">LIGHT</div>
+          <div class="toggle-label">DARK</div>
+          <div id="thumb" class="toggle-thumb">☀️</div>
         </div>
-      </button>
+      </div>
+
+      <div class="logo">Easy Lawyer</div>
     </div>
 
-    <div class="subtitle">
+    <p style="margin-bottom: 18px; color:#6b7280;">
       Conte rapidamente seu problema e nós encaminharemos para um advogado.
-    </div>
+    </p>
 
-    <form id="lead-form">
-      <div class="field">
-        <label for="name">Seu nome completo</label>
-        <input type="text" id="name" name="name" required placeholder="Ex: Júlio César Crispim Muniz" />
-      </div>
+    <form id="form">
 
-      <div class="field">
-        <label for="contact">Telefone ou e-mail para contato</label>
-        <input type="text" id="contact" name="contact" required placeholder="(86) 9 9999-9999 ou seuemail@exemplo.com" />
-        <div class="helper">O advogado usará esse contato para falar com você.</div>
-      </div>
+      <label>Seu nome completo</label>
+      <input name="name" required placeholder="Ex: Júlio César Crispim Muniz">
 
-      <div class="field">
-        <label for="area">Área do problema</label>
-        <select id="area" name="area" required>
-          <option value="">Selecione...</option>
-          <option value="Trabalhista">Trabalhista</option>
-          <option value="Previdenciário">Previdenciário</option>
-          <option value="Cível / Contratos">Cível / Contratos</option>
-          <option value="Família e Sucessões">Família e Sucessões</option>
-          <option value="Consumidor">Consumidor</option>
-          <option value="Criminal">Criminal</option>
-          <option value="Outros">Outros</option>
-        </select>
-      </div>
+      <br><br>
 
-      <div class="field">
-        <label for="summary">Explique rapidamente sua situação</label>
-        <textarea id="summary" name="summary" required placeholder="Descreva em poucas linhas o que aconteceu..."></textarea>
-      </div>
+      <label>Telefone ou e-mail para contato</label>
+      <input name="contact" required placeholder="(86) 9 9999-9999 ou email@exemplo.com">
 
-      <button type="submit" class="btn" id="submit-btn">
-        Enviar para um advogado
-      </button>
+      <br><br>
+
+      <label>Área do problema</label>
+      <select name="area" required>
+        <option value="">Selecione...</option>
+        <option>Previdenciário</option>
+        <option>Trabalhista</option>
+        <option>Cível</option>
+        <option>Criminal</option>
+        <option>Consumidor</option>
+      </select>
+
+      <br><br>
+
+      <label>Explique rapidamente sua situação</label>
+      <textarea name="summary" required></textarea>
+
+      <button class="btn">Enviar para um advogado</button>
 
       <div id="status" class="status"></div>
     </form>
   </div>
 
-  <script>
-    // ===== THEME TOGGLE SLIDER =====
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const thumb = document.querySelector('.switch-thumb');
 
-    function applyTheme(theme) {
-      if (theme === 'dark') {
+  <script>
+    /* ================== TOGGLE ================== */
+
+    const toggle = document.getElementById('themeToggle');
+    const thumb  = document.getElementById('thumb');
+
+    function applyMode(mode){
+      if(mode === 'dark'){
         document.body.classList.add('dark');
-        thumb.textContent = '🌙';
+        thumb.style.left = "66px";
+        thumb.textContent = "🌙";
       } else {
         document.body.classList.remove('dark');
-        thumb.textContent = '☀';
+        thumb.style.left = "4px";
+        thumb.textContent = "☀️";
       }
     }
 
-    const savedTheme = localStorage.getItem('easyLawyerTheme') || 'light';
-    applyTheme(savedTheme);
+    let saved = localStorage.getItem("theme") || "light";
+    applyMode(saved);
 
-    themeToggleBtn.addEventListener('click', () => {
-      const current = document.body.classList.contains('dark') ? 'dark' : 'light';
-      const next = current === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('easyLawyerTheme', next);
-      applyTheme(next);
-    });
+    toggle.onclick = () => {
+      saved = saved === "light" ? "dark" : "light";
+      localStorage.setItem("theme", saved);
+      applyMode(saved);
+    };
 
-    // ===== FORM / ENVIO DO LEAD =====
-    const form = document.getElementById('lead-form');
+    /* ================== FORM ================== */
+
+    const form = document.getElementById('form');
     const statusDiv = document.getElementById('status');
-    const submitBtn = document.getElementById('submit-btn');
-    let sending = false;
 
-    function setStatus(message, type) {
-      statusDiv.textContent = message || '';
-      statusDiv.className = 'status';
-      if (type) statusDiv.classList.add(type);
-    }
-
-    form.addEventListener('submit', async (e) => {
+    form.onsubmit = async (e) => {
       e.preventDefault();
-      if (sending) return;
+      statusDiv.textContent = "";
 
-      const name = form.name.value.trim();
-      const contact = form.contact.value.trim();
-      const area = form.area.value;
-      const summary = form.summary.value.trim();
+      const data = Object.fromEntries(new FormData(form));
 
-      if (!name) {
-        return setStatus('Informe seu nome completo.', 'error');
-      }
-      if (!contact) {
-        return setStatus('Informe um telefone ou e-mail válido.', 'error');
-      }
-      if (!area) {
-        return setStatus('Selecione a área do problema.', 'error');
-      }
-      if (!summary) {
-        return setStatus('Explique sua situação.', 'error');
+      const r = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const res = await r.json();
+
+      if(!r.ok){
+        statusDiv.textContent = "Erro: " + (res.error || "tente novamente");
+        statusDiv.className = "status error";
+        return;
       }
 
-      sending = true;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Enviando...';
-      setStatus('', null);
+      statusDiv.textContent =
+        "E-mail enviado com sucesso! Um advogado especialista entrará em contato em breve. Obrigado por escolher a Easy Lawyer!";
+      statusDiv.className = "status success";
 
-      try {
-        const response = await fetch('/api/leads', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, contact, area, summary })
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.error || 'Erro ao enviar.');
-        }
-
-        setStatus(
-          'E-mail enviado com sucesso! Um advogado especialista vai entrar em contato em breve. Obrigado por escolher a Easy Lawyer! 🤝✨',
-          'success'
-        );
-
-        form.reset();
-        submitBtn.textContent = 'Enviado ✅';
-
-      } catch (err) {
-        console.error(err);
-        setStatus(err.message || 'Erro ao enviar o caso. Tente novamente.', 'error');
-        submitBtn.textContent = 'Tentar novamente';
-      } finally {
-        sending = false;
-        submitBtn.disabled = false;
-      }
-    });
+      form.reset();
+    };
   </script>
+
 </body>
 </html>
