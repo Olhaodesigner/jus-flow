@@ -1,607 +1,327 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Easy Lawyer | Fale rápido com um advogado especialista</title>
-
-  <!-- SEO básico -->
-  <meta
-    name="description"
-    content="Explique seu problema em poucos minutos e a Easy Lawyer conecta você ao advogado especialista mais adequado para o seu caso, direto do seu celular."
-  />
-  <meta property="og:title" content="Easy Lawyer | Fale rápido com um advogado especialista" />
-  <meta
-    property="og:description"
-    content="Conte seu problema em poucos minutos e receba contato de um advogado especialista. Simples, rápido e direto."
-  />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://jus-flow-fhuq.vercel.app" />
-  <meta property="og:locale" content="pt_BR" />
-  <link rel="canonical" href="https://jus-flow-fhuq.vercel.app" />
-
-  <!-- JSON-LD simples (pode ser expandido no futuro) -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LegalService",
-      "name": "Easy Lawyer",
-      "url": "https://jus-flow-fhuq.vercel.app",
-      "description": "Plataforma que conecta pessoas a advogados especialistas de forma rápida e simples.",
-      "areaServed": "Brazil",
-      "serviceType": "Serviços de advocacia e consultoria jurídica"
-    }
-  </script>
-
-  <style>
-    /* =========================
-       VARIÁVEIS E BASE VISUAL
-       ========================= */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --bg-app-light: #f3f4ff;
-      --bg-app-dark: #020617;
-      --primary: #4c1dff;
-      --primary-soft: #6366f1;
-      --accent: #22c55e;
-      --danger: #ef4444;
-      --text-main: #020617;
-      --radius-card: 26px;
-      --shadow-card: 0 24px 60px rgba(15, 23, 42, 0.22);
-      --shadow-btn: 0 14px 30px rgba(37, 99, 235, 0.45);
-      --transition-fast: 0.22s ease;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Text", system-ui,
-        sans-serif;
-      min-height: 100vh;
-      background: radial-gradient(
-        circle at top left,
-        #c7d2fe 0,
-        #f5f3ff 30%,
-        #eef2ff 60%,
-        #e5e7eb 100%
-      );
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 32px 12px 40px;
-      color: var(--text-main);
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-
-    body.dark {
-      background: radial-gradient(circle at top left, #1e293b 0, #020617 42%, #000 100%);
-      color: #e5e7eb;
-    }
-
-    /* =========================
-       CARD PRINCIPAL (APP SHELL)
-       ========================= */
-    .app-shell {
-      width: 100%;
-      max-width: 460px;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(28px);
-      border-radius: var(--radius-card);
-      padding: 26px 22px 22px;
-      box-shadow: var(--shadow-card);
-      position: relative;
-      overflow: hidden;
-    }
-
-    body.dark .app-shell {
-      background: rgba(15, 23, 42, 0.94);
-    }
-
-    /* =========================
-       CABEÇALHO (TÍTULO + TOGGLE)
-       ========================= */
-    .app-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
-
-    .brand-block {
-      text-align: left;
-    }
-
-    .app-title {
-      font-size: 32px;
-      line-height: 1.1;
-      font-weight: 800;
-      letter-spacing: 0.01em;
-    }
-
-    .app-pulse {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      margin-left: 6px;
-      background: var(--accent);
-      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.35);
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    .subtitle {
-      font-size: 14px;
-      opacity: 0.88;
-      margin-top: 4px;
-      margin-bottom: 18px;
-      line-height: 1.5;
-    }
-
-    /* Toggle de tema (Light / Dark) */
-    .toggle-wrapper {
-      margin-top: 2px;
-    }
-
-    .toggle-container {
-      width: 118px;
-      height: 36px;
-      background: #e5e7eb;
-      border-radius: 999px;
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      position: relative;
-      cursor: pointer;
-      box-shadow:
-        inset 1px 1px 2px rgba(255, 255, 255, 0.8),
-        inset -2px -2px 3px rgba(148, 163, 184, 0.7);
-    }
-
-    body.dark .toggle-container {
-      background: #020617;
-      box-shadow:
-        inset 1px 1px 2px rgba(30, 64, 175, 0.7),
-        inset -3px -3px 5px rgba(0, 0, 0, 0.85);
-    }
-
-    .toggle-thumb {
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      width: 54px;
-      height: 28px;
-      border-radius: 999px;
-      background: #ffffff;
-      box-shadow: 0 4px 8px rgba(15, 23, 42, 0.35);
-      transition: var(--transition-fast);
-    }
-
-    body.dark .toggle-thumb {
-      background: #111827;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-    }
-
-    .toggle-label {
-      flex: 1;
-      text-align: center;
-      font-size: 11px;
-      font-weight: 700;
-      opacity: 0.35;
-      color: #111827;
-      position: relative;
-      z-index: 1;
-    }
-
-    body.dark .toggle-label {
-      color: #e5e7eb;
-    }
-
-    .toggle-label.active {
-      opacity: 1;
-    }
-
-    /* =========================
-       CHIPS INFORMATIVOS
-       ========================= */
-    .chip-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-      font-size: 11px;
-    }
-
-    .chip {
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(79, 70, 229, 0.07);
-      color: #4b5563;
-      font-weight: 500;
-    }
-
-    body.dark .chip {
-      background: rgba(129, 140, 248, 0.08);
-      color: #d1d5db;
-    }
-
-    .chip strong {
-      font-weight: 700;
-    }
-
-    /* =========================
-       FORMULÁRIO PRINCIPAL
-       ========================= */
-    form {
-      margin-top: 4px;
-      text-align: left;
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-    }
-
-    .form-label {
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      border: none;
-      border-radius: 14px;
-      padding: 13px 14px;
-      background: #f3f4ff;
-      font-size: 14px;
-      outline: none;
-      transition: var(--transition-fast);
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      box-shadow:
-        0 0 0 1px rgba(129, 140, 248, 0.9),
-        0 0 0 6px rgba(191, 219, 254, 0.8);
-      background: #ffffff;
-    }
-
-    body.dark input,
-    body.dark select,
-    body.dark textarea {
-      background: #020617;
-      color: #e5e7eb;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-    }
-
-    body.dark input:focus,
-    body.dark select:focus,
-    body.dark textarea:focus {
-      box-shadow:
-        0 0 0 1px rgba(129, 140, 248, 0.9),
-        0 0 0 6px rgba(30, 64, 175, 0.9);
-    }
-
-    textarea {
-      min-height: 110px;
-      resize: none;
-    }
-
-    /* Botão de envio */
-    .btn-primary {
-      width: 100%;
-      margin-top: 6px;
-      padding: 15px;
-      border-radius: 999px;
-      border: none;
-      font-size: 15px;
-      font-weight: 700;
-      color: #ffffff;
-      cursor: pointer;
-      background: linear-gradient(135deg, var(--primary), var(--primary-soft));
-      box-shadow: var(--shadow-btn);
-      transition: var(--transition-fast);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 36px rgba(30, 64, 175, 0.55);
-    }
-
-    .btn-primary:active {
-      transform: translateY(1px);
-      box-shadow: 0 10px 18px rgba(30, 64, 175, 0.45);
-    }
-
-    .helper-text {
-      margin-top: 6px;
-      font-size: 11px;
-      opacity: 0.7;
-    }
-
-    /* Mensagem de status (sucesso / erro) */
-    .mensagem {
-      text-align: center;
-      margin-top: 12px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .mensagem.sucesso {
-      color: var(--accent);
-    }
-
-    .mensagem.erro {
-      color: var(--danger);
-    }
-
-    /* =========================
-       SEÇÕES INFORMATIVAS (SEM NAV)
-       ========================= */
-    .section {
-      margin-top: 22px;
-      padding: 14px 14px 14px;
-      border-radius: 18px;
-      background: rgba(248, 250, 252, 0.85);
-      font-size: 12px;
-      line-height: 1.5;
-      color: #4b5563;
-      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.14);
-    }
-
-    body.dark .section {
-      background: rgba(15, 23, 42, 0.9);
-      color: #e5e7eb;
-      box-shadow: 0 14px 26px rgba(0, 0, 0, 0.65);
-    }
-
-    .section h2 {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .section ul {
-      margin-left: 16px;
-      margin-top: 4px;
-    }
-
-    .section li {
-      margin-bottom: 3px;
-    }
-
-    /* Responsivo simples */
-    @media (max-width: 480px) {
-      .app-shell {
-        padding: 22px 18px 20px;
-        border-radius: 24px;
-      }
-      .app-title {
-        font-size: 28px;
-      }
-    }
-  </style>
-</head>
-
-<body class="light">
-  <div class="app-shell">
-    <!-- HEADER: título + texto + toggle de tema -->
-    <header class="app-header">
-      <div class="brand-block">
-        <div>
-          <span class="app-title">Easy Lawyer</span>
-          <span class="app-pulse"></span>
-        </div>
-        <p class="subtitle">
-          Conectamos você ao advogado certo, no momento certo. Tudo direto do seu celular, sem burocracia.
-        </p>
-      </div>
-
-      <div class="toggle-wrapper">
-        <!-- Toggle inteiro é clicável -->
-        <div class="toggle-container" id="themeToggle">
-          <span class="toggle-label active" id="labelLight">LIGHT</span>
-          <span class="toggle-label" id="labelDark">DARK</span>
-          <div class="toggle-thumb" id="toggleThumb"></div>
-        </div>
-      </div>
-    </header>
-
-    <!-- “Chips” informativos (só copy, sem lógica) -->
-    <div class="chip-row">
-      <div class="chip"><strong>Atendimento</strong> em todo o Brasil</div>
-      <div class="chip"><strong>Advogados</strong> selecionados</div>
-    </div>
-
-    <!-- FORMULÁRIO PRINCIPAL -->
-    <!-- IMPORTANTE: os names abaixo (name, contact, area, summary) devem bater com o backend em /api/leads -->
-    <form id="leadForm">
-      <div id="form"></div>
-
-      <div class="form-group">
-        <label class="form-label">Seu nome completo</label>
-        <input
-          type="text"
-          name="name"
-          required
-          placeholder="Ex: Júlio César Crispim Muniz"
-        />
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">WhatsApp ou e-mail para contato</label>
-        <input
-          type="text"
-          name="contact"
-          required
-          placeholder="Ex: (86) 9 9999-9999 ou email@exemplo.com"
-        />
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Área do problema</label>
-        <select name="area" required>
-          <option value="">Selecione...</option>
-          <option value="Previdenciário">Previdenciário (INSS, aposentadoria, benefícios)</option>
-          <option value="Trabalhista">Trabalhista (demissão, verbas, FGTS)</option>
-          <option value="Família">Família (pensão, divórcio, guarda)</option>
-          <option value="Criminal">Criminal</option>
-          <option value="Civil">Civil / Consumidor</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Explique rapidamente sua situação</label>
-        <textarea
-          name="summary"
-          required
-          placeholder="Ex: fui demitido sem justa causa e não recebi minhas verbas. Quero saber meus direitos."
-        ></textarea>
-      </div>
-
-      <button type="submit" class="btn-primary">
-        Enviar para um advogado
-      </button>
-
-      <p class="helper-text">
-        Você não está contratando um advogado ainda. Primeiro um especialista vai analisar e retornar.
-      </p>
-
-      <p id="mensagem" class="mensagem"></p>
-    </form>
-
-    <!-- Seções apenas informativas (não afetam a lógica do app) -->
-    <section class="section" id="como-funciona">
-      <h2>Como funciona na prática</h2>
-      <p>
-        • Você conta o que aconteceu em poucos minutos.<br />
-        • A Easy Lawyer identifica a área do Direito envolvida.<br />
-        • Encaminhamos para um advogado especialista.<br />
-        • O contato é direto com você, por WhatsApp, telefone ou e-mail.
-      </p>
-    </section>
-
-    <section class="section" id="para-advogados">
-      <h2>Para advogados e escritórios</h2>
-      <p>
-        A Easy Lawyer organiza a demanda para que você foque no que importa: atender bem o cliente.
-      </p>
-      <ul>
-        <li>Leads com área de atuação já sinalizada.</li>
-        <li>Resumo objetivo do caso antes do primeiro contato.</li>
-        <li>Possibilidade de atender clientes de qualquer lugar.</li>
-      </ul>
-    </section>
-
-    <section class="section" id="faq">
-      <h2>Dúvidas frequentes</h2>
-      <p>
-        <strong>Enviar o formulário tem algum custo?</strong><br />
-        Não. Você só terá custos se decidir contratar o advogado, e isso é combinado diretamente com ele.
-      </p>
-      <br />
-      <p>
-        <strong>Em quanto tempo o advogado responde?</strong><br />
-        Depende da complexidade do caso, mas normalmente o primeiro contato ocorre em poucas horas úteis.
-      </p>
-    </section>
-  </div>
-
-  <script>
-    // ======================================
-    // CONTROLE DE TEMA (LIGHT / DARK MODE)
-    // ======================================
-
-    const toggle = document.getElementById("themeToggle");
-    const thumb = document.getElementById("toggleThumb");
-    const labelLight = document.getElementById("labelLight");
-    const labelDark = document.getElementById("labelDark");
-
-    /**
-     * Aplica o tema visual na <body>.
-     * O backend não é afetado, apenas a camada de apresentação.
-     */
-    function setTheme(mode) {
-      if (mode === "light") {
-        document.body.classList.remove("dark");
-        thumb.style.left = "4px";
-        labelLight.classList.add("active");
-        labelDark.classList.remove("active");
-      } else {
-        document.body.classList.add("dark");
-        thumb.style.left = "60px";
-        labelLight.classList.remove("active");
-        labelDark.classList.add("active");
-      }
-    }
-
-    // Alterna tema ao clicar no toggle
-    toggle.addEventListener("click", () => {
-      const isDark = document.body.classList.contains("dark");
-      setTheme(isDark ? "light" : "dark");
-    });
-
-    // Tema padrão ao carregar: light
-    setTheme("light");
-
-    // ======================================
-    // ENVIO DO FORMULÁRIO PARA /api/leads
-    // ======================================
-
-    const form = document.getElementById("leadForm");
-    const msg = document.getElementById("mensagem");
-
-    /**
-     * Envia os dados do formulário para a rota /api/leads.
-     * Essa rota deve existir no backend (Vercel Serverless Function)
-     * e fazer o disparo de e-mail para o escritório.
-     *
-     * Campos esperados pelo backend:
-     *  - name
-     *  - contact
-     *  - area
-     *  - summary
-     */
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      // Limpa estado visual
-      msg.textContent = "";
-      msg.className = "mensagem";
-
-      // Converte os dados do form em objeto JS
-      const data = Object.fromEntries(new FormData(form));
-
-      try {
-        const resp = await fetch("/api/leads", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-
-        // Se o backend responder com erro HTTP (4xx / 5xx)
-        if (!resp.ok) {
-          throw new Error("Resposta HTTP não OK");
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Lawyer</title>
+
+    <style>
+        /* ======================== 
+           RESET + BASE STYLES
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif;
         }
 
-        // Sucesso visual para o usuário
-        msg.textContent =
-          "E-mail enviado com sucesso! Um advogado especialista vai entrar em contato em breve.";
-        msg.classList.add("sucesso");
+        body {
+            background: #f4f6fb;
+            color: #1a1a1a;
+            transition: background 0.3s, color 0.3s;
+        }
 
-        // Limpa formulário após envio
-        form.reset();
-      } catch (error) {
-        console.error(error);
-        msg.textContent = "Erro ao enviar. Tente novamente.";
-        msg.classList.add("erro");
-      }
-    });
-  </script>
+        body.dark {
+            background: #0e1625;
+            color: #ffffff;
+        }
+
+        /* ======================== 
+           CONTAINER CENTRAL
+        ========================= */
+        .card {
+            max-width: 650px;
+            background: white;
+            margin: 40px auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark .card {
+            background: #111a2b;
+            box-shadow: 0 0 0 rgba(0,0,0,0);
+        }
+
+        /* ======================== 
+           CABEÇALHO + TÍTULOS
+        ========================= */
+        .brand-block {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .title {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.85;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        /* ======================== 
+           TOGGLE DARK/LIGHT
+        ========================= */
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            margin-top: -10px;
+            margin-bottom: 25px;
+        }
+
+        .theme-toggle {
+            width: 130px;
+            height: 40px;
+            background: #e0e4eb;
+            border-radius: 30px;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        body.dark .theme-toggle {
+            background: #1b2333;
+        }
+
+        .toggle-ball {
+            width: 60px;
+            height: 32px;
+            background: white;
+            border-radius: 30px;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+            transition: transform 0.25s ease-in-out, background 0.25s;
+        }
+
+        body.dark .toggle-ball {
+            transform: translateX(66px);
+            background: #0d111a;
+            color: #fff;
+        }
+
+        .toggle-labels {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            padding: 0 12px;
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+
+        body.dark .toggle-labels {
+            color: #ffffff88;
+        }
+
+        /* ======================== 
+           FORMULÁRIO
+        ========================= */
+        label {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #d9dce3;
+            background: #f8f9fc;
+            font-size: 15px;
+            transition: 0.25s;
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        body.dark input,
+        body.dark select,
+        body.dark textarea {
+            background: #162033;
+            border: 1px solid #22304a;
+            color: white;
+        }
+
+        /* ======================== 
+           BOTÃO PRINCIPAL
+        ========================= */
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(90deg, #0d4bff, #1b32ff);
+            color: white;
+            padding: 18px;
+            text-align: center;
+            border-radius: 14px;
+            font-size: 18px;
+            margin-top: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.85;
+        }
+
+        /* ======================== 
+           ALERTAS
+        ========================= */
+        .msg {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .success {
+            color: #009f4a;
+        }
+
+        .error {
+            color: #d10000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+
+        <!-- =============== CABEÇALHO CENTRALIZADO =============== -->
+        <div class="brand-block">
+            <h1 class="title">Easy Lawyer</h1>
+            <p class="subtitle">
+                Conectamos você ao advogado certo sem burocracia. Atendimento rápido, direto do seu celular.
+            </p>
+        </div>
+
+        <!-- TOGGLE DE TEMA -->
+        <div class="toggle-container">
+            <div class="theme-toggle" id="themeToggle">
+                <div class="toggle-labels">
+                    <span>LIGHT</span>
+                    <span>DARK</span>
+                </div>
+                <div class="toggle-ball">LIGHT</div>
+            </div>
+        </div>
+
+        <!-- =============== FORMULÁRIO =============== -->
+
+        <form id="leadForm">
+
+            <label>Seu nome completo</label>
+            <input type="text" id="nome" placeholder="Ex: Júlio César Crispim Muniz">
+
+            <label>WhatsApp ou e-mail para contato</label>
+            <input type="text" id="contato" placeholder="Ex: (86) 9 9999-9999 ou email@exemplo.com">
+
+            <label>Área do problema</label>
+            <select id="area">
+                <option value="">Selecione...</option>
+                <option value="Previdenciário">Previdenciário</option>
+                <option value="Trabalhista">Trabalhista</option>
+                <option value="Cível">Cível</option>
+                <option value="Família">Família</option>
+                <option value="Penal">Penal</option>
+            </select>
+
+            <label>Explique rapidamente sua situação</label>
+            <textarea id="descricao" placeholder="Ex: fui demitido sem justa causa e não recebi minhas verbas..."></textarea>
+
+            <button type="submit" class="btn-submit">Enviar para um advogado</button>
+
+            <p id="mensagem" class="msg"></p>
+
+        </form>
+
+    </div>
+
+    <!-- ======================== 
+         SCRIPT PRINCIPAL
+    ========================= -->
+    <script>
+        /* ========================
+           TOGGLE DARK/LIGHT MODE
+        ========================= */
+        const themeToggle = document.getElementById("themeToggle");
+        const ball = document.querySelector(".toggle-ball");
+
+        // sempre começar no modo claro
+        document.body.classList.remove("dark");
+        ball.textContent = "LIGHT";
+
+        themeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            ball.textContent = document.body.classList.contains("dark") ? "DARK" : "LIGHT";
+        });
+
+        /* ========================
+           ENVIO DO FORMULÁRIO
+        ========================= */
+        document.getElementById("leadForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const nome = document.getElementById("nome").value.trim();
+            const contato = document.getElementById("contato").value.trim();
+            const area = document.getElementById("area").value.trim();
+            const descricao = document.getElementById("descricao").value.trim();
+            const mensagem = document.getElementById("mensagem");
+
+            if (!nome || !contato || !area || !descricao) {
+                mensagem.textContent = "Preencha todos os campos.";
+                mensagem.className = "msg error";
+                return;
+            }
+
+            const payload = { nome, contato, area, descricao };
+
+            try {
+                const req = await fetch("/api/send", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+
+                const res = await req.json();
+
+                if (res.success) {
+                    mensagem.textContent = "E-mail enviado com sucesso! Um advogado especialista entrará em contato em breve.";
+                    mensagem.className = "msg success";
+
+                    document.getElementById("leadForm").reset();
+                } else {
+                    mensagem.textContent = "Erro ao enviar. Tente novamente.";
+                    mensagem.className = "msg error";
+                }
+            } catch (err) {
+                mensagem.textContent = "Erro ao enviar. Tente novamente.";
+                mensagem.className = "msg error";
+            }
+        });
+    </script>
+
 </body>
 </html>
