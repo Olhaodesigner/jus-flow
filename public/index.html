@@ -6,13 +6,14 @@
 <title>Easy Lawyer</title>
 
 <style>
-/* RESET */
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-  font-family: "Inter", sans-serif;
+  font-family:"Inter",sans-serif;
+  background:#eef0f5;
   display:flex;
   justify-content:center;
-  background:#f4f7ff;
+  padding:40px 0;
   transition:.3s ease;
 }
 body.dark{
@@ -20,39 +21,54 @@ body.dark{
   color:#e5e7eb;
 }
 
-/* CONTAINER */
+/* CARD */
 .container{
   width:100%;
-  max-width:620px;
-  padding:40px 20px;
-  text-align:center;
-  margin-top:40px;
+  max-width:650px;
+  background:white;
+  padding:50px 40px;
+  border-radius:25px;
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.10),
+    0 6px 12px rgba(0,0,0,.06);
+  position:relative;
+}
+body.dark .container{
+  background:#111827;
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.40),
+    0 6px 12px rgba(0,0,0,.25);
 }
 
 /* TÍTULO */
 .title{
-  font-size:44px;
+  font-size:42px;
   font-weight:800;
-  margin-bottom:24px;
+  text-align:center;
+  margin-bottom:10px;
 }
 
 /* SUBTÍTULO */
 .subtitle{
   font-size:17px;
-  max-width:520px;
-  margin:0 auto 35px auto;
-  opacity:.9;
+  opacity:.85;
+  text-align:center;
+  margin-bottom:32px;
+  line-height:1.45;
+  max-width:500px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 /* TOGGLE */
 .toggle-wrapper{
   position:absolute;
-  right:40px;
-  top:30px;
+  top:22px;
+  right:30px;
 }
 .toggle-container{
-  width:120px;
-  height:38px;
+  width:115px;
+  height:34px;
   background:#e5e7eb;
   border-radius:40px;
   padding:4px;
@@ -62,85 +78,102 @@ body.dark{
   cursor:pointer;
   position:relative;
   box-shadow:
-    inset 3px 3px 6px rgba(255,255,255,.85),
-    inset -3px -3px 6px rgba(0,0,0,.12);
+    inset 2px 2px 4px rgba(255,255,255,.85),
+    inset -2px -2px 4px rgba(0,0,0,.12);
 }
-body.dark .toggle-container{background:#1b2233;}
-
+body.dark .toggle-container{
+  background:#1e293b;
+}
 .toggle-label{
   flex:1;
   text-align:center;
   font-size:11px;
   font-weight:700;
   opacity:.35;
-  pointer-events:none;
   z-index:2;
+  pointer-events:none;
 }
 .toggle-label.active{
-  opacity:1 !important;
+  opacity:1!important;
   color:#111827;
 }
 body.dark .toggle-label.active{
-  color:#ffffff !important;
+  color:white!important;
 }
-
 .toggle-thumb{
   position:absolute;
   top:4px;
   left:4px;
-  width:55px;
-  height:30px;
+  width:50px;
+  height:26px;
   background:white;
-  border-radius:40px;
+  border-radius:30px;
   transition:.25s ease;
   box-shadow:
-    0 4px 8px rgba(0,0,0,.2),
-    inset 0 0 6px rgba(0,0,0,.12);
+    0 3px 6px rgba(0,0,0,.18),
+    inset 0 0 4px rgba(0,0,0,.10);
 }
 body.dark .toggle-thumb{
   background:#1e293b;
   box-shadow:
     inset 0 0 4px rgba(255,255,255,.35),
-    0 6px 14px rgba(0,0,0,.32);
+    0 4px 10px rgba(0,0,0,.28);
   border:1px solid rgba(255,255,255,.18);
 }
 
 /* FORM */
 form{text-align:left;margin-top:10px;}
 
-label{font-size:16px;font-weight:600;}
+label{
+  font-size:16px;
+  font-weight:600;
+  margin-bottom:5px;
+  display:block;
+}
 
 input,select,textarea{
   width:100%;
-  margin:10px 0 20px 0;
+  margin-bottom:22px;
   padding:16px;
   border:none;
   border-radius:10px;
-  background:white;
+  background:#f5f6fa;
   font-size:16px;
+  outline:none;
 }
 body.dark input,
 body.dark select,
 body.dark textarea{
-  background:#111827;
+  background:#1f2937;
   color:white;
   border:1px solid #374151;
 }
 
+textarea{
+  height:120px;
+  resize:none;
+}
+
+/* BOTÃO */
 button{
   width:100%;
   padding:18px;
-  margin-top:10px;
   border:none;
   border-radius:14px;
-  background:#1d4ed8;
+  background:#1a4ce8;
   color:white;
   font-size:18px;
   font-weight:700;
   cursor:pointer;
+  transition:.25s ease;
+  box-shadow:
+    0 10px 25px rgba(30,64,175,.35);
 }
-button:hover{background:#1e40af;}
+button:hover{
+  background:#153fc2;
+}
 
+/* MENSAGEM */
 .mensagem-sucesso{
   text-align:center;
   margin-top:15px;
@@ -173,7 +206,7 @@ button:hover{background:#1e40af;}
         <label>Seu nome completo</label>
         <input type="text" name="nome" required placeholder="Ex: Júlio César Crispim Muniz">
 
-        <label>Telefone ou e-mail</label>
+        <label>Telefone ou e-mail para contato</label>
         <input type="text" name="contato" required placeholder="(86) 9 9999-9999 ou email@exemplo.com">
 
         <label>Área do problema</label>
