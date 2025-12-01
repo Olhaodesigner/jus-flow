@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Easy Lawyer - Conecte-se a um advogado</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f3f4f6;
+    }
+
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 420px;
+      padding: 24px 24px 20px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    .logo {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+      color: #111827;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: #374151;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      font-size: 0.95rem;
+    }
+
+    input, select, textarea {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      background-color: #f9fafb;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb22;
+      background-color: #ffffff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .helper {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .btn {
+      margin-top: 10px;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #2563eb;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.15s ease, transform 0.05s ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+
+    .status.error {
+      color: #b91c1c;
+    }
+
+    .status.success {
+      color: #166534;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">Easy Lawyer</div>
+    <div class="subtitle">
+      Conte rapidamente seu problema e nós encaminharemos para um advogado.
+    </div>
+
+    <form id="lead-form">
+      <div class="field">
+        <label for="name">Seu nome completo</label>
+        <input type="text" id="name" name="name" required placeholder="Ex: Maria Silva" />
+      </div>
+
+      <div class="field">
+        <label for="contact">Telefone ou e-mail para contato</label>
+        <input type="text" id="contact" name="contact" required placeholder="(DDD) 9 9999-9999 ou seuemail@exemplo.com" />
+        <div class="helper">O advogado usará esse contato para falar com você.</div>
+      </div>
+
+      <div class="field">
+        <label for="area">Área do problema</label>
+        <select id="area" name="area" required>
+          <option value="">Selecione...</option>
+          <option value="Trabalhista">Trabalhista</option>
+          <option value="Previdenciário">Previdenciário</option>
+          <option value="Cível / Contratos">Cível / Contratos</option>
+          <option value="Família e Sucessões">Família e Sucessões</option>
+          <option value="Consumidor">Consumidor</option>
+          <option value="Criminal">Criminal</option>
+          <option value="Outros">Outros</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="summary">Explique rapidamente sua situação</label>
+        <textarea id="summary" name="summary" required placeholder="Descreva em poucas linhas o que aconteceu..."></textarea>
+      </div>
+
+      <button type="submit" class="btn" id="submit-btn">
+        Enviar para um advogado
+      </button>
+
+      <div id="status" class="status"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('lead-form');
+    const statusDiv = document.getElementById('status');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusDiv.textContent = '';
+      statusDiv.className = 'status';
+
+      const data = {
+        name: form.name.value.trim(),
+        contact: form.contact.value.trim(),
+        area: form.area.value,
+        summary: form.summary.value.trim()
+      };
+
+      if (!data.name || !data.contact || !data.area || !data.summary) {
+        statusDiv.textContent = 'Por favor, preencha todos os campos.';
+        statusDiv.classList.add('error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+
+      try {
+        const response = await fetch('/api/leads', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Erro ao enviar.');
+        }
+
+        statusDiv.textContent = result.message || 'Caso enviado com sucesso!';
+        statusDiv.classList.add('success');
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        statusDiv.textContent = err.message || 'Erro ao enviar o caso. Tente novamente.';
+        statusDiv.classList.add('error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar para um advogado';
+      }
+    });
+  </script>
+</body>
+</html>
