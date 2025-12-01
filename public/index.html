@@ -1,391 +1,388 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Easy Lawyer | Conecte-se com um advogado especialista</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easy Lawyer</title>
 
-  <style>
-    /* =============== RESET BÁSICO =============== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
 
-    /* =============== FUNDO DA PÁGINA =============== */
-    body {
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #e0e7ff 0, #eef2ff 40%, #e5e7eb 100%);
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 32px 12px;
-      color: #111827;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
+body{
+  font-family:"Inter",sans-serif;
+  background:#eef0f5;
+  display:flex;
+  justify-content:center;
+  padding:40px 0;
+  transition:.3s ease;
+}
+body.dark{
+  background:#0d1220;
+  color:#e5e7eb;
+}
 
-    body.dark {
-      background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
-      color: #e5e7eb;
-    }
+/* CARD PRINCIPAL */
+.container{
+  width:100%;
+  max-width:650px;
+  background:white;
+  padding:50px 40px;
+  border-radius:25px;
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.10),
+    0 6px 12px rgba(0,0,0,.06);
+  position:relative;
+}
+body.dark .container{
+  background:#111827;
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.40),
+    0 6px 12px rgba(0,0,0,.25);
+}
 
-    /* =============== CARD CENTRAL (APP) =============== */
-    .card {
-      width: 100%;
-      max-width: 650px;
-      background: rgba(255, 255, 255, 0.98);
-      border-radius: 24px;
-      padding: 40px 32px 32px;
-      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-    }
+/* TÍTULO / SUBTÍTULO */
+.title{
+  font-size:42px;
+  font-weight:800;
+  text-align:center;
+  margin-bottom:10px;
+}
+.subtitle{
+  font-size:17px;
+  opacity:.85;
+  text-align:center;
+  margin-bottom:32px;
+  line-height:1.45;
+  max-width:500px;
+  margin-left:auto;
+  margin-right:auto;
+}
 
-    body.dark .card {
-      background: rgba(15, 23, 42, 0.96);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
-    }
+/* TOGGLE LIGHT/DARK */
+.toggle-wrapper{
+  position:absolute;
+  top:22px;
+  right:30px;
+}
+.toggle-container{
+  width:115px;
+  height:34px;
+  background:#e5e7eb;
+  border-radius:40px;
+  padding:4px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  position:relative;
+  box-shadow:
+    inset 2px 2px 4px rgba(255,255,255,.85),
+    inset -2px -2px 4px rgba(0,0,0,.12);
+}
+body.dark .toggle-container{
+  background:#1e293b;
+}
+.toggle-label{
+  flex:1;
+  text-align:center;
+  font-size:11px;
+  font-weight:700;
+  opacity:.35;
+  z-index:2;
+  pointer-events:none;
+}
+.toggle-label.active{
+  opacity:1!important;
+  color:#111827;
+}
+body.dark .toggle-label.active{
+  color:white!important;
+}
+.toggle-thumb{
+  position:absolute;
+  top:4px;
+  left:4px;
+  width:50px;
+  height:26px;
+  background:white;
+  border-radius:30px;
+  transition:.25s ease;
+  box-shadow:
+    0 3px 6px rgba(0,0,0,.18),
+    inset 0 0 4px rgba(0,0,0,.10);
+}
+body.dark .toggle-thumb{
+  background:#1e293b;
+  box-shadow:
+    inset 0 0 4px rgba(255,255,255,.35),
+    0 4px 10px rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,.18);
+}
 
-    /* =============== CABEÇALHO CENTRALIZADO =============== */
-    .brand-block {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+/* FORM */
+form{text-align:left;margin-top:10px;}
 
-    .title {
-      font-size: 40px;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      margin-bottom: 8px;
-    }
+label{
+  font-size:16px;
+  font-weight:600;
+  margin-bottom:5px;
+  display:block;
+}
 
-    .subtitle {
-      font-size: 14px;
-      opacity: 0.85;
-      line-height: 1.5;
-    }
+input,select,textarea{
+  width:100%;
+  margin-bottom:22px;
+  padding:16px;
+  border:none;
+  border-radius:10px;
+  background:#f5f6fa;
+  font-size:16px;
+  outline:none;
+}
+body.dark input,
+body.dark select,
+body.dark textarea{
+  background:#1f2937;
+  color:white;
+  border:1px solid #374151;
+}
 
-    /* =============== TOGGLE LIGHT / DARK =============== */
-    .toggle-wrapper {
-      display: flex;
-      justify-content: center;
-      margin: 18px 0 28px;
-    }
+textarea{
+  height:120px;
+  resize:none;
+}
 
-    .theme-toggle {
-      display: inline-flex;
-      background: #e5e7eb;
-      border-radius: 999px;
-      padding: 4px;
-      position: relative;
-      box-shadow:
-        inset 1px 1px 2px rgba(255, 255, 255, 0.8),
-        inset -2px -2px 3px rgba(148, 163, 184, 0.7);
-      cursor: pointer;
-      gap: 4px;
-    }
+/* BOTÃO */
+button{
+  width:100%;
+  padding:18px;
+  border:none;
+  border-radius:14px;
+  background:#1a4ce8;
+  color:white;
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.25s ease;
+  box-shadow:
+    0 10px 25px rgba(30,64,175,.35);
+}
+button:hover{
+  background:#153fc2;
+}
+button:disabled{
+  opacity:.7;
+  cursor:default;
+}
 
-    body.dark .theme-toggle {
-      background: #020617;
-      box-shadow:
-        inset 1px 1px 2px rgba(30, 64, 175, 0.7),
-        inset -3px -3px 5px rgba(0, 0, 0, 0.9);
-    }
-
-    .toggle-segment {
-      position: relative;
-      z-index: 1;
-      padding: 6px 16px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #4b5563;
-      text-align: center;
-      user-select: none;
-    }
-
-    body.dark .toggle-segment {
-      color: #9ca3af;
-    }
-
-    .toggle-segment.active {
-      background: #ffffff;
-      color: #111827;
-      box-shadow: 0 3px 6px rgba(15, 23, 42, 0.25);
-    }
-
-    body.dark .toggle-segment.active {
-      background: #111827;
-      color: #f9fafb;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
-    }
-
-    /* =============== FORMULÁRIO =============== */
-    form {
-      margin-top: 8px;
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-    }
-
-    label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 14px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      background: #f9fafb;
-      font-size: 14px;
-      outline: none;
-      transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 1px #2563eb33;
-      background: #ffffff;
-    }
-
-    body.dark input,
-    body.dark select,
-    body.dark textarea {
-      background: #020617;
-      border-color: #374151;
-      color: #f9fafb;
-    }
-
-    body.dark input:focus,
-    body.dark select:focus,
-    body.dark textarea:focus {
-      border-color: #60a5fa;
-      box-shadow: 0 0 0 1px #60a5fa55;
-    }
-
-    textarea {
-      min-height: 120px;
-      resize: none;
-    }
-
-    /* =============== BOTÃO =============== */
-    .btn-primary {
-      width: 100%;
-      border: none;
-      border-radius: 999px;
-      padding: 16px;
-      margin-top: 10px;
-      font-size: 16px;
-      font-weight: 700;
-      color: #ffffff;
-      background: linear-gradient(120deg, #2563eb, #4f46e5);
-      cursor: pointer;
-      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.5);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 16px 38px rgba(37, 99, 235, 0.6);
-      opacity: 0.97;
-    }
-
-    .btn-primary:active {
-      transform: translateY(1px);
-      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.45);
-    }
-
-    .helper-text {
-      margin-top: 6px;
-      font-size: 12px;
-      opacity: 0.75;
-      text-align: center;
-    }
-
-    /* =============== MENSAGENS =============== */
-    #mensagem {
-      margin-top: 12px;
-      font-size: 13px;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    #mensagem.sucesso {
-      color: #16a34a;
-    }
-
-    #mensagem.erro {
-      color: #dc2626;
-    }
-
-    /* =============== RESPONSIVO =============== */
-    @media (max-width: 640px) {
-      .card {
-        padding: 28px 20px 24px;
-        border-radius: 20px;
-      }
-
-      .title {
-        font-size: 32px;
-      }
-    }
-  </style>
+/* MENSAGENS */
+.mensagem{
+  text-align:center;
+  margin-top:15px;
+  font-weight:700;
+}
+.mensagem.sucesso{color:#22c55e;}
+.mensagem.erro{color:#ef4444;}
+</style>
 </head>
-<body>
 
-  <div class="card">
+<body class="light">
 
-    <!-- CABEÇALHO -->
-    <div class="brand-block">
-      <h1 class="title">Easy Lawyer</h1>
-      <p class="subtitle">
-        Conectamos você ao advogado certo sem burocracia. Atendimento rápido, direto do seu celular.
-      </p>
+<div class="container">
+
+  <h1 class="title">Easy Lawyer</h1>
+
+  <!-- Toggle Light/Dark -->
+  <div class="toggle-wrapper">
+    <div class="toggle-container" id="themeToggle">
+      <span class="toggle-label active" id="labelLight">LIGHT</span>
+      <span class="toggle-label" id="labelDark">DARK</span>
+      <div class="toggle-thumb" id="toggleThumb"></div>
     </div>
-
-    <!-- TOGGLE LIGHT / DARK -->
-    <div class="toggle-wrapper">
-      <div class="theme-toggle" id="themeToggle">
-        <div class="toggle-segment active" data-theme="light" id="toggleLight">LIGHT</div>
-        <div class="toggle-segment" data-theme="dark" id="toggleDark">DARK</div>
-      </div>
-    </div>
-
-    <!-- FORMULÁRIO PRINCIPAL -->
-    <!-- IMPORTANTE: os names abaixo PRECISAM ser name, contact, area, summary
-         para bater com a função /api/leads que já está funcionando no backend. -->
-    <form id="leadForm">
-      <div class="form-group">
-        <label for="name">Seu nome completo</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder="Ex: Saulo Silva Ramos"
-          required
-        >
-      </div>
-
-      <div class="form-group">
-        <label for="contact">WhatsApp ou e-mail para contato</label>
-        <input
-          type="text"
-          id="contact"
-          name="contact"
-          placeholder="Ex: (86) 9 9999-9999 ou email@exemplo.com"
-          required
-        >
-      </div>
-
-      <div class="form-group">
-        <label for="area">Área do problema</label>
-        <select id="area" name="area" required>
-          <option value="">Selecione...</option>
-          <option value="Cível">Cível</option>
-          <option value="Trabalhista">Trabalhista</option>
-          <option value="Previdenciário">Previdenciário</option>
-          <option value="Família">Família</option>
-          <option value="Penal">Penal</option>
-          <option value="Consumidor">Consumidor</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="summary">Explique rapidamente sua situação</label>
-        <textarea
-          id="summary"
-          name="summary"
-          placeholder="Ex: roubaram minha Makita..."
-          required
-        ></textarea>
-      </div>
-
-      <button type="submit" class="btn-primary">Enviar para um advogado</button>
-
-      <p class="helper-text">
-        Você não está contratando um advogado ainda. Primeiro um especialista vai analisar e retornar.
-      </p>
-
-      <p id="mensagem"></p>
-    </form>
   </div>
 
-  <script>
-    // ============================
-    // CONTROLE DO TEMA LIGHT/DARK
-    // ============================
-    const toggle = document.getElementById("themeToggle");
-    const segLight = document.getElementById("toggleLight");
-    const segDark  = document.getElementById("toggleDark");
+  <p class="subtitle">
+    Explique seu problema em poucos minutos e nós conectaremos você ao advogado certo, no momento certo.
+  </p>
 
-    function setTheme(mode) {
-      if (mode === "dark") {
-        document.body.classList.add("dark");
-        segLight.classList.remove("active");
-        segDark.classList.add("active");
-      } else {
-        document.body.classList.remove("dark");
-        segDark.classList.remove("active");
-        segLight.classList.add("active");
-      }
+  <!-- Form principal -->
+  <form id="leadForm">
+    <label>Seu nome completo</label>
+    <input type="text" name="name" required placeholder="Ex: Júlio César Crispim Muniz">
+
+    <label>
+      Telefone (WhatsApp)
+      <span style="font-weight:400;font-size:13px;opacity:.7;">(obrigatório)</span>
+    </label>
+    <input
+      type="tel"
+      name="phone"
+      required
+      placeholder="(86) 9 9999-9999">
+
+    <label>
+      E-mail
+      <span style="font-weight:400;font-size:13px;opacity:.7;">(opcional)</span>
+    </label>
+    <input
+      type="email"
+      name="email"
+      placeholder="email@exemplo.com">
+
+    <label>Área do problema</label>
+    <select name="area" required>
+      <option value="">Selecione...</option>
+      <option value="Criminal">Criminal</option>
+      <option value="Previdenciário">Previdenciário</option>
+      <option value="Família">Família</option>
+      <option value="Trabalhista">Trabalhista</option>
+      <option value="Civil">Civil</option>
+    </select>
+
+    <label>Explique rapidamente sua situação</label>
+    <!-- resumo limitado a 1000 caracteres -->
+    <textarea
+      name="summary"
+      required
+      maxlength="1000"
+      placeholder="Descreva o que aconteceu, com datas importantes, decisões do INSS ou da Justiça, valores aproximados, etc."></textarea>
+
+    <button type="submit">Enviar para um advogado</button>
+
+    <p id="mensagem" class="mensagem"></p>
+  </form>
+
+</div>
+
+<script>
+// ========== TEMA LIGHT/DARK ==========
+const toggle = document.getElementById("themeToggle");
+const thumb = document.getElementById("toggleThumb");
+const labelLight = document.getElementById("labelLight");
+const labelDark = document.getElementById("labelDark");
+
+function setTheme(mode){
+  if(mode==="light"){
+    document.body.classList.remove("dark");
+    thumb.style.left="4px";
+    labelLight.classList.add("active");
+    labelDark.classList.remove("active");
+  }else{
+    document.body.classList.add("dark");
+    thumb.style.left="60px";
+    labelLight.classList.remove("active");
+    labelDark.classList.add("active");
+  }
+}
+
+// Inicia em LIGHT
+setTheme("light");
+
+toggle.addEventListener("click",()=>{
+  const isDark = document.body.classList.contains("dark");
+  setTheme(isDark ? "light" : "dark");
+});
+
+// ========== FORM / ENVIO PARA BACKEND ==========
+const form = document.getElementById("leadForm");
+const msg = document.getElementById("mensagem");
+const submitBtn = form.querySelector("button");
+
+/**
+ * Envio do formulário:
+ * - Valida dados
+ * - Envia para a rota /api/leads (Vercel + Resend)
+ * - Mostra mensagens de sucesso/erro
+ */
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // limpa mensagem antiga
+  msg.textContent = "";
+  msg.className = "mensagem";
+
+  const formData = new FormData(form);
+  const name   = (formData.get("name")   || "").trim();
+  const phone  = (formData.get("phone")  || "").trim();
+  const email  = (formData.get("email")  || "").trim();
+  const area   = (formData.get("area")   || "").trim();
+  const summary= (formData.get("summary")|| "").trim();
+
+  // ===== validações no front =====
+
+  // telefone obrigatório
+  if (!phone) {
+    msg.textContent = "O telefone é obrigatório.";
+    msg.classList.add("erro");
+    return;
+  }
+
+  // telefone minimamente válido (só dígitos ≥ 9)
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length < 9) {
+    msg.textContent = "Informe um telefone válido (com DDD).";
+    msg.classList.add("erro");
+    return;
+  }
+
+  // e-mail é opcional, mas se veio, checa formato básico
+  if (email && !email.includes("@")) {
+    msg.textContent = "Informe um e-mail válido.";
+    msg.classList.add("erro");
+    return;
+  }
+
+  // resumo não pode ser só espaço
+  if (!summary) {
+    msg.textContent = "Descreva rapidamente o seu caso.";
+    msg.classList.add("erro");
+    return;
+  }
+
+  // só por garantia, respeitar o limite de 1000 caracteres
+  if (summary.length > 1000) {
+    msg.textContent = "O resumo está muito longo. Resuma em até 1000 caracteres.";
+    msg.classList.add("erro");
+    return;
+  }
+
+  // payload final que vai pro backend
+  const payload = { name, phone, email, area, summary };
+
+  // estado de "Enviando..."
+  submitBtn.disabled = true;
+  const originalText = submitBtn.textContent;
+  submitBtn.textContent = "Enviando...";
+
+  try {
+    const resp = await fetch("/api/leads", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload),
+    });
+
+    const json = await resp.json().catch(() => ({}));
+
+    if (!resp.ok) {
+      throw new Error(json.error || "Erro ao enviar.");
     }
 
-    // começa sempre em LIGHT
-    setTheme("light");
+    msg.textContent =
+      "Caso enviado com sucesso! Um advogado especialista vai entrar em contato em breve.";
+    msg.classList.add("sucesso");
+    form.reset();
 
-    // alterna ao clicar em qualquer parte do toggle
-    toggle.addEventListener("click", () => {
-      const isDark = document.body.classList.contains("dark");
-      setTheme(isDark ? "light" : "dark");
-    });
+  } catch (err) {
+    console.error(err);
+    msg.textContent =
+      "Não foi possível enviar agora. Tente novamente em alguns minutos.";
+    msg.classList.add("erro");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+  }
+});
+</script>
 
-    // ============================
-    // ENVIO DO FORMULÁRIO
-    // ============================
-    const form = document.getElementById("leadForm");
-    const mensagemEl = document.getElementById("mensagem");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      mensagemEl.textContent = "";
-      mensagemEl.className = "";
-
-      // transforma o formulário em objeto { name, contact, area, summary }
-      const data = Object.fromEntries(new FormData(form));
-
-      try {
-        const resp = await fetch("/api/leads", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-
-        if (!resp.ok) {
-          throw new Error("HTTP não OK");
-        }
-
-        // se quiser, pode ler resp.json() aqui, mas não é obrigatório
-        mensagemEl.textContent =
-          "E-mail enviado com sucesso! Um advogado especialista vai entrar em contato em breve.";
-        mensagemEl.className = "sucesso";
-        form.reset();
-      } catch (err) {
-        console.error(err);
-        mensagemEl.textContent = "Erro ao enviar. Tente novamente.";
-        mensagemEl.className = "erro";
-      }
-    });
-  </script>
 </body>
 </html>
