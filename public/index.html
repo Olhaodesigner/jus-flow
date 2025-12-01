@@ -3,7 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Easy Lawyer</title>
+
+<title>Easy Lawyer | Fale rápido com um advogado especialista</title>
+
+<meta name="description" content="Explique seu problema em poucos minutos e a Easy Lawyer conecta você ao advogado especialista mais adequado para o seu caso, em qualquer área do Direito. Atendimento humano, rápido e direto.">
+
+<!-- SEO / Open Graph -->
+<meta property="og:title" content="Easy Lawyer | Fale rápido com um advogado especialista">
+<meta property="og:description" content="Conte seu problema em poucos minutos e receba contato de um advogado especialista. Simples, rápido e direto do seu celular.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jus-flow-fhuq.vercel.app">
+<meta property="og:locale" content="pt_BR">
+
+<link rel="canonical" href="https://jus-flow-fhuq.vercel.app">
+
+<!-- JSON-LD básico para SEO (serviço jurídico) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LegalService",
+  "name": "Easy Lawyer",
+  "url": "https://jus-flow-fhuq.vercel.app",
+  "description": "Plataforma que conecta pessoas a advogados especialistas de forma rápida e simples.",
+  "areaServed": "Brazil",
+  "serviceType": "Serviços de advocacia e consultoria jurídica"
+}
+</script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -26,7 +51,7 @@ body.dark{
   width:100%;
   max-width:650px;
   background:white;
-  padding:50px 40px;
+  padding:50px 40px 40px;
   border-radius:25px;
   box-shadow:
     0 20px 45px rgba(0,0,0,.10),
@@ -45,20 +70,54 @@ body.dark .container{
   font-size:42px;
   font-weight:800;
   text-align:center;
-  margin-bottom:10px;
+  margin-bottom:4px;
 }
 
-/* SUBTÍTULO */
+/* SUBTÍTULO PRINCIPAL (COPY) */
 .subtitle{
   font-size:17px;
-  opacity:.85;
+  opacity:.9;
   text-align:center;
-  margin-bottom:32px;
+  margin-bottom:26px;
   line-height:1.45;
-  max-width:500px;
+  max-width:520px;
   margin-left:auto;
   margin-right:auto;
 }
+
+/* NAV “MULTI-PÁGINA” */
+.nav{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  margin-bottom:18px;
+  font-size:14px;
+}
+.nav a{
+  color:#6b7280;
+  text-decoration:none;
+  font-weight:500;
+  position:relative;
+  padding-bottom:3px;
+}
+.nav a:hover{
+  color:#111827;
+}
+.nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0;
+  height:2px;
+  background:#1a4ce8;
+  transition:.2s ease;
+}
+.nav a:hover::after{
+  width:100%;
+}
+body.dark .nav a{color:#9ca3af;}
+body.dark .nav a:hover{color:#e5e7eb;}
 
 /* TOGGLE */
 .toggle-wrapper{
@@ -181,6 +240,28 @@ button:hover{
 }
 .mensagem.sucesso{color:#22c55e;}
 .mensagem.erro{color:#ef4444;}
+
+/* SEÇÕES INFORMATIVAS (para “multi-página”) */
+.section{
+  margin-top:35px;
+  text-align:left;
+  font-size:14px;
+  line-height:1.6;
+  color:#4b5563;
+}
+.section h2{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:8px;
+}
+.section ul{
+  margin-left:18px;
+  margin-top:6px;
+}
+.section li{
+  margin-bottom:4px;
+}
+body.dark .section{color:#d1d5db;}
 </style>
 
 </head>
@@ -199,38 +280,82 @@ button:hover{
         </div>
     </div>
 
+    <!-- “Multi-página” por âncoras -->
+    <nav class="nav">
+        <a href="#form">Quero falar com um advogado</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#para-advogados">Para advogados</a>
+        <a href="#faq">Dúvidas frequentes</a>
+    </nav>
+
     <p class="subtitle">
-        Explique seu problema em poucos minutos e nós conectaremos você ao advogado certo, no momento certo.
+        Conte seu problema em poucos minutos. Nós filtramos sua demanda e encaminhamos para um advogado especialista,
+        que entra em contato diretamente com você.
     </p>
 
     <form id="leadForm">
+        <div id="form"></div>
+
         <label>Seu nome completo</label>
-        <!-- name DEVE SER "name" (como estava antes no backend) -->
         <input type="text" name="name" required placeholder="Ex: Júlio César Crispim Muniz">
 
         <label>Telefone ou e-mail para contato</label>
-        <!-- name DEVE SER "contact" -->
-        <input type="text" name="contact" required placeholder="(86) 9 9999-9999 ou email@exemplo.com">
+        <input type="text" name="contact" required placeholder="WhatsApp ou e-mail para retorno">
 
         <label>Área do problema</label>
-        <!-- name DEVE SER "area" -->
         <select name="area" required>
             <option value="">Selecione...</option>
+            <option value="Previdenciário">Previdenciário (INSS, aposentadoria, benefícios)</option>
+            <option value="Trabalhista">Trabalhista (demissão, verbas, FGTS)</option>
+            <option value="Família">Família (pensão, divórcio, guarda)</option>
             <option value="Criminal">Criminal</option>
-            <option value="Previdenciário">Previdenciário</option>
-            <option value="Família">Família</option>
-            <option value="Trabalhista">Trabalhista</option>
-            <option value="Civil">Civil</option>
+            <option value="Civil">Civil / Consumidor</option>
         </select>
 
         <label>Explique rapidamente sua situação</label>
-        <!-- name DEVE SER "summary" -->
-        <textarea name="summary" required placeholder="Descreva o que aconteceu..."></textarea>
+        <textarea name="summary" required placeholder="Ex: fui demitido sem justa causa e não recebi minhas verbas. Quero saber meus direitos."></textarea>
 
         <button type="submit">Enviar para um advogado</button>
 
         <p id="mensagem" class="mensagem"></p>
     </form>
+
+    <!-- SEÇÃO COMO FUNCIONA -->
+    <section class="section" id="como-funciona">
+        <h2>Como funciona na prática</h2>
+        <p>
+            1. Você preenche o formulário com um resumo do problema.<br>
+            2. A Easy Lawyer recebe o caso e identifica o tipo de demanda.<br>
+            3. Encaminhamos para um advogado especialista na área indicada.<br>
+            4. O advogado entra em contato diretamente com você (por WhatsApp, telefone ou e-mail).
+        </p>
+    </section>
+
+    <!-- SEÇÃO PARA ADVOGADOS -->
+    <section class="section" id="para-advogados">
+        <h2>Para advogados e escritórios</h2>
+        <p>
+            A Easy Lawyer foi pensada para captar demandas reais e qualificadas, reduzindo o tempo gasto com triagem.
+        </p>
+        <ul>
+            <li>Leads com área de atuação já sinalizada (previdenciário, trabalhista, família etc.).</li>
+            <li>Contato direto do cliente final (WhatsApp, telefone ou e-mail).</li>
+            <li>Possibilidade de atender casos de qualquer lugar, a partir do seu escritório.</li>
+        </ul>
+        <p style="margin-top:6px;font-size:13px;opacity:.85;">
+            Em breve, um painel exclusivo para advogados acompanhar os casos recebidos pela plataforma.
+        </p>
+    </section>
+
+    <!-- SEÇÃO FAQ -->
+    <section class="section" id="faq">
+        <h2>Dúvidas frequentes</h2>
+        <p><strong>Minha mensagem já cai direto com um advogado?</strong><br>
+        Sim. Usamos seus dados apenas para que um advogado especialista entre em contato com você sobre este caso.</p>
+        <br>
+        <p><strong>Tenho custo para enviar o formulário?</strong><br>
+        Não. O envio do caso pela Easy Lawyer é gratuito. Eventuais honorários são tratados diretamente com o advogado.</p>
+    </section>
 
 </div>
 
@@ -263,9 +388,12 @@ toggle.addEventListener("click",()=>{
 // Sempre inicia em LIGHT
 setTheme("light");
 
-// ====== FORM / ENVIO ======
+// ====== FORM / ENVIO + WHATSAPP ======
 const form = document.getElementById("leadForm");
-const msg = document.getElementById("mensagem");
+const msg  = document.getElementById("mensagem");
+
+// ALTERE ESTE NÚMERO PARA O WHATSAPP DO ADVOGADO/ESCRITÓRIO (COM DDI E DDD, SOMENTE NÚMEROS)
+const WHATSAPP_NUMBER = "5586999999999"; // exemplo: 55 + DDD + número
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -273,11 +401,9 @@ form.addEventListener("submit", async (e) => {
   msg.textContent = "";
   msg.className = "mensagem";
 
-  // Agora os name="..." já batem com o backend.
   const data = Object.fromEntries(new FormData(form));
 
   try {
-    // MESMA ROTA QUE VOCÊ USAVA QUANDO ESTAVA FUNCIONANDO
     const resp = await fetch("/api/leads", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -288,9 +414,22 @@ form.addEventListener("submit", async (e) => {
       throw new Error("Resposta não OK");
     }
 
+    // mensagem de sucesso
     msg.textContent =
-      "E-mail enviado com sucesso! Um advogado especialista vai entrar em contato em breve!";
+      "E-mail enviado com sucesso! Um advogado especialista vai entrar em contato em breve. Também abrimos uma conversa no WhatsApp para agilizar o atendimento.";
     msg.classList.add("sucesso");
+
+    // Monta texto para WhatsApp
+    const textoWhats = `Olá, sou ${data.name}.
+Área do problema: ${data.area}.
+Resumo: ${data.summary}
+Meu contato para retorno: ${data.contact}`;
+
+    const urlWhats = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(textoWhats)}`;
+
+    // Abre WhatsApp em nova aba/janela
+    window.open(urlWhats, "_blank");
+
     form.reset();
 
   } catch (error) {
