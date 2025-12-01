@@ -21,7 +21,7 @@ body.dark{
   color:#e5e7eb;
 }
 
-/* CARD PRINCIPAL */
+/* CARD */
 .container{
   width:100%;
   max-width:650px;
@@ -40,13 +40,13 @@ body.dark .container{
     0 6px 12px rgba(0,0,0,.25);
 }
 
-/* TÍTULO / SUBTÍTULO */
 .title{
   font-size:42px;
   font-weight:800;
   text-align:center;
   margin-bottom:10px;
 }
+
 .subtitle{
   font-size:17px;
   opacity:.85;
@@ -58,7 +58,7 @@ body.dark .container{
   margin-right:auto;
 }
 
-/* TOGGLE LIGHT/DARK */
+/* THEME TOGGLE */
 .toggle-wrapper{
   position:absolute;
   top:22px;
@@ -75,29 +75,20 @@ body.dark .container{
   align-items:center;
   cursor:pointer;
   position:relative;
-  box-shadow:
-    inset 2px 2px 4px rgba(255,255,255,.85),
-    inset -2px -2px 4px rgba(0,0,0,.12);
 }
-body.dark .toggle-container{
-  background:#1e293b;
-}
+body.dark .toggle-container{background:#1e293b;}
 .toggle-label{
   flex:1;
   text-align:center;
   font-size:11px;
   font-weight:700;
   opacity:.35;
-  z-index:2;
-  pointer-events:none;
 }
 .toggle-label.active{
   opacity:1!important;
   color:#111827;
 }
-body.dark .toggle-label.active{
-  color:white!important;
-}
+body.dark .toggle-label.active{color:white!important;}
 .toggle-thumb{
   position:absolute;
   top:4px;
@@ -107,28 +98,20 @@ body.dark .toggle-label.active{
   background:white;
   border-radius:30px;
   transition:.25s ease;
-  box-shadow:
-    0 3px 6px rgba(0,0,0,.18),
-    inset 0 0 4px rgba(0,0,0,.10);
 }
 body.dark .toggle-thumb{
   background:#1e293b;
-  box-shadow:
-    inset 0 0 4px rgba(255,255,255,.35),
-    0 4px 10px rgba(0,0,0,.28);
-  border:1px solid rgba(255,255,255,.18);
+  border:1px solid #374151;
 }
 
 /* FORM */
 form{text-align:left;margin-top:10px;}
-
 label{
   font-size:16px;
   font-weight:600;
   margin-bottom:5px;
   display:block;
 }
-
 input,select,textarea{
   width:100%;
   margin-bottom:22px;
@@ -137,7 +120,6 @@ input,select,textarea{
   border-radius:10px;
   background:#f5f6fa;
   font-size:16px;
-  outline:none;
 }
 body.dark input,
 body.dark select,
@@ -146,13 +128,12 @@ body.dark textarea{
   color:white;
   border:1px solid #374151;
 }
-
 textarea{
   height:120px;
   resize:none;
 }
 
-/* BOTÃO */
+/* BUTTON */
 button{
   width:100%;
   padding:18px;
@@ -164,18 +145,10 @@ button{
   font-weight:700;
   cursor:pointer;
   transition:.25s ease;
-  box-shadow:
-    0 10px 25px rgba(30,64,175,.35);
 }
-button:hover{
-  background:#153fc2;
-}
-button:disabled{
-  opacity:.7;
-  cursor:default;
-}
+button:hover{background:#153fc2;}
+button:disabled{opacity:.7;cursor:default;}
 
-/* MENSAGENS */
 .mensagem{
   text-align:center;
   margin-top:15px;
@@ -184,6 +157,7 @@ button:disabled{
 .mensagem.sucesso{color:#22c55e;}
 .mensagem.erro{color:#ef4444;}
 </style>
+
 </head>
 
 <body class="light">
@@ -192,7 +166,6 @@ button:disabled{
 
   <h1 class="title">Easy Lawyer</h1>
 
-  <!-- Toggle Light/Dark -->
   <div class="toggle-wrapper">
     <div class="toggle-container" id="themeToggle">
       <span class="toggle-label active" id="labelLight">LIGHT</span>
@@ -202,32 +175,18 @@ button:disabled{
   </div>
 
   <p class="subtitle">
-    Explique seu problema em poucos minutos e nós conectaremos você ao advogado certo, no momento certo.
+    Explique seu problema em poucos minutos e nós conectaremos você ao advogado certo.
   </p>
 
-  <!-- Form principal -->
   <form id="leadForm">
     <label>Seu nome completo</label>
     <input type="text" name="name" required placeholder="Ex: Júlio César Crispim Muniz">
 
-    <label>
-      Telefone (WhatsApp)
-      <span style="font-weight:400;font-size:13px;opacity:.7;">(obrigatório)</span>
-    </label>
-    <input
-      type="tel"
-      name="phone"
-      required
-      placeholder="(86) 9 9999-9999">
+    <label>Telefone (WhatsApp) <span style="opacity:.7;font-size:13px;">(obrigatório)</span></label>
+    <input type="tel" name="phone" required placeholder="(86) 9 9999-9999">
 
-    <label>
-      E-mail
-      <span style="font-weight:400;font-size:13px;opacity:.7;">(opcional)</span>
-    </label>
-    <input
-      type="email"
-      name="email"
-      placeholder="email@exemplo.com">
+    <label>E-mail <span style="opacity:.7;font-size:13px;">(opcional)</span></label>
+    <input type="email" name="email" placeholder="email@exemplo.com">
 
     <label>Área do problema</label>
     <select name="area" required>
@@ -240,12 +199,7 @@ button:disabled{
     </select>
 
     <label>Explique rapidamente sua situação</label>
-    <!-- resumo limitado a 1000 caracteres -->
-    <textarea
-      name="summary"
-      required
-      maxlength="1000"
-      placeholder="Descreva o que aconteceu, com datas importantes, decisões do INSS ou da Justiça, valores aproximados, etc."></textarea>
+    <textarea name="summary" required maxlength="1000" placeholder="Descreva o que aconteceu..."></textarea>
 
     <button type="submit">Enviar para um advogado</button>
 
@@ -255,12 +209,11 @@ button:disabled{
 </div>
 
 <script>
-// ========== TEMA LIGHT/DARK ==========
+/* THEME */
 const toggle = document.getElementById("themeToggle");
 const thumb = document.getElementById("toggleThumb");
 const labelLight = document.getElementById("labelLight");
 const labelDark = document.getElementById("labelDark");
-
 function setTheme(mode){
   if(mode==="light"){
     document.body.classList.remove("dark");
@@ -274,112 +227,77 @@ function setTheme(mode){
     labelDark.classList.add("active");
   }
 }
-
-// Inicia em LIGHT
 setTheme("light");
+toggle.addEventListener("click",()=>{setTheme(document.body.classList.contains("dark")?"light":"dark");});
 
-toggle.addEventListener("click",()=>{
-  const isDark = document.body.classList.contains("dark");
-  setTheme(isDark ? "light" : "dark");
-});
-
-// ========== FORM / ENVIO PARA BACKEND ==========
+/* FORM */
 const form = document.getElementById("leadForm");
 const msg = document.getElementById("mensagem");
 const submitBtn = form.querySelector("button");
 
-/**
- * Envio do formulário:
- * - Valida dados
- * - Envia para a rota /api/leads (Vercel + Resend)
- * - Mostra mensagens de sucesso/erro
- */
-form.addEventListener("submit", async (e) => {
+form.addEventListener("submit", async (e)=>{
   e.preventDefault();
 
-  // limpa mensagem antiga
-  msg.textContent = "";
-  msg.className = "mensagem";
+  msg.textContent="";
+  msg.className="mensagem";
 
-  const formData = new FormData(form);
-  const name   = (formData.get("name")   || "").trim();
-  const phone  = (formData.get("phone")  || "").trim();
-  const email  = (formData.get("email")  || "").trim();
-  const area   = (formData.get("area")   || "").trim();
-  const summary= (formData.get("summary")|| "").trim();
+  const data = Object.fromEntries(new FormData(form));
+  const name=data.name.trim();
+  const phone=data.phone.trim();
+  const email=data.email.trim();
+  const area=data.area.trim();
+  const summary=data.summary.trim();
 
-  // ===== validações no front =====
-
-  // telefone obrigatório
-  if (!phone) {
-    msg.textContent = "O telefone é obrigatório.";
+  if(!phone){
+    msg.textContent="O telefone é obrigatório.";
+    msg.classList.add("erro");
+    return;
+  }
+  const digits=phone.replace(/\D/g,"");
+  if(digits.length<9){
+    msg.textContent="Telefone inválido.";
+    msg.classList.add("erro");
+    return;
+  }
+  if(email && !email.includes("@")){
+    msg.textContent="E-mail inválido.";
+    msg.classList.add("erro");
+    return;
+  }
+  if(!summary){
+    msg.textContent="Descreva sua situação.";
     msg.classList.add("erro");
     return;
   }
 
-  // telefone minimamente válido (só dígitos ≥ 9)
-  const digits = phone.replace(/\D/g, "");
-  if (digits.length < 9) {
-    msg.textContent = "Informe um telefone válido (com DDD).";
-    msg.classList.add("erro");
-    return;
-  }
+  submitBtn.disabled=true;
+  const originalText=submitBtn.textContent;
+  submitBtn.textContent="Enviando...";
 
-  // e-mail é opcional, mas se veio, checa formato básico
-  if (email && !email.includes("@")) {
-    msg.textContent = "Informe um e-mail válido.";
-    msg.classList.add("erro");
-    return;
-  }
+  const payload={name,phone,email,area,summary};
 
-  // resumo não pode ser só espaço
-  if (!summary) {
-    msg.textContent = "Descreva rapidamente o seu caso.";
-    msg.classList.add("erro");
-    return;
-  }
-
-  // só por garantia, respeitar o limite de 1000 caracteres
-  if (summary.length > 1000) {
-    msg.textContent = "O resumo está muito longo. Resuma em até 1000 caracteres.";
-    msg.classList.add("erro");
-    return;
-  }
-
-  // payload final que vai pro backend
-  const payload = { name, phone, email, area, summary };
-
-  // estado de "Enviando..."
-  submitBtn.disabled = true;
-  const originalText = submitBtn.textContent;
-  submitBtn.textContent = "Enviando...";
-
-  try {
-    const resp = await fetch("/api/leads", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(payload),
+  try{
+    const resp = await fetch("/api/leads",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
     });
 
-    const json = await resp.json().catch(() => ({}));
+    const json=await resp.json();
 
-    if (!resp.ok) {
-      throw new Error(json.error || "Erro ao enviar.");
-    }
+    if(!resp.ok) throw new Error(json.error||"Erro");
 
-    msg.textContent =
-      "Caso enviado com sucesso! Um advogado especialista vai entrar em contato em breve.";
+    msg.textContent="Caso enviado! Um advogado entrará em contato.";
     msg.classList.add("sucesso");
     form.reset();
 
-  } catch (err) {
+  }catch(err){
     console.error(err);
-    msg.textContent =
-      "Não foi possível enviar agora. Tente novamente em alguns minutos.";
+    msg.textContent="Erro ao enviar. Tente novamente.";
     msg.classList.add("erro");
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = originalText;
+  }finally{
+    submitBtn.disabled=false;
+    submitBtn.textContent=originalText;
   }
 });
 </script>
