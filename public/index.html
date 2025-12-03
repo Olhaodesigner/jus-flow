@@ -1,649 +1,263 @@
-<!--
-  public/index.html
-  Landing + "chat" – BRITO VILARINHO ADVOCACIA
-  Este arquivo substitui o modelo EASY LAWYER anterior.
--->
+// pages/index.jsx
+// Landing + Chat – BRITO VILARINHO ADVOCACIA
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Brito Vilarinho Advocacia • Atendimento Jurídico Inteligente</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+import { useState } from "react";
+import Image from "next/image";
 
-    <!-- Fonte limpa e moderna -->
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+export default function Home() {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [area, setArea] = useState("");
+  const [summary, setSummary] = useState("");
 
-    <style>
-      :root {
-        --bg: #020617;
-        --bg-elevated: #020617;
-        --bg-card: #020617;
-        --bg-card-soft: #020617;
-        --border-subtle: #1f2937;
-        --indigo: #4f46e5;
-        --indigo-soft: rgba(79, 70, 229, 0.08);
-        --text-main: #e5e7eb;
-        --text-soft: #9ca3af;
-        --text-muted: #6b7280;
-        --danger: #f97373;
-        --success: #34d399;
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    setSuccessMessage("");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          phone,
+          email,
+          area,
+          summary,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Erro ao enviar. Tente novamente.");
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      setSuccessMessage("Caso enviado com sucesso para o advogado.");
+      setName("");
+      setPhone("");
+      setEmail("");
+      setArea("");
+      setSummary("");
+    } catch (err) {
+      setErrorMessage(err.message || "Erro inesperado. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", sans-serif;
-        background: radial-gradient(circle at top, #020617 0, #000 60%);
-        color: var(--text-main);
-      }
-
-      body {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .app-shell {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .container {
-        max-width: 1120px;
-        margin: 0 auto;
-        padding: 0 1.25rem;
-      }
-
-      /* Top bar */
-
-      .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        backdrop-filter: blur(14px);
-        background: linear-gradient(
-          to bottom,
-          rgba(15, 23, 42, 0.92),
-          rgba(15, 23, 42, 0.8),
-          transparent
-        );
-        border-bottom: 1px solid rgba(15, 23, 42, 0.7);
-      }
-
-      .topbar-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.7rem 0;
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
-
-      .brand-logo {
-        width: 36px;
-        height: 36px;
-        border-radius: 999px;
-        border: 1px solid #1f2937;
-        background: radial-gradient(circle at 25% 0, #1d2437, #020617 60%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-      }
-
-      .brand-logo img {
-        max-width: 80%;
-        max-height: 80%;
-        display: block;
-      }
-
-      .brand-text-title {
-        font-size: 0.9rem;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-      }
-
-      .brand-text-sub {
-        font-size: 0.7rem;
-        color: var(--text-soft);
-      }
-
-      /* Layout */
-
-      .main {
-        flex: 1;
-        padding: 2.5rem 0 3.5rem;
-      }
-
-      .grid {
-        display: grid;
-        gap: 2.5rem;
-      }
-
-      @media (min-width: 880px) {
-        .grid {
-          grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-          align-items: stretch;
-        }
-      }
-
-      /* Left section (copy) */
-
-      .chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.35rem 0.9rem;
-        border-radius: 999px;
-        border: 1px solid rgba(148, 163, 184, 0.4);
-        background: radial-gradient(
-          circle at top left,
-          rgba(79, 70, 229, 0.1),
-          rgba(15, 23, 42, 0.95)
-        );
-        font-size: 0.7rem;
-        color: var(--text-soft);
-      }
-
-      .chip-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 999px;
-        background: #22c55e;
-      }
-
-      .title-block {
-        margin-top: 1.3rem;
-        margin-bottom: 1rem;
-      }
-
-      .headline {
-        font-size: 2rem;
-        line-height: 1.2;
-        font-weight: 600;
-      }
-
-      @media (min-width: 880px) {
-        .headline {
-          font-size: 2.5rem;
-        }
-      }
-
-      .headline span {
-        display: block;
-        background: linear-gradient(120deg, #a5b4fc, #22c1c3);
-        -webkit-background-clip: text;
-        color: transparent;
-      }
-
-      .subtitle {
-        font-size: 0.9rem;
-        color: var(--text-soft);
-        max-width: 32rem;
-      }
-
-      .bullets {
-        margin-top: 1.5rem;
-        margin-bottom: 1.2rem;
-        list-style: none;
-        padding: 0;
-      }
-
-      .bullets li {
-        font-size: 0.9rem;
-        color: var(--text-main);
-        margin-bottom: 0.5rem;
-        display: flex;
-        align-items: baseline;
-        gap: 0.5rem;
-      }
-
-      .bullet-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 999px;
-        background: var(--indigo);
-        margin-top: 0.25rem;
-      }
-
-      .disclaimer {
-        font-size: 0.7rem;
-        color: var(--text-muted);
-        max-width: 30rem;
-      }
-
-      /* Right section (card/chat) */
-
-      .card {
-        height: 100%;
-        background: radial-gradient(
-            circle at top,
-            rgba(79, 70, 229, 0.18),
-            transparent 55%
-          ),
-          radial-gradient(
-            circle at bottom,
-            rgba(15, 23, 42, 0.8),
-            rgba(15, 23, 42, 1)
-          );
-        border-radius: 24px;
-        border: 1px solid rgba(15, 23, 42, 0.9);
-        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.8);
-        padding: 1.1rem 1rem 1.25rem;
-        display: flex;
-        flex-direction: column;
-      }
-
-      @media (min-width: 880px) {
-        .card {
-          padding: 1.25rem 1.25rem 1.4rem;
-        }
-      }
-
-      .chat-header {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 0.85rem;
-      }
-
-      .chat-avatar {
-        width: 34px;
-        height: 34px;
-        border-radius: 999px;
-        border: 1px solid #1f2937;
-        background: radial-gradient(circle at 20% 0, #111827, #020617);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-      }
-
-      .chat-avatar img {
-        max-width: 80%;
-        max-height: 80%;
-      }
-
-      .chat-title {
-        font-size: 0.8rem;
-        font-weight: 600;
-      }
-
-      .chat-sub {
-        font-size: 0.7rem;
-        color: var(--text-soft);
-        margin-top: 1px;
-      }
-
-      .chat-status {
-        margin-left: auto;
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        font-size: 0.7rem;
-        color: var(--text-soft);
-      }
-
-      .chat-status-dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 999px;
-        background: #22c55e;
-      }
-
-      .chat-info {
-        border-radius: 16px;
-        border: 1px solid rgba(148, 163, 184, 0.25);
-        background: radial-gradient(
-            circle at top left,
-            rgba(79, 70, 229, 0.16),
-            transparent 55%
-          ),
-          rgba(15, 23, 42, 0.96);
-        padding: 0.7rem 0.9rem;
-        font-size: 0.75rem;
-        color: var(--text-main);
-        margin-bottom: 0.85rem;
-      }
-
-      .chat-info p {
-        margin: 0.25rem 0;
-      }
-
-      /* Form */
-
-      .form {
-        margin-top: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 0.55rem;
-      }
-
-      .field-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
-
-      .field-row {
-        display: grid;
-        gap: 0.55rem;
-      }
-
-      @media (min-width: 640px) {
-        .field-row {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-      }
-
-      .label {
-        font-size: 0.72rem;
-        color: var(--text-soft);
-      }
-
-      .input,
-      .textarea {
-        width: 100%;
-        border-radius: 0.75rem;
-        border: 1px solid var(--border-subtle);
-        background: rgba(15, 23, 42, 0.98);
-        color: var(--text-main);
-        font-size: 0.78rem;
-        padding: 0.55rem 0.75rem;
-        outline: none;
-        transition: border-color 0.18s ease, box-shadow 0.18s ease,
-          background 0.18s ease;
-      }
-
-      .input::placeholder,
-      .textarea::placeholder {
-        color: #4b5563;
-      }
-
-      .input:focus,
-      .textarea:focus {
-        border-color: var(--indigo);
-        box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.5);
-        background: rgba(15, 23, 42, 1);
-      }
-
-      .textarea {
-        min-height: 85px;
-        resize: vertical;
-      }
-
-      .helper {
-        font-size: 0.7rem;
-        color: var(--text-muted);
-      }
-
-      .status-message {
-        font-size: 0.72rem;
-        margin-top: 0.15rem;
-      }
-
-      .status-error {
-        color: var(--danger);
-      }
-
-      .status-success {
-        color: var(--success);
-      }
-
-      .button {
-        margin-top: 0.3rem;
-        width: 100%;
-        border: none;
-        border-radius: 999px;
-        padding: 0.65rem 1rem;
-        font-size: 0.8rem;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        cursor: pointer;
-        color: #e5e7eb;
-        background: linear-gradient(135deg, #4f46e5, #6366f1);
-        box-shadow: 0 14px 30px rgba(79, 70, 229, 0.35);
-        transition: transform 0.12s ease, box-shadow 0.12s ease,
-          filter 0.12s ease, background 0.12s ease;
-      }
-
-      .button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 18px 34px rgba(79, 70, 229, 0.45);
-        filter: brightness(1.05);
-      }
-
-      .button:active {
-        transform: translateY(0px) scale(0.99);
-        box-shadow: 0 10px 24px rgba(79, 70, 229, 0.35);
-        filter: brightness(0.97);
-      }
-
-      .button[disabled] {
-        opacity: 0.6;
-        cursor: default;
-        box-shadow: none;
-        transform: none;
-      }
-
-      .privacy-note {
-        margin-top: 0.35rem;
-        font-size: 0.68rem;
-        color: var(--text-muted);
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="app-shell">
-      <!-- Topbar / branding -->
-      <header class="topbar">
-        <div class="container">
-          <div class="topbar-inner">
-            <div class="brand">
-              <div class="brand-logo">
-                <img
-                  src="https://raw.githubusercontent.com/Olhaodesigner/jus-flow/8ea2321517be9f138f002dea1d23a5abc8db8c92/logo%20escritorio.png"
-                  alt="Brito Vilarinho Advocacia"
-                />
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-50 flex flex-col">
+      {/* Barra superior simples */}
+      <header className="w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur">
+        <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-3">
+            <div className="relative w-9 h-9 rounded-full overflow-hidden border border-slate-700/70 bg-slate-900">
+              <Image
+                src="https://raw.githubusercontent.com/Olhaodesigner/jus-flow/8ea2321517be9f138f002dea1d23a5abc8db8c92/logo%20escritorio.png"
+                alt="Brito Vilarinho Advocacia"
+                fill
+                sizes="36px"
+                className="object-contain p-1"
+              />
+            </div>
+            <div className="leading-none">
+              <div className="text-sm font-semibold tracking-wide">
+                Brito Vilarinho
               </div>
-              <div>
-                <div class="brand-text-title">Brito Vilarinho</div>
-                <div class="brand-text-sub">Advocacia</div>
-              </div>
+              <div className="text-[11px] text-slate-400">Advocacia</div>
             </div>
           </div>
         </div>
       </header>
 
-      <!-- Main content -->
-      <main class="main">
-        <div class="container">
-          <div class="grid">
-            <!-- LEFT PANEL: COPY -->
-            <section>
-              <div class="chip">
-                <span class="chip-dot"></span>
-                <span>Atendimento jurídico inteligente em poucos cliques</span>
+      {/* Conteúdo principal */}
+      <main className="flex-1">
+        <div className="max-w-5xl mx-auto px-4 py-10 md:py-14">
+          <div className="grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-8 md:gap-10 items-stretch">
+            {/* Lado esquerdo: "capa" do app */}
+            <section className="space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/60 px-3 py-1 text-xs text-slate-300">
+                Atendimento jurídico inteligente em poucos cliques
               </div>
 
-              <div class="title-block">
-                <h1 class="headline">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-semibold leading-tight mb-2">
                   Você explica com suas palavras.
-                  <span>A gente organiza o caso para o advogado.</span>
+                  <span className="block text-indigo-400">
+                    A gente organiza o caso para o advogado.
+                  </span>
                 </h1>
-                <p class="subtitle">
+                <p className="text-sm md:text-base text-slate-300 max-w-xl">
                   Conte o que está acontecendo como se estivesse no WhatsApp.
-                  A IA organiza os fatos, classifica a área e envia tudo pronto
-                  para análise de um advogado.
+                  A IA estrutura os fatos, classifica a área e envia tudo pronto
+                  para análise do advogado.
                 </p>
               </div>
 
-              <ul class="bullets">
-                <li>
-                  <span class="bullet-dot"></span>
-                  <span>Classificação automática por área do Direito.</span>
-                </li>
-                <li>
-                  <span class="bullet-dot"></span>
-                  <span>Organização de risco, urgência e resumo do caso.</span>
-                </li>
-                <li>
-                  <span class="bullet-dot"></span>
-                  <span>Dados enviados direto para o advogado adequado.</span>
-                </li>
+              <ul className="text-sm text-slate-300 space-y-2">
+                <li>• Classificação automática por área do Direito.</li>
+                <li>• Organização de risco, urgência e resumo do caso.</li>
+                <li>• Dados enviados direto para o advogado certo.</li>
               </ul>
 
-              <p class="disclaimer">
+              <div className="text-[11px] text-slate-500">
                 * Este é um canal inicial de triagem. A análise jurídica
-                definitiva e a orientação sobre medidas cabíveis serão feitas
-                por um advogado.
-              </p>
+                definitiva será feita por um advogado.
+              </div>
             </section>
 
-            <!-- RIGHT PANEL: CARD / CHAT + FORM -->
+            {/* Lado direito: "chat + formulário" */}
             <section>
-              <div class="card">
-                <!-- "Chat" header -->
-                <div class="chat-header">
-                  <div class="chat-avatar">
-                    <img
+              <div className="bg-slate-900/80 border border-slate-800 rounded-2xl shadow-[0_18px_60px_rgba(0,0,0,0.55)] p-4 md:p-5 flex flex-col h-full">
+                {/* Header do "chat" */}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="relative w-9 h-9 rounded-full overflow-hidden border border-slate-700 bg-slate-950">
+                    <Image
                       src="https://raw.githubusercontent.com/Olhaodesigner/jus-flow/8ea2321517be9f138f002dea1d23a5abc8db8c92/logo%20escritorio.png"
                       alt="Brito Vilarinho Advocacia"
+                      fill
+                      sizes="36px"
+                      className="object-contain p-1"
                     />
                   </div>
                   <div>
-                    <div class="chat-title">Brito Vilarinho</div>
-                    <div class="chat-sub">Advocacia</div>
+                    <div className="text-xs font-semibold tracking-wide">
+                      Brito Vilarinho
+                    </div>
+                    <div className="text-[11px] text-slate-400 -mt-0.5">
+                      Advocacia
+                    </div>
                   </div>
-                  <div class="chat-status">
-                    <span class="chat-status-dot"></span>
-                    <span>Online</span>
+                  <div className="ml-auto flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    <span className="text-[11px] text-slate-400">
+                      Online
+                    </span>
                   </div>
                 </div>
 
-                <!-- Info / instruções -->
-                <div class="chat-info">
-                  <div style="font-weight: 500; margin-bottom: 0.35rem">
+                {/* Área "chat fake" / instruções */}
+                <div className="mb-4 rounded-xl bg-slate-950/70 border border-slate-800 p-3 text-[11px] text-slate-300 space-y-2">
+                  <div className="font-medium text-slate-100">
                     Como funciona:
                   </div>
-                  <p>1. Preencha seus dados e descreva o que está acontecendo.</p>
+                  <p>
+                    1. Preencha seus dados e descreva o que está acontecendo.
+                  </p>
                   <p>
                     2. A IA organiza os fatos e envia seu caso para o advogado.
                   </p>
-                  <p>3. Você será contatado, se necessário, pelo número informado.</p>
+                  <p>
+                    3. Você será contatado pelo número informado, se necessário.
+                  </p>
                 </div>
 
-                <!-- Formulário -->
-                <form id="leadForm" class="form" autocomplete="off">
-                  <div class="field-row">
-                    <div class="field-group">
-                      <label class="label" for="name">Nome completo</label>
+                {/* Formulário */}
+                <form onSubmit={handleSubmit} className="space-y-3 mt-auto">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] text-slate-300">
+                        Nome completo
+                      </label>
                       <input
-                        id="name"
-                        name="name"
                         type="text"
-                        class="input"
+                        className="w-full rounded-lg bg-slate-950/70 border border-slate-800 px-3 py-2 text-xs outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                         placeholder="Seu nome"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         required
                       />
                     </div>
 
-                    <div class="field-group">
-                      <label class="label" for="phone">WhatsApp</label>
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] text-slate-300">
+                        WhatsApp
+                      </label>
                       <input
-                        id="phone"
-                        name="phone"
                         type="tel"
-                        class="input"
+                        className="w-full rounded-lg bg-slate-950/70 border border-slate-800 px-3 py-2 text-xs outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                         placeholder="(DDD) 9...."
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                         required
                       />
                     </div>
                   </div>
 
-                  <div class="field-group">
-                    <label class="label" for="email">E-mail (opcional)</label>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] text-slate-300">
+                      E-mail (opcional)
+                    </label>
                     <input
-                      id="email"
-                      name="email"
                       type="email"
-                      class="input"
+                      className="w-full rounded-lg bg-slate-950/70 border border-slate-800 px-3 py-2 text-xs outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                       placeholder="seuemail@exemplo.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
 
-                  <div class="field-group">
-                    <label class="label" for="area"
-                      >Área aproximada (previdenciário, trabalhista, etc.)</label
-                    >
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] text-slate-300">
+                      Área aproximada (previdenciário, trabalhista, etc.)
+                    </label>
                     <input
-                      id="area"
-                      name="area"
                       type="text"
-                      class="input"
+                      className="w-full rounded-lg bg-slate-950/70 border border-slate-800 px-3 py-2 text-xs outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                       placeholder="Ex: previdenciário, trabalhista..."
+                      value={area}
+                      onChange={(e) => setArea(e.target.value)}
                       required
                     />
                   </div>
 
-                  <div class="field-group">
-                    <label class="label" for="summary"
-                      >Resuma o que está acontecendo</label
-                    >
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] text-slate-300">
+                      Resuma o que está acontecendo
+                    </label>
                     <textarea
-                      id="summary"
-                      name="summary"
-                      class="textarea"
+                      className="w-full rounded-lg bg-slate-950/70 border border-slate-800 px-3 py-2 text-xs outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 min-h-[84px] resize-none"
                       placeholder="Explique com suas palavras, como se estivesse mandando um áudio no WhatsApp..."
+                      value={summary}
+                      onChange={(e) => setSummary(e.target.value)}
                       required
-                    ></textarea>
+                    />
                   </div>
 
-                  <div
-                    id="statusMessage"
-                    class="status-message"
-                    aria-live="polite"
-                  ></div>
+                  {errorMessage && (
+                    <div className="text-[11px] text-rose-400">
+                      {errorMessage}
+                    </div>
+                  )}
+
+                  {successMessage && (
+                    <div className="text-[11px] text-emerald-400">
+                      {successMessage}
+                    </div>
+                  )}
 
                   <button
                     type="submit"
-                    id="submitButton"
-                    class="button"
+                    disabled={loading}
+                    className="mt-1 w-full rounded-xl px-4 py-2.5 text-xs font-semibold bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Enviar para o advogado
+                    {loading ? "Enviando..." : "Enviar para o advogado"}
                   </button>
 
-                  <p class="privacy-note">
+                  <div className="text-[10px] text-slate-500 text-center mt-1">
                     Ao enviar, você concorda em ser contatado pela equipe
                     jurídica pelo telefone ou e-mail informado.
-                  </p>
+                  </div>
                 </form>
               </div>
             </section>
@@ -651,74 +265,5 @@
         </div>
       </main>
     </div>
-
-    <script>
-      (function () {
-        const form = document.getElementById("leadForm");
-        const statusEl = document.getElementById("statusMessage");
-        const submitButton = document.getElementById("submitButton");
-
-        function setStatus(message, type) {
-          statusEl.textContent = message || "";
-          statusEl.className = "status-message";
-          if (!message) return;
-          if (type === "error") {
-            statusEl.classList.add("status-error");
-          } else if (type === "success") {
-            statusEl.classList.add("status-success");
-          }
-        }
-
-        form.addEventListener("submit", async function (event) {
-          event.preventDefault();
-          setStatus("", null);
-
-          const name = form.name.value.trim();
-          const phone = form.phone.value.trim();
-          const email = form.email.value.trim();
-          const area = form.area.value.trim();
-          const summary = form.summary.value.trim();
-
-          if (!name || !phone || !area || !summary) {
-            setStatus(
-              "Preencha nome, telefone, área e resumo do caso.",
-              "error"
-            );
-            return;
-          }
-
-          submitButton.disabled = true;
-          submitButton.textContent = "Enviando...";
-
-          try {
-            const response = await fetch("/api/leads", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ name, phone, email, area, summary }),
-            });
-
-            const data = await response.json().catch(() => ({}));
-
-            if (!response.ok) {
-              throw new Error(
-                data.error || "Erro ao enviar os dados. Tente novamente."
-              );
-            }
-
-            setStatus("Caso enviado com sucesso para o advogado.", "success");
-            form.reset();
-          } catch (err) {
-            setStatus(
-              err.message ||
-                "Erro inesperado ao enviar seus dados. Tente novamente.",
-              "error"
-            );
-          } finally {
-            submitButton.disabled = false;
-            submitButton.textContent = "Enviar para o advogado";
-          }
-        });
-      })();
-    </script>
-  </body>
-</html>
+  );
+}
