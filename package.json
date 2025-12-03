@@ -2,8 +2,9 @@
   "name": "brito-vilarinho-advocacia",
   "version": "1.0.0",
   "private": true,
+  "main": "servidor.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node servidor.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
