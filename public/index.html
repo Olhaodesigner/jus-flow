@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brito Vilarinho Advocacia</title> <!-- ALTERADO -->
+<title>Brito Vilarinho Advocacia</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -90,7 +90,7 @@ body.dark .toggle-container{background:#1e293b;}
   font-weight:700;
   opacity:.4;
   position:relative;
-  z-index:2;
+  z-index:2; /* garante que o texto fica acima do "thumb" */
 }
 .toggle-label.active{
   opacity:1;
@@ -188,15 +188,17 @@ button:disabled{opacity:.7;cursor:default;}
   <!-- LOGO -->
   <img
     class="logo"
-    src="https://raw.githubusercontent.com/Olhaodesigner/jus-flow/8ea2321517be9f138f002dea1d23a5abc8db8c92/logo%20escritorio.png" <!-- ALTERADO -->
-    alt="Brito Vilarinho Advocacia" <!-- ALTERADO -->
+    src="https://raw.githubusercontent.com/Olhaodesigner/jus-flow/8ea2321517be9f138f002dea1d23a5abc8db8c92/logo%20escritorio.png"
+    alt="Brito Vilarinho Advocacia"
   >
 
   <!-- TÍTULO -->
-  <h1 class="title">Brito Vilarinho</h1> <!-- ALTERADO -->
+  <h1 class="title">Brito Vilarinho</h1>
 
   <!-- SUBTÍTULO -->
-  <p class="subtitle">Advocacia</p> <!-- ALTERADO -->
+  <p class="subtitle">
+    Advocacia
+  </p>
 
   <form id="leadForm">
     <label>Seu nome completo</label>
@@ -221,8 +223,7 @@ button:disabled{opacity:.7;cursor:default;}
     <label>Explique rapidamente sua situação</label>
     <textarea name="summary" required maxlength="1000" placeholder="Descreva o que aconteceu..."></textarea>
 
-    <!-- BOTÃO ALTERADO -->
-    <button type="submit">Enviar para o advogado</button> <!-- ALTERADO -->
+    <button type="submit">Enviar para o advogado</button>
 
     <p id="mensagem" class="mensagem"></p>
   </form>
