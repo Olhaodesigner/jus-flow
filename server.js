@@ -9,11 +9,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middlewares
-app.use(cors()); // permite que o front rode em outro domínio se precisar
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Servir arquivos estáticos
+// Servir arquivos estáticos da pasta "public"
 app.use(express.static(path.join(__dirname, "public")));
 
 // Transport de e-mail (SMTP) configurado pelas variáveis de ambiente
