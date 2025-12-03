@@ -1,6 +1,5 @@
-// api/leads.js
-// BACKEND OFICIAL – VERCEL + RESEND
-// Versão BRITO VILARINHO ADVOCACIA
+// pages/api/leads.js
+// BACKEND – BRITO VILARINHO ADVOCACIA
 
 import { Resend } from "resend";
 
@@ -18,7 +17,7 @@ export default async function handler(req, res) {
     const area    = (body.area    || "").trim();
     const summary = (body.summary || "").trim();
 
-    // Validações básicas
+    // Validação básica
     if (!name || !phone || !area || !summary) {
       return res.status(400).json({
         error: "Nome, telefone, área e resumo são obrigatórios.",
@@ -45,18 +44,13 @@ export default async function handler(req, res) {
     // Instancia o Resend
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    // E-mail de destino configurado via variável de ambiente
-    const toEmail = process.env.TO_EMAIL;
-    if (!toEmail) {
-      console.error("ERRO: Variável TO_EMAIL não configurada.");
-      return res.status(500).json({ error: "Configuração de e-mail ausente." });
-    }
+    // 👉 Email fixo de destino (como você pediu)
+    const toEmail = "josevitorvilarinhobrito@gmail.com";
 
-    // 👉 LOGO NOVA – RAW DO GITHUB (SEM /blob/)
+    // 👉 Logo nova – RAW do GitHub (sem /blob/)
     const logoUrl =
       "https://raw.githubusercontent.com/Olhaodesigner/jus-flow/8ea2321517be9f138f002dea1d23a5abc8db8c92/logo%20escritorio.png";
 
-    // Template de e-mail
     const html = `
 <!DOCTYPE html>
 <html lang="pt-BR">
