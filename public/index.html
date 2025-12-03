@@ -1,269 +1,171 @@
-// pages/index.jsx
-// Landing + Chat – BRITO VILARINHO ADVOCACIA
-
-import { useState } from "react";
-import Image from "next/image";
-
-export default function Home() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [area, setArea] = useState("");
-  const [summary, setSummary] = useState("");
-
-  const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-    setSuccessMessage("");
-    setErrorMessage("");
-
-    try {
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          phone,
-          email,
-          area,
-          summary,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Erro ao enviar. Tente novamente.");
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Brito Vilarinho Advocacia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #0f172a;
+        font-family: Arial, sans-serif;
+        color: white;
       }
 
-      setSuccessMessage("Caso enviado com sucesso para o advogado.");
-      setName("");
-      setPhone("");
-      setEmail("");
-      setArea("");
-      setSummary("");
-    } catch (err) {
-      setErrorMessage(err.message || "Erro inesperado. Tente novamente.");
-    } finally {
-      setLoading(false);
-    }
-  }
+      .container {
+        max-width: 960px;
+        margin: auto;
+        padding: 20px;
+      }
 
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 flex flex-col">
-      {/* Barra superior simples */}
-      <header className="w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur">
-        <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-3">
-            <div className="relative w-9 h-9 rounded-full overflow-hidden border border-slate-700/70 bg-slate-900">
-              <Image
-                src="https://raw.githubusercontent.com/Olhaodesigner/jus-flow/8ea2321517be9f138f002dea1d23a5abc8db8c92/logo%20escritorio.png"
-                alt="Brito Vilarinho Advocacia"
-                fill
-                sizes="36px"
-                className="object-contain p-1"
-              />
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .header img {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+      }
+
+      .chat-card {
+        background: #1e293b;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #334155;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        margin-top: 8px;
+        margin-bottom: 14px;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #475569;
+        background: #0f172a;
+        color: white;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #4f46e5;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #4338ca;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- HEADER COM LOGO NOVA -->
+      <div class="header">
+        <img
+          src="https://raw.githubusercontent.com/Olhaodesigner/jus-flow/8ea2321517be9f138f002dea1d23a5abc8db8c92/logo%20escritorio.png"
+          alt="Brito Vilarinho Advocacia"
+        />
+        <div>
+          <div style="font-weight: bold; font-size: 16px">
+            Brito Vilarinho
+          </div>
+          <div style="font-size: 13px; color: #cbd5e1">Advocacia</div>
+        </div>
+      </div>
+
+      <!-- CARD DO CHAT -->
+      <div class="chat-card">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <img
+            src="https://raw.githubusercontent.com/Olhaodesigner/jus-flow/8ea2321517be9f138f002dea1d23a5abc8db8c92/logo%20escritorio.png"
+            width="34"
+            height="34"
+            style="border-radius: 50%"
+          />
+          <div>
+            <div style="font-size: 13px; font-weight: bold">
+              Brito Vilarinho
             </div>
-            <div className="leading-none">
-              <div className="text-sm font-semibold tracking-wide">
-                Brito Vilarinho
-              </div>
-              <div className="text-[11px] text-slate-400">Advocacia</div>
-            </div>
+            <div style="font-size: 11px; color: #cbd5e1">Advocacia</div>
           </div>
         </div>
-      </header>
 
-      {/* Conteúdo principal */}
-      <main className="flex-1">
-        <div className="max-w-5xl mx-auto px-4 py-10 md:py-14">
-          <div className="grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-8 md:gap-10 items-stretch">
-            {/* Lado esquerdo: "capa" do app */}
-            <section className="space-y-6">
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/60 px-3 py-1 text-xs text-slate-300">
-                Atendimento jurídico inteligente em poucos cliques
-              </div>
+        <!-- FORMULÁRIO -->
+        <form id="leadForm" style="margin-top: 15px">
+          <input type="text" id="name" placeholder="Nome completo" required />
 
-              <div>
-                <h1 className="text-3xl md:text-4xl font-semibold leading-tight mb-2">
-                  Você explica com suas palavras.
-                  <span className="block text-indigo-400">
-                    A gente organiza o caso para o advogado.
-                  </span>
-                </h1>
-                <p className="text-sm md:text-base text-slate-300 max-w-xl">
-                  Conte o que está acontecendo como se estivesse no WhatsApp.
-                  A IA estrutura os fatos, classifica a área e envia tudo pronto
-                  para análise do advogado.
-                </p>
-              </div>
+          <input type="tel" id="phone" placeholder="Telefone / WhatsApp" required />
 
-              <ul className="text-sm text-slate-300 space-y-2">
-                <li>• Classificação automática por área do Direito.</li>
-                <li>• Organização de risco, urgência e resumo do caso.</li>
-                <li>• Dados enviados direto para o advogado certo.</li>
-              </ul>
+          <input type="email" id="email" placeholder="E-mail (opcional)" />
 
-              <div className="text-[11px] text-slate-500">
-                * Este é um canal inicial de triagem. A análise jurídica
-                definitiva será feita por um advogado.
-              </div>
-            </section>
+          <input
+            type="text"
+            id="area"
+            placeholder="Área aproximada (ex: previdenciário)"
+            required
+          />
 
-            {/* Lado direito: "chat + formulário" */}
-            <section>
-              <div className="bg-slate-900/80 border border-slate-800 rounded-2xl shadow-[0_18px_60px_rgba(0,0,0,0.55)] p-4 md:p-5 flex flex-col h-full">
-                {/* Header do "chat" */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="relative w-9 h-9 rounded-full overflow-hidden border border-slate-700 bg-slate-950">
-                    <Image
-                      src="https://raw.githubusercontent.com/Olhaodesigner/jus-flow/8ea2321517be9f138f002dea1d23a5abc8db8c92/logo%20escritorio.png"
-                      alt="Brito Vilarinho Advocacia"
-                      fill
-                      sizes="36px"
-                      className="object-contain p-1"
-                    />
-                  </div>
-                  <div>
-                    <div className="text-xs font-semibold tracking-wide">
-                      Brito Vilarinho
-                    </div>
-                    <div className="text-[11px] text-slate-400 -mt-0.5">
-                      Advocacia
-                    </div>
-                  </div>
-                  <div className="ml-auto flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                    <span className="text-[11px] text-slate-400">
-                      Online
-                    </span>
-                  </div>
-                </div>
+          <textarea
+            id="summary"
+            placeholder="Descreva seu caso com suas palavras..."
+            required
+          ></textarea>
 
-                {/* Área "chat fake" / instruções */}
-                <div className="mb-4 rounded-xl bg-slate-950/70 border border-slate-800 p-3 text-[11px] text-slate-300 space-y-2">
-                  <div className="font-medium text-slate-100">
-                    Como funciona:
-                  </div>
-                  <p>
-                    1. Preencha seus dados e descreva o que está acontecendo.
-                  </p>
-                  <p>
-                    2. A IA organiza os fatos e envia seu caso para o advogado.
-                  </p>
-                  <p>
-                    3. Você será contatado pelo número informado, se necessário.
-                  </p>
-                </div>
+          <!-- BOTÃO ALTERADO -->
+          <button type="submit">Enviar para o advogado</button>
 
-                {/* Formulário */}
-                <form onSubmit={handleSubmit} className="space-y-3 mt-auto">
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] text-slate-300">
-                        Nome completo
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full rounded-lg bg-slate-950/70 border border-slate-800 px-3 py-2 text-xs outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                        placeholder="Seu nome"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-[11px] text-slate-300">
-                        WhatsApp
-                      </label>
-                      <input
-                        type="tel"
-                        className="w-full rounded-lg bg-slate-950/70 border border-slate-800 px-3 py-2 text-xs outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                        placeholder="(DDD) 9...."
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] text-slate-300">
-                      E-mail (opcional)
-                    </label>
-                    <input
-                      type="email"
-                      className="w-full rounded-lg bg-slate-950/70 border border-slate-800 px-3 py-2 text-xs outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                      placeholder="seuemail@exemplo.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] text-slate-300">
-                      Área aproximada (previdenciário, trabalhista, etc.)
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full rounded-lg bg-slate-950/70 border border-slate-800 px-3 py-2 text-xs outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                      placeholder="Ex: previdenciário, trabalhista..."
-                      value={area}
-                      onChange={(e) => setArea(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] text-slate-300">
-                      Resuma o que está acontecendo
-                    </label>
-                    <textarea
-                      className="w-full rounded-lg bg-slate-950/70 border border-slate-800 px-3 py-2 text-xs outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 min-h-[84px] resize-none"
-                      placeholder="Explique com suas palavras, como se estivesse mandando um áudio no WhatsApp..."
-                      value={summary}
-                      onChange={(e) => setSummary(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  {errorMessage && (
-                    <div className="text-[11px] text-rose-400">
-                      {errorMessage}
-                    </div>
-                  )}
-
-                  {successMessage && (
-                    <div className="text-[11px] text-emerald-400">
-                      {successMessage}
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="mt-1 w-full rounded-xl px-4 py-2.5 text-xs font-semibold bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    {loading ? "Enviando..." : "Enviar para o advogado"}
-                  </button>
-
-                  <div className="text-[10px] text-slate-500 text-center mt-1">
-                    Ao enviar, você concorda em ser contatado pela equipe
-                    jurídica pelo telefone ou e-mail informado.
-                  </div>
-                </form>
-              </div>
-            </section>
-          </div>
-        </div>
-      </main>
+          <p id="status" style="margin-top: 10px; font-size: 12px"></p>
+        </form>
+      </div>
     </div>
-  );
-}
+
+    <script>
+      const form = document.getElementById("leadForm");
+      const statusEl = document.getElementById("status");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        statusEl.textContent = "Enviando...";
+
+        const payload = {
+          name: document.getElementById("name").value,
+          phone: document.getElementById("phone").value,
+          email: document.getElementById("email").value,
+          area: document.getElementById("area").value,
+          summary: document.getElementById("summary").value,
+        };
+
+        try {
+          const res = await fetch("/api/leads", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) throw new Error(data.error);
+
+          statusEl.style.color = "#22c55e";
+          statusEl.textContent = "Enviado com sucesso!";
+          form.reset();
+        } catch (err) {
+          statusEl.style.color = "#ef4444";
+          statusEl.textContent = "Erro: " + err.message;
+        }
+      });
+    </script>
+  </body>
+</html>
