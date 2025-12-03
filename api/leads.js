@@ -1,4 +1,4 @@
-// pages/api/leads.js
+// api/leads.js
 // BACKEND – BRITO VILARINHO ADVOCACIA – VERCEL + RESEND
 
 import { Resend } from "resend";
@@ -11,17 +11,17 @@ export default async function handler(req, res) {
   try {
     const body = req.body || {};
 
-    const name = (body.name || "").trim();
-    const phone = (body.phone || "").trim();
-    const email = (body.email || "").trim();
-    const area = (body.area || "").trim();
+    const name    = (body.name    || "").trim();
+    const phone   = (body.phone   || "").trim();
+    const email   = (body.email   || "").trim();
+    const area    = (body.area    || "").trim();
     const summary = (body.summary || "").trim();
 
-    // Mesmas validações do front (index.html)
+    // Validações alinhadas com o front
     if (!name || !phone || !area || !summary) {
-      return res
-        .status(400)
-        .json({ error: "Nome, telefone, área e resumo são obrigatórios." });
+      return res.status(400).json({
+        error: "Nome, telefone, área e resumo são obrigatórios.",
+      });
     }
 
     const digits = phone.replace(/\D/g, "");
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    // E-mail fixo de destino (como você pediu)
+    // E-mail fixo de destino
     const toEmail = "josevitorvilarinhobrito@gmail.com";
 
     // LOGO do escritório (mesma do index.html)
@@ -67,115 +67,61 @@ export default async function handler(req, res) {
     const html = `
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charSet="UTF-8" />
-    <title>Novo lead - Brito Vilarinho Advocacia</title>
-  </head>
-  <body style="margin:0;padding:0;background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-    <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 0;background:#0f172a;">
-      <tr>
-        <td align="center">
-          <table width="100%" cellpadding="0" cellspacing="0"
-                 style="max-width:600px;background:#020617;border-radius:18px;overflow:hidden;border:1px solid #1f2937;">
-            <!-- Cabeçalho com logo -->
-            <tr>
-              <td style="padding:24px 24px 12px 24px;text-align:center;background:#020617;">
-                <img src="${logoUrl}" alt="Brito Vilarinho Advocacia"
-                     style="max-width:160px;height:auto;display:block;margin:0 auto 8px auto;" />
-                <div style="color:#e5e7eb;font-size:20px;font-weight:600;letter-spacing:0.03em;">
-                  Brito Vilarinho
-                </div>
-                <div style="color:#9ca3af;font-size:13px;margin-top:2px;">
-                  Advocacia
-                </div>
-              </td>
-            </tr>
+<body style="margin:0;padding:0;background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 0;background:#0f172a;">
+    <tr><td align="center">
 
-            <!-- Título interno -->
-            <tr>
-              <td style="padding:8px 24px 4px 24px;text-align:left;">
-                <div style="color:#e5e7eb;font-size:18px;font-weight:600;margin-bottom:4px;">
-                  Novo lead para atendimento jurídico
-                </div>
-                <div style="color:#9ca3af;font-size:13px;">
-                  Dados enviados pelo formulário do aplicativo.
-                </div>
-              </td>
-            </tr>
+      <table width="100%" cellpadding="0" cellspacing="0"
+      style="max-width:600px;background:#020617;border-radius:24px;overflow:hidden;box-shadow:0 18px 45px rgba(0,0,0,.6);">
 
-            <!-- Bloco de informações -->
-            <tr>
-              <td style="padding:16px 24px 8px 24px;">
-                <table width="100%" cellpadding="0" cellspacing="0"
-                       style="background:#020617;border-radius:12px;border:1px solid #1f2937;padding:16px;">
-                  <tr>
-                    <td style="color:#9ca3af;font-size:12px;padding-bottom:4px;">Nome</td>
-                  </tr>
-                  <tr>
-                    <td style="color:#e5e7eb;font-size:14px;font-weight:500;padding-bottom:10px;">
-                      ${name}
-                    </td>
-                  </tr>
+        <tr>
+          <td style="background:linear-gradient(135deg,#1d4ed8,#6366f1,#22c55e);padding:28px;">
+            <img src="${logoUrl}" style="max-height:42px;display:block;border-radius:8px;">
+            <h1 style="color:#fff;margin:18px 0 4px;font-size:22px;">
+              Novo lead para Brito Vilarinho Advocacia
+            </h1>
+            <p style="color:#e2e8f0;margin:0;opacity:.9;">
+              A IA organizou as informações principais do caso. Confira abaixo.
+            </p>
+          </td>
+        </tr>
 
-                  <tr>
-                    <td style="color:#9ca3af;font-size:12px;padding-bottom:4px;">Telefone</td>
-                  </tr>
-                  <tr>
-                    <td style="color:#e5e7eb;font-size:14px;font-weight:500;padding-bottom:10px;">
-                      ${phone}
-                    </td>
-                  </tr>
+        <tr>
+          <td style="padding:24px 28px;color:#e5e7eb;">
+            <h3 style="margin:0 0 8px;color:#9ca3af;">Dados do Cliente</h3>
+            <p style="line-height:1.7;font-size:14px;">
+              <strong>Nome:</strong> ${name}<br>
+              <strong>Telefone:</strong> ${phone}<br>
+              <strong>E-mail:</strong> ${email || "Não informado"}<br>
+              <strong>Área:</strong> ${area}
+            </p>
 
-                  ${
-                    email
-                      ? `
-                  <tr>
-                    <td style="color:#9ca3af;font-size:12px;padding-bottom:4px;">E-mail</td>
-                  </tr>
-                  <tr>
-                    <td style="color:#e5e7eb;font-size:14px;font-weight:500;padding-bottom:10px;">
-                      ${email}
-                    </td>
-                  </tr>
-                  `
-                      : ""
-                  }
+            <h3 style="margin:20px 0 8px;color:#9ca3af;">Resumo do Caso</h3>
+            <p style="line-height:1.7;font-size:14px;">
+              ${summary.replace(/\n/g, "<br>")}
+            </p>
 
-                  <tr>
-                    <td style="color:#9ca3af;font-size:12px;padding-bottom:4px;">Área desejada</td>
-                  </tr>
-                  <tr>
-                    <td style="color:#e5e7eb;font-size:14px;font-weight:500;padding-bottom:10px;">
-                      ${area}
-                    </td>
-                  </tr>
+            <h3 style="margin:20px 0 8px;color:#9ca3af;">Próximos passos sugeridos</h3>
+            <p style="line-height:1.6;font-size:13px;color:#9ca3af;">
+              • Entrar em contato com o cliente.<br>
+              • Solicitar documentos e provas principais.<br>
+              • Avaliar prazos e riscos jurídicos.<br>
+              • Registrar o lead no seu controle interno.
+            </p>
+          </td>
+        </tr>
 
-                  <tr>
-                    <td style="color:#9ca3af;font-size:12px;padding-bottom:4px;">Resumo do caso</td>
-                  </tr>
-                  <tr>
-                    <td style="color:#e5e7eb;font-size:14px;line-height:1.5;white-space:pre-line;">
-                      ${summary}
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
+        <tr>
+          <td style="padding:16px 24px;background:#020617;border-top:1px solid #1e293b;color:#6b7280;font-size:12px;">
+            Brito Vilarinho Advocacia – Atendimento jurídico inteligente.
+          </td>
+        </tr>
 
-            <!-- Rodapé -->
-            <tr>
-              <td style="padding:16px 24px 24px 24px;text-align:center;">
-                <div style="color:#6b7280;font-size:11px;line-height:1.4;">
-                  Brito Vilarinho Advocacia – Atendimento jurídico inteligente.
-                </div>
-              </td>
-            </tr>
+      </table>
 
-          </table>
-        </td>
-      </tr>
-    </table>
-  </body>
+    </td></tr>
+  </table>
+</body>
 </html>
     `;
 
