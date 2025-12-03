@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, "public")));
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT),
-  secure: process.env.SMTP_SECURE === "true", // true para 465, false para 587/25
+  secure: process.env.SMTP_SECURE === "true", // true: 465, false: 587/25
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
@@ -34,7 +34,7 @@ app.get("/health", (req, res) => {
 
 // Rota da API para receber o formulário
 app.post("/api/leads", async (req, res) => {
-  // NOVO PADRÃO: mesmos campos do index.html
+  // Mesmos campos do formulário do index.html
   const { name, phone, email, area, summary } = req.body;
 
   console.log("[NOVO LEAD]", { name, phone, email, area });
