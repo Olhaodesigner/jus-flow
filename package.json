@@ -1,11 +1,11 @@
 {
-  "name": "jus-flow",
+  "name": "brito-vilarinho",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "vercel dev"
   },
   "dependencies": {
-    "nodemailer": "^6.9.15"
+    "resend": "^4.0.0"
   }
 }
