@@ -1,5 +1,6 @@
 const { Resend } = require("resend");
 
+// instancia o Resend com a chave da Vercel
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 module.exports = async (req, res) => {
@@ -14,7 +15,7 @@ module.exports = async (req, res) => {
   const area    = (body.area    || "").trim();
   const summary = (body.summary || "").trim();
 
-  // Validações iguais ao front
+  // validações básicas (iguais ao front)
   if (!name || !phone || !area || !summary) {
     return res
       .status(400)
@@ -36,8 +37,8 @@ module.exports = async (req, res) => {
       .json({ error: "Resumo muito longo (máx. 1000 caracteres)." });
   }
 
-  const toEmail =
-    process.env.TO_EMAIL || "josevitorvilarinhobrito@gmail.com";
+  // >>> DESTINATÁRIO FIXO: MESMO E-MAIL DA CONTA DO RESEND <<<
+  const toEmail = "josevitorvilarinhobrito@gmail.com";
 
   const logoUrl =
     "https://raw.githubusercontent.com/Olhaodesigner/jus-flow/8ea2321517be9f138f002dea1d23a5abc8db8c92/logo%20escritorio.png";
@@ -51,7 +52,6 @@ module.exports = async (req, res) => {
         <td align="center">
           <table width="100%" cellpadding="0" cellspacing="0"
                  style="max-width:640px;background:#050816;border-radius:24px;overflow:hidden;border:1px solid #1f2937;">
-            <!-- Cabeçalho com logo -->
             <tr>
               <td style="padding:24px 28px 18px 28px;background:#020617;text-align:center;">
                 <img src="${logoUrl}" alt="Brito Vilarinho Advocacia"
@@ -65,7 +65,6 @@ module.exports = async (req, res) => {
               </td>
             </tr>
 
-            <!-- Informações principais -->
             <tr>
               <td style="padding:20px 26px 6px 26px;">
                 <div style="color:#e5e7eb;font-size:18px;font-weight:600;margin-bottom:4px;">
@@ -77,7 +76,6 @@ module.exports = async (req, res) => {
               </td>
             </tr>
 
-            <!-- Bloco de dados -->
             <tr>
               <td style="padding:14px 26px 24px 26px;">
                 <table width="100%" cellpadding="0" cellspacing="0"
@@ -136,7 +134,6 @@ module.exports = async (req, res) => {
               </td>
             </tr>
 
-            <!-- Rodapé -->
             <tr>
               <td style="padding:16px 24px 22px 24px;text-align:center;background:#050816;border-top:1px solid #1f2937;">
                 <div style="color:#6b7280;font-size:11px;line-height:1.4;">
@@ -154,7 +151,7 @@ module.exports = async (req, res) => {
   `;
 
   try {
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: "Brito Vilarinho Advocacia <onboarding@resend.dev>",
       to: toEmail,
       subject: `Novo lead - ${area || "Sem área informada"}`,
@@ -168,13 +165,20 @@ module.exports = async (req, res) => {
         `Resumo:\n${summary}`,
     });
 
+    console.log("Resend OK:", result);
+
     return res
       .status(200)
       .json({ message: "Caso enviado com sucesso! Em breve um advogado entrará em contato." });
   } catch (error) {
     console.error("Erro ao enviar e-mail via Resend:", error);
-    return res
-      .status(500)
-      .json({ error: "Ocorreu um erro ao enviar o caso. Verifique a chave RESEND_API_KEY." });
+
+    // tenta expor a mensagem de erro pra você ver no console do navegador
+    const msg =
+      error?.message ||
+      error?.response?.body?.error?.message ||
+      "Ocorreu um erro ao enviar o caso. Verifique a chave RESEND_API_KEY.";
+
+    return res.status(500).json({ error: msg });
   }
 };
