@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=0.8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brito Vilarinho Advocacia</title>
 
 <style>
@@ -17,7 +17,7 @@ body{
   transition:.3s ease;
 }
 body.dark{
-  background:#00000; /* dark mais preto */
+  background:#000000; /* fundo realmente preto */
   color:#e5e7eb;
 }
 
@@ -34,20 +34,21 @@ body.dark{
   position:relative;
 }
 body.dark .container{
-  background:#050816; /* quase preto */
+  background:#050505; /* quase preto, destaca do fundo */
   box-shadow:
-    0 18px 40px rgba(0,0,0,.55),
-    0 6px 12px rgba(0,0,0,.35);
+    0 18px 40px rgba(0,0,0,.85),
+    0 6px 12px rgba(0,0,0,.60);
+  border:1px solid #111827;
 }
 
 /* LOGO + TÍTULO + SUBTÍTULO */
 .logo{
   display:block;
   margin:0 auto 16px;
-  max-height:150px; /* LOGO MAIOR */
+  max-height:130px; /* LOGO MAIOR */
 }
 body.dark .logo{
-  filter: brightness(0) invert(1); /* logo clara no modo dark */
+  filter:brightness(0) invert(1); /* logo clara no dark */
 }
 
 .title{
